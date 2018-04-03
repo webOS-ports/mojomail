@@ -22,6 +22,7 @@
 #include <string>
 #include "CommonDefs.h"
 #include "db/MojDbClient.h"
+#include "db/MojDb.h"
 
 /**
  * Representation of an Activity in ActivityManager

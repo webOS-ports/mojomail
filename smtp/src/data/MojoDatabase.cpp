@@ -176,7 +176,7 @@ void MojoDatabase::UpdateAccountErrorStatus(Signal::SlotRef slot, const MojObjec
 	err = props.put("smtpConfig", smtpConfig);
 	ErrorToException(err);
 
-	err = m_dbClient.merge(slot, query, props, MojDb::FlagMerge);
+	err = m_dbClient.merge(slot, query, props, MojDbFlagMerge);
 	ErrorToException(err);
 }
 

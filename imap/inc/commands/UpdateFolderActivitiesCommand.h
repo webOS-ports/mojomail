@@ -21,6 +21,7 @@
 
 #include "commands/ImapClientCommand.h"
 #include "db/MojDbClient.h"
+#include "db/MojDbSearchCursor.h"
 #include <vector>
 
 class ActivitySet;

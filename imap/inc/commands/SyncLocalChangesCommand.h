@@ -21,6 +21,7 @@
 
 #include "commands/ImapSyncSessionCommand.h"
 #include "db/MojDbClient.h"
+#include "db/MojDbSearchCursor.h"
 #include "protocol/ImapResponseParser.h"
 #include <string>
 #include <vector>

@@ -21,6 +21,7 @@
 
 #include "core/MojObject.h"
 #include "db/MojDbQuery.h"
+#include "db/MojDb.h"
 #include <utility>
 #include <string>
 

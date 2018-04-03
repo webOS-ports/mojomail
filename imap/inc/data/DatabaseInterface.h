@@ -20,6 +20,13 @@
 #define DATABASEINTERFACE_H_
 
 #include "db/MojDbClient.h"
+
+#ifndef WITH_SEARCH_QUERY_CACHE
+#include "db/MojDbSearchCursor.h"
+#else
+#include "db/MojDbSearchCacheCursor.h"
+#endif
+
 #include "data/ImapAccountAdapter.h"
 #include "ImapCoreDefs.h"
 

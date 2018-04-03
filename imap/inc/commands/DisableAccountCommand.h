@@ -23,6 +23,7 @@
 #include "commands/PurgeEmailsCommand.h"
 #include "core/MojServiceRequest.h"
 #include "db/MojDbClient.h"
+#include "db/MojDbSearchCursor.h"
 
 class MojServiceMessage;
 class DeleteActivitiesCommand;

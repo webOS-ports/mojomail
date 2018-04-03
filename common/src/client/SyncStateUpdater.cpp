@@ -20,6 +20,7 @@
 #include "client/BusClient.h"
 #include "data/SyncStateAdapter.h"
 #include "db/MojDbQuery.h"
+#include "db/MojDb.h"
 #include "CommonPrivate.h"
 
 SyncStateUpdater::SyncStateUpdater(BusClient& busClient, const char* capabilityProvider, const char* busAddress)

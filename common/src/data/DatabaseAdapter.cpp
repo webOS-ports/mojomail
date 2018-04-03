@@ -18,6 +18,7 @@
 
 #include "data/DatabaseAdapter.h"
 #include "db/MojDbQuery.h"
+#include "db/MojDb.h"
 #include "CommonPrivate.h"
 
 const char* const DatabaseAdapter::ID = "_id";

@@ -22,6 +22,7 @@
 #include <string>
 #include "data/SyncState.h"
 #include "db/MojDbClient.h"
+#include "db/MojDb.h"
 
 class BusClient;
 
