@@ -170,7 +170,7 @@ int CurlSSLVerifier::Verify(int preverifyOk, X509_STORE_CTX* storeCtx)
 
 			// Check if a matching leaf certificate exists on the device
 			PslError pslErr = PmSockOpensslMatchCertInStore(
-					storeCtx, storeCtx->cert, 0/*opts*/, &foundMatch);
+					storeCtx, X509_STORE_CTX_get0_cert(storeCtx), 0/*opts*/, &foundMatch);
 
 			m_checkedInstalledCert = true;
 

@@ -337,7 +337,6 @@ void CurlConnection::GlibcurlCallback(void* data)
 				ConnectionError error;
 
 				switch(msg->data.result) {
-					case CURLE_SSL_CACERT:
 					case CURLE_PEER_FAILED_VERIFICATION:
 					case CURLE_SSL_ISSUER_ERROR:
 					{
@@ -484,8 +483,6 @@ HttpConnection::ConnectionError CurlConnection::GetErrorCode(CURLcode code)
 			return HTTP_ERROR_SSL_CERTPROBLEM;
 		case CURLE_SSL_CIPHER:
 			return HTTP_ERROR_SSL_CIPHER;
-		case CURLE_SSL_CACERT:
-			return HTTP_ERROR_SSL_CACERT;
 		case CURLE_BAD_CONTENT_ENCODING:
 			return HTTP_ERROR_BAD_CONTENT_ENCODING;
 		case CURLE_LDAP_INVALID_URL:
