@@ -32,11 +32,19 @@
 #endif
 
 #if defined(__GNUC__)
+#ifndef unlikely
 #define unlikely(x) __builtin_expect((x),0)
+#endif
+#ifndef likely
 #define likely(x) __builtin_expect((x),1)
+#endif
 #else
+#ifndef unlikely
 #define unlikely(x) x
+#endif
+#ifndef likely
 #define likely(x) x
+#endif
 #endif
 
 #endif /*COMMONDEFS_H_*/

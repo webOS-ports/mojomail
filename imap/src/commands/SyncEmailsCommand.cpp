@@ -16,11 +16,11 @@
 //
 // LICENSE@@@
 
-#include "commands/SyncEmailsCommand.h"
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/gregorian/gregorian_types.hpp>
 #include <sstream>
 #include "client/ImapSession.h"
+#include "commands/SyncEmailsCommand.h"
 #include "commands/AutoDownloadCommand.h"
 #include "data/DatabaseAdapter.h"
 #include "data/DatabaseInterface.h"
