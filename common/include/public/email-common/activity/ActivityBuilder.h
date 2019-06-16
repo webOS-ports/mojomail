@@ -59,7 +59,6 @@ public:
 	void SetForeground(bool foreground);
 	void SetImmediate(bool immediate, const std::string priority);
 	void SetRequiresInternet(bool requireInternet);
-	void SetRequiresInternetConfidence(const char* confidence);
 	void SetMetadata(const MojObject& metadata);
 	
 	std::string GetSmartInterval(int seconds);

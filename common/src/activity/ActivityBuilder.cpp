@@ -221,12 +221,6 @@ void ActivityBuilder::SetRequiresInternet(bool requireInternet)
 	ErrorToException(err);
 }
 
-void ActivityBuilder::SetRequiresInternetConfidence(const char* confidence)
-{
-	MojErr err = m_requirements.putString("internetConfidence", confidence);
-	ErrorToException(err);
-}
-
 void ActivityBuilder::DisableSyncInterval()
 {
 	MojErr err = m_activityObject.put("schedule", false);
