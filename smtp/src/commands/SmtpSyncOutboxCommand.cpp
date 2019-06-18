@@ -913,7 +913,6 @@ void SmtpSyncOutboxCommand::CompleteAndUpdateActivities()
 				
 					MojLogNotice(m_log, "rescheduling outbox watch for %d seconds in the future", (int)m_retryDelayNew.intValue());
 					actBuilder.SetSyncInterval(m_retryDelayNew.intValue(), 0);
-					actBuilder.SetRequiresInternet(true);
 					if (updating)
 						actBuilder.DisableDatabaseWatchTrigger();
 			

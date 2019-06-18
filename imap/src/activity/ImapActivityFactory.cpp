@@ -110,7 +110,6 @@ void ImapActivityFactory::SetNetworkRequirements(ActivityBuilder& ab, bool requi
 	ab.SetRequiresInternet(false);
 
 	if(requireFair && !ImapConfig::GetConfig().GetIgnoreNetworkStatus()) {
-		ab.SetRequiresInternet(true);
 	}
 }
 
