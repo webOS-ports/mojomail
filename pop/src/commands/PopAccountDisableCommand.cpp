@@ -193,6 +193,7 @@ void PopAccountDisableCommand::GetActivities()
 {
 	CommandTraceFunction();
 
+	MojLogInfo(m_log, "Herrie POP GetActivities MojObject(): ", AsJsonString(MojObject()).c_str());
 	m_client.SendRequest(m_getActivitiesSlot, "com.palm.activitymanager", "list", MojObject());
 }
 

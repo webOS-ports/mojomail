@@ -43,6 +43,7 @@ void DeleteActivitiesCommand::GetActivityList()
 
 	MojObject payload(MojObject::TypeObject);
 
+	MojLogInfo(m_log, "Herrie IMAP GetActivityList payload: ", AsJsonString(payload).c_str());
 	m_client.SendRequest(m_activityListSlot, "com.palm.activitymanager", "list", payload);
 }
 

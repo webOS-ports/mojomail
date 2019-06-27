@@ -43,7 +43,7 @@ void DeleteActivitiesCommand::GetActivityList()
 	MojLogTrace(m_log);
 
 	MojObject payload(MojObject::TypeObject);
-
+	MojLogInfo(m_log, "Herrie POP GetActivityList payload: ", AsJsonString(payload).c_str());
 	m_client.SendRequest(m_activityListSlot, "com.palm.activitymanager", "list", payload);
 }
 
