@@ -1,5 +1,10 @@
 {
     "com.palm.pop": [
-        "services"
+        "services",
+        "applications",
+        "database",
+        "database.internal",
+        "activities",
+        "activities.manage"
     ]
 }
