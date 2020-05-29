@@ -6,6 +6,7 @@
         "database",
         "database.internal",
         "activities",
-        "activities.manage"
+        "activities.manage",
+        "filecache"
     ]
 }
