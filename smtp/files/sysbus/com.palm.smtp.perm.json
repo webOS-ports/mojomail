@@ -1,5 +1,12 @@
 {
     "com.palm.smtp": [
-        "services"
+        "services",
+        "applications",
+        "applications.internal",
+        "database",
+        "database.internal",
+        "activities",
+        "activities.manage",
+        "filecache"
     ]
 }
