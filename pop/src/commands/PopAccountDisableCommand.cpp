@@ -193,7 +193,18 @@ void PopAccountDisableCommand::GetActivities()
 {
 	CommandTraceFunction();
 
-	m_client.SendRequest(m_getActivitiesSlot, "com.palm.activitymanager", "list", MojObject());
+	MojObject payload;
+
+	MojErr err;
+	err = payload.put("details", true);
+	ErrorToException(err);
+	err = payload.put("subscribers", true);
+	ErrorToException(err);
+	err = payload.put("current", true);
+	ErrorToException(err);
+	err = payload.put("internal", true);
+
+	m_client.SendRequest(m_getActivitiesSlot, "com.palm.activitymanager", "list", payload);
 }
 
 MojErr PopAccountDisableCommand::GetActivitiesResponse(MojObject& response, MojErr err)

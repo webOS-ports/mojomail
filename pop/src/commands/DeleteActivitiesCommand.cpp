@@ -43,6 +43,14 @@ void DeleteActivitiesCommand::GetActivityList()
 	MojLogTrace(m_log);
 
 	MojObject payload(MojObject::TypeObject);
+	MojErr err;
+	err = payload.put("details", true);
+	ErrorToException(err);
+	err = payload.put("subscribers", true);
+	ErrorToException(err);
+	err = payload.put("current", true);
+	ErrorToException(err);
+	err = payload.put("internal", true);
 
 	m_client.SendRequest(m_activityListSlot, "com.palm.activitymanager", "list", payload);
 }
