@@ -1,5 +1,5 @@
 {
-    "services": [
+    "mojomail-imap.operation": [
         "com.palm.imap/ping",
         "com.palm.imap/status",
         "com.palm.imap/validateAccount",

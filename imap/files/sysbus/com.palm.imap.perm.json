@@ -3,10 +3,8 @@
         "services",
         "applications",
         "applications.internal",
-        "database",
-        "database.internal",
-        "activities",
-        "activities.manage",
-        "filecache"
+        "database.operation",
+        "activity.operation",
+        "filecache.operation"
     ]
 }
