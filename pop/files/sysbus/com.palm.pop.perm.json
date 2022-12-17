@@ -1,10 +1,8 @@
 {
     "com.palm.pop": [
-        "services",
-        "applications",
-        "applications.internal",
-        "database.operation",
+        "accountsservice.management",
         "activity.operation",
+        "database.operation",
         "filecache.operation"
     ]
 }
