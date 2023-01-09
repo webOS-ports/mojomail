@@ -1,6 +1,7 @@
 {
     "com.palm.pop": [
         "accountsservice.management",
+        "accountsservice.operation",
         "activity.operation",
         "database.operation",
         "filecache.operation",

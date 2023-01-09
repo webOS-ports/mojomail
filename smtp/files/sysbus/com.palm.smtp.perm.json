@@ -1,6 +1,7 @@
 {
     "com.palm.smtp": [
         "accountsservice.management",
+        "accountsservice.operation",
         "activity.operation",
         "database.operation",
         "filecache.operation",

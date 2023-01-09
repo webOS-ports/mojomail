@@ -1,6 +1,7 @@
 {
     "com.palm.imap": [
         "accountsservice.management",
+        "accountsservice.operation",
         "activity.operation",
         "database.operation",
         "filecache.operation",
