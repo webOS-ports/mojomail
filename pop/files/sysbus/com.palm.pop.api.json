@@ -1,5 +1,5 @@
 {
-    "services": [
+    "mojomail-pop.operation": [
         "com.palm.pop/parseEmlMessage",
         "com.palm.pop/validateAccount",
         "com.palm.pop/accountCreated",

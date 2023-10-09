@@ -1,5 +1,6 @@
 {
     "exeName":"@WEBOS_INSTALL_BINDIR@/mojomail-pop",
+    "trustLevel": "oem",
     "type": "regular",
     "allowedNames": ["com.palm.pop"],
     "permissions": [
