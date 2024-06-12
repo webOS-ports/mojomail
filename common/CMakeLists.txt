@@ -27,8 +27,6 @@ webos_component(2 0 0)
 webos_add_compiler_flags(ALL "-DMOJ_LINUX")
 webos_add_compiler_flags(ALL "-O2 -ggdb -Wuninitialized -Winit-self -Wno-error=strict-aliasing")
 
-webos_machine_dep()
-
 # These variables can change the default behaviour and need to be set before calling find_package
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_STATIC_RUNTIME OFF)

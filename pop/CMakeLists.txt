@@ -29,8 +29,6 @@ webos_add_compiler_flags(ALL "-O -ggdb -Wuninitialized -Winit-self")
 
 webos_add_linker_options(ALL "--unresolved-symbols=ignore-in-shared-libs -rpath-link ${WEBOS_INSTALL_ROOT}/lib")
 
-webos_machine_dep()
-
 include_directories(inc)
 
 # These variables can change the default behaviour and need to be set before calling find_package
