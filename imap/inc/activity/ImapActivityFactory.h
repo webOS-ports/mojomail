@@ -74,7 +74,7 @@ public:
 	void BuildIdleWakeup(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds);
 
 	MojString GetScheduledSyncName(const MojObject& accountId, const MojObject& folderId);
-	void BuildScheduledSync(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds, bool requireFair);
+	void BuildScheduledSync(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds);
 
 	MojString GetSyncRetryName(const MojObject& accountId, const MojObject& folderId);
 	void BuildSyncRetry(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds, const std::string& reason = "");
@@ -87,7 +87,7 @@ public:
 	static void SetMetadata(MojObject& metadata, const char* name, const MojObject& accountId, const MojObject& folderId);
 	static void SetMetadata(MojObject& metadata, const char* name, const MojObject& accountId);
 
-	static void SetNetworkRequirements(ActivityBuilder& ab, bool requireFair);
+	static void SetNetworkRequirements(ActivityBuilder& ab);
 };
 
 #endif /* IMAPACTIVITYFACTORY_H_ */

@@ -64,6 +64,13 @@ void NetworkStatusMonitor::WaitForStatus(MojSignal<>::SlotRef slot)
 	}
 }
 
+void NetworkStatusMonitor::StartMonitoring()
+{
+	if(!m_isSubscribed && m_activity.get() == NULL) {
+		CreateActivity();
+	}
+}
+
 void NetworkStatusMonitor::SetFakeStatus(MojObject& fakeStatus, bool persist)
 {
 	m_networkStatus.ParseStatus(fakeStatus);

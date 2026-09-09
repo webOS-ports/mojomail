@@ -42,8 +42,19 @@ public:
 
 	/**
 	 * Wait for latest network status.
+	 *
+	 * Careful: the status may never arrive. It's delivered through an activity
+	 * carrying the "internet" requirement, and the ActivityManager holds such an
+	 * activity until the connection manager reports it's online, which on some
+	 * LuneOS builds never happens. Prefer StartMonitoring() unless you can
+	 * genuinely wait forever.
 	 */
 	void WaitForStatus(MojSignal<>::SlotRef slot);
+
+	/**
+	 * Begin monitoring network status without waiting for it.
+	 */
+	void StartMonitoring();
 
 	/**
 	 * Status.

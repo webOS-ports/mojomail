@@ -79,7 +79,10 @@ void SmtpActivityFactory::BuildOutboxWatch(ActivityBuilder& ab, const MojObject&
 	ab.SetDescription("Watches SMTP outbox for new emails");
 	ab.SetPersist(true);
 	ab.SetExplicit(true);
-	ab.SetRequiresInternet(false); // don't trigger until we also have connectivity
+	// No "internet" requirement: on LuneOS the ActivityManager never counts it
+	// as met (see ImapActivityFactory::SetNetworkRequirements), so gating the
+	// outbox watch on it would mean mail is never sent at all.
+	ab.SetRequiresInternet(false);
 	ab.SetImmediate(true, ActivityBuilder::PRIORITY_LOW);
 
 	// Callback

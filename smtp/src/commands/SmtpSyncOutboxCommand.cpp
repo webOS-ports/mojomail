@@ -232,20 +232,16 @@ void SmtpSyncOutboxCommand::CheckNetworkConnectivity()
 				return;
 			}
 		} else {
-			MojLogInfo(m_log, "CheckNetworkActivity: state unknown, starting new activity");
-			MojLogInfo(m_log, "OutboxSyncer creating new network activity");
-			ActivityBuilder ab;
-			MojString name;
-			MojErr err = name.format("SMTP Internal Outbox Sync Network Activity for account %s", AsJsonString(m_accountId).c_str());
-			ErrorToException(err);
-			ab.SetName(name);
-			ab.SetDescription("Activity representing SMTP Outbox Sync Network Monitor");
-			ab.SetForeground(true);
-			ab.SetRequiresInternet(false);
-			ab.SetImmediate(true, ActivityBuilder::PRIORITY_LOW);
-			m_networkActivity = Activity::PrepareNewActivity(ab);
-			m_networkActivity->SetSlots(m_networkActivityUpdatedSlot, m_networkActivityErrorSlot);
-			m_networkActivity->Create(m_client);
+			// We used to create an activity here purely to be told the network
+			// status, and wait for it. That never completed: without an
+			// "internet" requirement the ActivityManager reports no requirements
+			// at all, and with one it holds the activity until the connection
+			// manager says it's online -- which doesn't happen on every LuneOS
+			// build. Either way the outbox sync waited forever and mail was
+			// never sent. Just try to send; failing to connect is handled.
+			MojLogInfo(m_log, "CheckNetworkActivity: state unknown, attempting send anyway");
+			GetAccount();
+			return;
 		}
 
 	} catch (std::exception & e) {

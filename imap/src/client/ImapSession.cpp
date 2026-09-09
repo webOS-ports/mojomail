@@ -489,7 +489,7 @@ void ImapSession::CommandComplete(Command* command)
 				ImapActivityFactory factory;
 				ActivityBuilder ab;
 
-				factory.BuildScheduledSync(ab, m_client->GetAccountId(), m_folderId, FALLBACK_SYNC_INTERVAL, false);
+				factory.BuildScheduledSync(ab, m_client->GetAccountId(), m_folderId, FALLBACK_SYNC_INTERVAL);
 
 				GetActivitySet()->ReplaceActivity(ab.GetName(), ab.GetActivityObject());
 			} else {
@@ -919,11 +919,19 @@ void ImapSession::PrepareToConnect()
 void ImapSession::QueryNetworkStatus()
 {
 	if(m_client.get() != NULL && !m_client->GetNetworkStatusMonitor().HasCurrentStatus()) {
-		m_client->GetNetworkStatusMonitor().WaitForStatus(m_networkStatusSlot);
-	} else {
-		// If we already have the network status, or don't have a client, move on
-		QueryNetworkStatusDone();
+		// Start monitoring so we pick the status up if it ever shows up, but
+		// don't block the connect on it. The status arrives via an activity that
+		// requires "internet", and the ActivityManager holds that activity until
+		// the connection manager says it's online -- which never happens on
+		// builds where connman's connectivity probe fails. Waiting here left the
+		// session stuck in State_QueryingNetworkStatus forever, so the account
+		// only ever synced if something else kicked it.
+		m_client->GetNetworkStatusMonitor().StartMonitoring();
 	}
+
+	// QueryNetworkStatusDone() already treats an unknown status as "go ahead and
+	// try"; the connect attempt is a better connectivity test than the status is.
+	QueryNetworkStatusDone();
 }
 
 MojErr ImapSession::NetworkStatusAvailable()
@@ -1720,8 +1728,10 @@ bool ImapSession::BetterInterfaceAvailable()
 			boost::shared_ptr<InterfaceStatus> wanStatus = networkStatus.GetWanStatus();
 			boost::shared_ptr<InterfaceStatus> wifiStatus = networkStatus.GetWifiStatus();
 
-			// Check if Wifi is available and in good health
-			if(wifiStatus.get() && wifiStatus->IsWakeOnWifiEnabled()
+			// Check if Wifi is available and in good health.
+			// Not checking IsWakeOnWifiEnabled(): the webOS OSE connection
+			// manager always reports it as false.
+			if(wifiStatus.get() && wifiStatus->IsConnected()
 					&& wifiStatus->GetNetworkConfidence() >= InterfaceStatus::EXCELLENT) {
 
 				MojLogDebug(m_log, "wifi is excellent");

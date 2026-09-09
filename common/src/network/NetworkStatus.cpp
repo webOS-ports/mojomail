@@ -42,10 +42,11 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 	MojErr err;
 
 	MojString state;
-	err = status.getRequired("state", state);
+	bool hasState = false;
+	err = status.get("state", state, hasState);
 	ErrorToException(err);
 
-	if(state == "connected") {
+	if(hasState && state == "connected") {
 		m_connected = true;
 	}
 
@@ -69,6 +70,8 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 	bool hasNetworkConfidence = false;
 	MojString networkConfidenceLevel;
 	err = status.get("networkConfidenceLevel", networkConfidenceLevel, hasNetworkConfidence);
+	ErrorToException(err);
+
 	if (hasNetworkConfidence) {
 		if (networkConfidenceLevel == "excellent")
 			m_networkConfidence = EXCELLENT;
@@ -78,6 +81,12 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 			m_networkConfidence = POOR;
 		else
 			m_networkConfidence = UNKNOWN;
+	} else if(m_connected) {
+		// The webOS OSE connection manager doesn't necessarily report a
+		// confidence level. Assume a connected interface is good enough rather
+		// than leaving it at UNKNOWN, which would rule the interface out
+		// everywhere we compare against FAIR or better.
+		m_networkConfidence = EXCELLENT;
 	}
 }
 
@@ -106,7 +115,8 @@ NetworkStatus::NetworkStatus()
 : m_known(false),
   m_connected(false),
   m_wan(new InterfaceStatus()),
-  m_wifi(new InterfaceStatus())
+  m_wifi(new InterfaceStatus()),
+  m_wired(new InterfaceStatus())
 {
 }
 
@@ -130,6 +140,23 @@ bool NetworkStatus::ParseActivityInfo(const MojObject& info)
 	if (info.get("requirements", requirements)) {
 		MojObject internet;
 		if (requirements.get("internet", internet)) {
+			if (internet.type() == MojObject::TypeBool) {
+				// The ActivityManager in webOS OSE reports the requirement as a
+				// plain boolean until it has received a status update from the
+				// connection manager. There's no interface detail to parse in
+				// that case, but "true" still tells us that we're online.
+				// Don't report "false" as known status: it just means the
+				// ActivityManager doesn't know yet either.
+				if (!internet.boolValue())
+					return false;
+
+				Clear();
+				m_known = true;
+				m_connected = true;
+
+				return true;
+			}
+
 			ParseStatus(internet);
 			return true;
 		}
@@ -149,18 +176,17 @@ bool NetworkStatus::ParseActivity(const MojRefCountedPtr<Activity>& activity)
 
 void NetworkStatus::ParseStatus(const MojObject& status)
 {
-	MojObject wanStatus, wifiStatus;
+	MojObject wanStatus, wifiStatus, wiredStatus;
 
 	m_known = true;
 
 	bool connected = false;
-	if(status.get("isInternetConnectionAvailable", connected)) {
-		m_connected = connected;
-	} else {
-		m_connected = false;
-	}
+	bool hasConnectedFlag = status.get("isInternetConnectionAvailable", connected);
+	m_connected = hasConnectedFlag ? connected : false;
 
-	if(status.get("wan", wanStatus)) {
+	// Legacy webOS called the cellular interface "wan"; the webOS OSE
+	// connection manager calls it "cellular". Accept either.
+	if(status.get("wan", wanStatus) || status.get("cellular", wanStatus)) {
 		m_wan = InterfaceStatus::ParseInterfaceStatus(wanStatus);
 	} else {
 		m_wan.reset( new InterfaceStatus() );
@@ -171,7 +197,20 @@ void NetworkStatus::ParseStatus(const MojObject& status)
 	} else {
 		m_wifi.reset( new InterfaceStatus() );
 	}
-	
+
+	// Not present on legacy webOS, but it's the only interface an emulator or
+	// desktop build ever has.
+	if(status.get("wired", wiredStatus)) {
+		m_wired = InterfaceStatus::ParseInterfaceStatus(wiredStatus);
+	} else {
+		m_wired.reset( new InterfaceStatus() );
+	}
+
+	if(!hasConnectedFlag) {
+		// Fall back to the interfaces if the connection manager didn't tell us
+		// whether we're online.
+		m_connected = m_wifi->IsConnected() || m_wired->IsConnected() || m_wan->IsConnected();
+	}
 }
 
 void NetworkStatus::Clear()
@@ -180,13 +219,29 @@ void NetworkStatus::Clear()
 	m_connected = false;
 	m_wan.reset( new InterfaceStatus() );
 	m_wifi.reset( new InterfaceStatus() );
+	m_wired.reset( new InterfaceStatus() );
 } 
+
+// Returns true if this interface is good enough to hold a push connection open.
+static bool IsUsableInterface(const boost::shared_ptr<InterfaceStatus>& interfaceStatus)
+{
+	// Note: deliberately not checking IsWakeOnWifiEnabled() here. The webOS OSE
+	// connection manager hardcodes isWakeOnWifiEnabled to false, so requiring it
+	// meant we never found a persistent interface and push was disabled on every
+	// LuneOS device.
+	return interfaceStatus.get() != NULL
+		&& interfaceStatus->IsConnected()
+		&& interfaceStatus->GetNetworkConfidence() >= InterfaceStatus::FAIR;
+}
 
 const boost::shared_ptr<InterfaceStatus>& NetworkStatus::GetPersistentInterface() const
 {
-	if(m_wifi->IsWakeOnWifiEnabled() && m_wifi->GetNetworkConfidence() >= InterfaceStatus::FAIR)
+	// Prefer the cheap always-on interfaces over cellular.
+	if(IsUsableInterface(m_wifi))
 		return m_wifi;
-	else if(m_wan->GetNetworkConfidence() >= InterfaceStatus::FAIR)
+	else if(IsUsableInterface(m_wired))
+		return m_wired;
+	else if(IsUsableInterface(m_wan))
 		return m_wan;
 	else
 		return s_nullInterface; // equivalent to boost::shared_ptr<InterfaceStatus>(NULL)
@@ -197,7 +252,8 @@ bool NetworkStatus::operator==(const NetworkStatus& other) const
 	return m_known == other.m_known
 		&& m_connected == other.m_connected
 		&& *m_wan == *(other.m_wan)
-		&& *m_wifi == *(other.m_wifi);
+		&& *m_wifi == *(other.m_wifi)
+		&& *m_wired == *(other.m_wired);
 }
 
 void NetworkStatus::Status(MojObject& status) const
@@ -218,6 +274,13 @@ void NetworkStatus::Status(MojObject& status) const
 		MojObject wifiStatus;
 		m_wifi->Status(wifiStatus);
 		err = status.put("wifi", wifiStatus);
+		ErrorToException(err);
+	}
+
+	if(m_wired.get()) {
+		MojObject wiredStatus;
+		m_wired->Status(wiredStatus);
+		err = status.put("wired", wiredStatus);
 		ErrorToException(err);
 	}
 }

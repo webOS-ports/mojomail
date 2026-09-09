@@ -215,6 +215,14 @@ void ActivityBuilder::SetSmartInterval(int intervalSeconds)
 	ErrorToException(err);
 }
 
+// Note: the ActivityManager in webOS OSE only accepts boolean requirement
+// values, and only "true" adds a requirement -- "false" (or null) removes it.
+// The old "internetConfidence" requirement is gone entirely; asking for it makes
+// activitymanager/create fail with an error, which is why it must never be sent.
+//
+// Setting this to true does double duty: besides holding the activity back until
+// we're online, it's the only way to get the connection manager status reported
+// back to us in the "$activity" payload. See NetworkStatus::ParseActivityInfo.
 void ActivityBuilder::SetRequiresInternet(bool requireInternet)
 {
 	MojErr err = m_requirements.putBool("internet", requireInternet);
@@ -288,6 +296,7 @@ const MojObject& ActivityBuilder::GetActivityObject()
 
 	if(!m_requirements.empty()) {
 		err = m_activityObject.put("requirements", m_requirements);
+		ErrorToException(err);
 	}
 
 	err = m_activityObject.put("type", type);
