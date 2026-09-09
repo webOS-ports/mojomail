@@ -257,20 +257,39 @@ MojErr Activity::CreateOrAdoptResponse(MojObject& response, MojErr err)
 		// Update recorded activityInfo, if present
 		response.get("$activity", m_activityInfo);
 
+		// A reply carrying "event" is a subscription event; anything else is the
+		// reply to the create/adopt call itself. They do not arrive in that order
+		// on webOS OSE: creating an activity emits an "update" event, and our
+		// subscription is already live by then, so the event overtakes the call
+		// reply. Measured against activitymanager 3.0.0-45, one create yields
+		//   1. {"$activity":{...},"event":"update","activityId":N,...}
+		//   2. {"subscribed":true,"returnValue":true,"activityId":N}
+		//   3. {"$activity":{...},"event":"start","activityId":N,...}
+		// This used to take (1) for the create reply and then hand (2) -- which
+		// has no "event" -- to HandleUpdate(), which reported "required prop not
+		// found: 'event'" as an activity error. Harmless for the SMTP power
+		// manager, which only logs it, but ActivitySet::ActivityError() drops the
+		// activity from the set, so anything created through an ActivitySet lost
+		// it. Dispatch on the payload rather than on arrival order instead.
+		const bool isEvent = response.contains("event");
+
 		if(m_state == s_CreatePending) {
 			// Check error
 			ResponseToException(response, err);
 
-			// Creation response
+			// Creation response. Both the reply and the events carry the id.
 			err = response.getRequired("activityId", m_activityId);
 			ErrorToException(err);
 
 			MojLogInfo(s_log, "created activity %s", Describe().c_str());
 
 			m_state = s_Waiting;
-			
-			// Don't update with first response, it only contains the new activity ID, a start
-			// event will come in its own time.
+
+			// If an event got here first, act on it now rather than dropping it;
+			// the start event is not repeated.
+			if(isEvent) {
+				HandleUpdate(response);
+			}
 		} else if(m_state == s_AdoptPending) {
 			// Check error
 			ResponseToException(response, err);
@@ -289,8 +308,17 @@ MojErr Activity::CreateOrAdoptResponse(MojObject& response, MojErr err)
 				HandleUpdate(response);
 			}
 		} else if(m_state == s_Active || m_state == s_Waiting) {
-			// Subscription update
-			HandleUpdate(response);
+			if(isEvent) {
+				// Subscription update
+				HandleUpdate(response);
+			} else {
+				// The reply to our own call, overtaken by an event above. Nothing
+				// left to do except record the adoption flag if this was an adopt.
+				bool adopted = false;
+				if(response.get("adopted", adopted)) {
+					m_isParent = adopted;
+				}
+			}
 		}
 	} catch(const std::exception& e) {
 		ReportError(GetErrorForState(m_state), e);
