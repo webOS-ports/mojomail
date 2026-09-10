@@ -26,9 +26,9 @@ class LoadUidCacheCommand : public PopSessionCommand
 {
 public:
 	LoadUidCacheCommand(PopSession& session, const MojObject& accountId, UidCache& cache);
-	~LoadUidCacheCommand();
+	~LoadUidCacheCommand() override;
 
-	void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr	GetUidCacheResponse(MojObject& response, MojErr err);
 private:
 	MojObject										m_accountId;

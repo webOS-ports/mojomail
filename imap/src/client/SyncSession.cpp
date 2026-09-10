@@ -130,7 +130,7 @@ void SyncSession::ClearRetry()
 	m_client.GetDatabaseInterface().UpdateAccountRetry(m_clearRetrySlot, m_client.GetAccountId(), accountObj);
 }
 
-MojErr SyncSession::ClearRetryResponse(MojObject& response, MojErr err)
+MojErr SyncSession::ClearRetryResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

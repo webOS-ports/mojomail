@@ -217,7 +217,7 @@ void UpSyncDraftsCommand::UpdateUidAndKind()
 	m_session.GetDatabaseInterface().UpdateEmail(m_updateUidAndKindSlot, emailObj);
 }
 
-MojErr UpSyncDraftsCommand::UpdateUidAndKindResponse(MojObject& response, MojErr err)
+MojErr UpSyncDraftsCommand::UpdateUidAndKindResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

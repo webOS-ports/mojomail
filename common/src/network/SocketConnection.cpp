@@ -103,7 +103,7 @@ void SocketConnection::Connect(ConnectedSignal::SlotRef connectedSlot)
 	}
 }
 
-gboolean SocketConnection::SocketConnectCb(GIOChannel* gio, gpointer data, const GError* error)
+gboolean SocketConnection::SocketConnectCb(GIOChannel*  /*gio*/, gpointer data, const GError* error)
 {
 	SocketConnection *socketConnection = reinterpret_cast<SocketConnection *>( data );
 	assert(data);
@@ -142,7 +142,7 @@ void SocketConnection::NegotiateTLS(TLSReadySignal::SlotRef tlsReadySlot)
 	GErrorToException(gerr);
 }
 
-gboolean SocketConnection::NegotiateTLSCb(GIOChannel* gio, gboolean isSocketEncrypted, gpointer data, const GError* error)
+gboolean SocketConnection::NegotiateTLSCb(GIOChannel*  /*gio*/, gboolean isSocketEncrypted, gpointer data, const GError* error)
 {
 	SocketConnection *socketConnection = reinterpret_cast<SocketConnection *>( data );
 
@@ -196,7 +196,7 @@ void SocketConnection::Connected()
 	m_connectedSignal.fire(NULL);
 }
 
-void SocketConnection::ConnectError(const GError* error)
+void SocketConnection::ConnectError(const GError*  /*error*/)
 {
 	PslError pslError = PmSockGetLastError( (PmSockIOChannel*) m_channel );
 	PslErrorException exc(pslError, __FILE__, __LINE__);
@@ -206,7 +206,7 @@ void SocketConnection::ConnectError(const GError* error)
 	m_connectedSignal.fire(&exc);
 }
 
-void SocketConnection::SetException(const std::exception& e)
+void SocketConnection::SetException(const std::exception&  /*e*/)
 {
 	// Note: this should only get called after a failed read/write
 	PslError pslError = PmSockGetLastError( (PmSockIOChannel*) m_channel );

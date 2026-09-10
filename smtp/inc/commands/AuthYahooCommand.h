@@ -28,11 +28,11 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	AuthYahooCommand(SmtpSession& session);
-	virtual ~AuthYahooCommand();
+	~AuthYahooCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 	MojErr GetYahooCookiesSlot(MojObject& response, MojErr err);
 	unsigned long long timeMillis();
 	

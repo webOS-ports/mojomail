@@ -136,7 +136,7 @@ void TrimFolderEmailsCommand::DeleteLocalEmails()
 	}
 }
 
-MojErr TrimFolderEmailsCommand::DeleteLocalEmailsResponse(MojObject& response, MojErr err)
+MojErr TrimFolderEmailsCommand::DeleteLocalEmailsResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

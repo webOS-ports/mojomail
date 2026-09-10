@@ -102,7 +102,7 @@ void PopAccountAdapter::SerializeToDatabasePopObject(const PopAccount& accnt, Mo
 	SerializeSpecialFolders(accnt, obj);
 }
 
-void PopAccountAdapter::GetPopAccountFromPayload(MojLogger& log, const MojObject& payload, MojObject& popAccount)
+void PopAccountAdapter::GetPopAccountFromPayload(MojLogger&  /*log*/, const MojObject& payload, MojObject& popAccount)
 {
 	MojErr err = popAccount.putString(KIND, POP_ACCOUNT_KIND);
 	ErrorToException(err);
@@ -289,7 +289,7 @@ void PopAccountAdapter::GetPopAccountFromTransportObject(const MojObject& transp
 		out.SetTrashFolderId(trashId);
 }
 
-void PopAccountAdapter::GetPopAccount(const MojObject& in, const MojObject& transportIn, PopAccount& out)
+void PopAccountAdapter::GetPopAccount(const MojObject&  /*in*/, const MojObject& transportIn, PopAccount& out)
 {
 	MojObject id;
 	MojErr err = transportIn.getRequired(ID, id);

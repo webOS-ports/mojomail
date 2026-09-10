@@ -38,7 +38,7 @@ public:
 	static int deleted;
 
 	CurlConnection();
-	virtual ~CurlConnection();
+	~CurlConnection() override;
 
 	/**
 	 * Method called if SetStreamingPost() was called.
@@ -74,23 +74,23 @@ public:
 	virtual void ConnectionDone(HttpConnection::ConnectionError err) = 0;
 
 	// HttpConnection Methods
-	virtual void SetMethod(ConnectionMethod method);
-	virtual void SetHeader(const std::string& header);
-	virtual void SetCredentials(const std::string& username, const std::string& password);
-	virtual void SetUrl(const std::string& url);
-	virtual std::string GetUrl() const;
-	virtual void SetTimeout(long seconds);
-	virtual void SetPostData(void* data, size_t size);
-	virtual void SetStreamingPost(size_t size);
-	virtual void SetEmptyPost();
-	virtual void DisableConnectionReuse();
-	virtual void Connect();
-	virtual long GetResponseCode();
-	virtual std::string UrlEncode(const std::string& str);
-	virtual void Pause();
-	virtual void Resume();
-	virtual bool IsPaused() const { return m_paused; }
-	virtual size_t MaxWriteBufferSize() { return CURL_MAX_WRITE_SIZE; }
+	void SetMethod(ConnectionMethod method) override;
+	void SetHeader(const std::string& header) override;
+	void SetCredentials(const std::string& username, const std::string& password) override;
+	void SetUrl(const std::string& url) override;
+	std::string GetUrl() const override;
+	void SetTimeout(long seconds) override;
+	void SetPostData(void* data, size_t size) override;
+	void SetStreamingPost(size_t size) override;
+	void SetEmptyPost() override;
+	void DisableConnectionReuse() override;
+	void Connect() override;
+	long GetResponseCode() override;
+	std::string UrlEncode(const std::string& str) override;
+	void Pause() override;
+	void Resume() override;
+	bool IsPaused() const override { return m_paused; }
+	size_t MaxWriteBufferSize() override { return CURL_MAX_WRITE_SIZE; }
 
 	virtual std::string GetCurrentHostname();
 	virtual CurlSSLVerifier& GetSSLVerifier();

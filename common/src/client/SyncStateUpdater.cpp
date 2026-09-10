@@ -108,7 +108,7 @@ void SyncStateUpdater::UpdateSyncState(MojSignal<>::SlotRef slot, const SyncStat
 	m_busClient.SendRequest(m_updateSlot, "com.palm.tempdb", "batch", batchPayload);
 }
 
-MojErr SyncStateUpdater::UpdateSyncStateResponse(MojObject& response, MojErr err)
+MojErr SyncStateUpdater::UpdateSyncStateResponse(MojObject&  /*response*/, MojErr  /*err*/)
 {
 	// ignore errors
 	m_doneSignal.fire();

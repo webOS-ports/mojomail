@@ -35,24 +35,24 @@ class SyncSession : public BaseSyncSession
 {
 public:
 	SyncSession(ImapClient& client, const MojObject& folderId);
-	virtual ~SyncSession();
+	~SyncSession() override;
 
 	virtual void SetQueueStopped();
 
 protected:
 	// Implement abstract methods
-	virtual void SyncSessionReady();
-	virtual void SyncSessionComplete();
+	void SyncSessionReady() override;
+	void SyncSessionComplete() override;
 
-	virtual void GetNewChanges(MojDbClient::Signal::SlotRef slot, MojObject folderId, MojInt64 rev, MojDbQuery::Page &page);
-	virtual void GetById(MojDbClient::Signal::SlotRef slot, const MojObject& id);
-	virtual void Merge(MojDbClient::Signal::SlotRef slot, const MojObject& obj);
-
-	// Overrides BaseSyncSession
-	virtual void UpdateActivities();
+	void GetNewChanges(MojDbClient::Signal::SlotRef slot, MojObject folderId, MojInt64 rev, MojDbQuery::Page &page) override;
+	void GetById(MojDbClient::Signal::SlotRef slot, const MojObject& id) override;
+	void Merge(MojDbClient::Signal::SlotRef slot, const MojObject& obj) override;
 
 	// Overrides BaseSyncSession
-	virtual void UpdateAndEndActivities();
+	void UpdateActivities() override;
+
+	// Overrides BaseSyncSession
+	void UpdateAndEndActivities() override;
 
 	virtual MojErr ScheduleRetryDone();
 
@@ -67,11 +67,11 @@ protected:
 	virtual void UpdateMiscActivities();
 
 	// Sync state
-	virtual bool IsAccountSync();
-	virtual void BuildFolderStatus(MojObject& folderStatus);
+	bool IsAccountSync() override;
+	void BuildFolderStatus(MojObject& folderStatus) override;
 
-	virtual MojString GetCapabilityProvider();
-	virtual MojString GetBusAddress();
+	MojString GetCapabilityProvider() override;
+	MojString GetBusAddress() override;
 
 	ImapClient&		m_client;
 

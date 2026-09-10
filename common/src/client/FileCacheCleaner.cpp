@@ -61,7 +61,7 @@ void FileCacheCleaner::DeleteNextEntry()
 	}
 }
 
-MojErr FileCacheCleaner::DeleteResponse(MojObject& response, MojErr err)
+MojErr FileCacheCleaner::DeleteResponse(MojObject&  /*response*/, MojErr err)
 {
 	if (err) {
 		MojLogWarning(LogUtils::s_commonLog, "error deleting path: %d", err);

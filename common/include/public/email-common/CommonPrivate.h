@@ -31,7 +31,7 @@
 
 #define GErrorToException(err) \
 	do { \
-		if(unlikely(err != NULL)) GErrorException::CheckError(err, __FILE__, __LINE__); \
+		if(unlikely((err) != NULL)) GErrorException::CheckError(err, __FILE__, __LINE__); \
 	} while(0);
 
 inline bool IsValidId(const MojObject& obj) { return !obj.undefined() && !obj.null(); }

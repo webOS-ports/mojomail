@@ -38,9 +38,9 @@ class SyncFolderListCommand : public ImapSessionCommand
 	
 public:
 	SyncFolderListCommand(ImapSession& session);
-	virtual ~SyncFolderListCommand();
+	~SyncFolderListCommand() override;
 	
-	void RunImpl();
+	void RunImpl() override;
 	
 protected:
 	void SendNamespaceCommand();

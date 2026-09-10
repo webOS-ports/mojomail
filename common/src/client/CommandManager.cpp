@@ -91,7 +91,7 @@ void CommandManager::CommandComplete(Command* command)
 	for (CommandVec::iterator it = m_activeCommands.begin(); it < m_activeCommands.end(); it++) {
 		if (it->get() == command) {
 			found = true;
-			CommandPtr completed = *it;
+			const CommandPtr& completed = *it;
 			m_activeCommands.erase(it);
 			m_completedCommands.push_back(completed);
 			MojLogDebug(s_log, "command completed: %i", (int) command);
@@ -103,7 +103,7 @@ void CommandManager::CommandComplete(Command* command)
 		// If it's not found in the active list, the command might still be pending
 		for (CommandQueue::container_type::iterator it = m_pendingCommands.begin(); it < m_pendingCommands.end(); it++) {
 			if (it->get() == command) {
-				CommandPtr completed = *it;
+				const CommandPtr& completed = *it;
 				m_pendingCommands.erase(it);
 				m_completedCommands.push_back(completed);
 				MojLogDebug(s_log, "aborted pending command: %i", (int) command);

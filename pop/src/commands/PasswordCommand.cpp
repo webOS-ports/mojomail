@@ -47,7 +47,7 @@ void PasswordCommand::RunImpl()
 	}
 }
 
-MojErr PasswordCommand::HandleResponse(const std::string& line)
+MojErr PasswordCommand::HandleResponse(const std::string&  /*line*/)
 {
 	if (m_status == Status_Ok) {
 		m_session.LoginSuccess();

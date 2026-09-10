@@ -126,7 +126,7 @@ void DisableAccountCommand::DeleteFolders()
 	m_client.GetDatabaseInterface().PurgeIds(m_deleteFoldersSlot, m_folderIds);
 }
 
-MojErr DisableAccountCommand::DeleteFoldersResponse(MojObject& response, MojErr err)
+MojErr DisableAccountCommand::DeleteFoldersResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 
@@ -187,7 +187,7 @@ void DisableAccountCommand::UpdateAccount()
 	m_client.GetDatabaseInterface().UpdateAccountSpecialFolders(m_updateAccountSlot, account);
 }
 
-MojErr DisableAccountCommand::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr DisableAccountCommand::UpdateAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

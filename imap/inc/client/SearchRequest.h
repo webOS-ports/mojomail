@@ -28,7 +28,7 @@ class SearchRequest : public MojRefCounted
 {
 public:
 	SearchRequest();
-	virtual ~SearchRequest();
+	~SearchRequest() override;
 
 	// Service message which gets responses
 	void SetServiceMessage(MojServiceMessage* msg) { m_msg.reset(msg); }

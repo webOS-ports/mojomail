@@ -111,7 +111,7 @@ void PowerManager::CompleteActivity()
 	}
 }
 
-MojErr PowerManager::ActivityUpdate(Activity* activity, Activity::EventType event)
+MojErr PowerManager::ActivityUpdate(Activity*  /*activity*/, Activity::EventType event)
 {
 	if (event == Activity::StartEvent) {
 		if (m_state == State_PendingCompletion) {
@@ -125,7 +125,7 @@ MojErr PowerManager::ActivityUpdate(Activity* activity, Activity::EventType even
 	return MojErrNone;
 }
 
-MojErr PowerManager::ActivityException(Activity* activity, Activity::ErrorType errorType, const exception& exc)
+MojErr PowerManager::ActivityException(Activity*  /*activity*/, Activity::ErrorType errorType, const exception& exc)
 {
 	MojLogCritical(s_log, "error occurred when managing power activity: %s (type: %i)", exc.what(), errorType);
 	return MojErrNone;

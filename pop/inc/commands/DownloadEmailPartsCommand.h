@@ -35,22 +35,22 @@ public:
 							PopEmail::PopEmailPtr email,
 							boost::shared_ptr<FileCacheClient> fileCacheClient,
 							MojRefCountedPtr<Request> request);
-	virtual ~DownloadEmailPartsCommand();
+	~DownloadEmailPartsCommand() override;
 
-	virtual void RunImpl();
-	virtual MojErr 	HandleResponse(const std::string& line);
+	void RunImpl() override;
+	MojErr 	HandleResponse(const std::string& line) override;
 	bool GetIsParserFailed() {return m_parseFailed;}
 
 	MojErr 			ParserReady();
 	MojErr			ParserDone();
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 protected:
 	void			ParseFailed();
 	void 			ParseResumeFailed();
 	void 			UpdateDownloadProgress(int dlSize);
 	void			CompleteDownloadListener();
-	virtual void 	Cleanup();
+	void 	Cleanup() override;
 
 	boost::shared_ptr<FileCacheClient>	m_fileCacheClient;
 	int 								m_msgNum;

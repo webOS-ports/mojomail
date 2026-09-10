@@ -166,7 +166,7 @@ void SelectFolderCommand::UpdateFolder()
 	m_session.GetDatabaseInterface().UpdateFolder(m_updateFolderSlot, updatedFolder);
 }
 
-MojErr SelectFolderCommand::UpdateFolderResponse(MojObject& response, MojErr err)
+MojErr SelectFolderCommand::UpdateFolderResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

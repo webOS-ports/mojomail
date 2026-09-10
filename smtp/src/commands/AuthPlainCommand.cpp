@@ -55,7 +55,7 @@ void AuthPlainCommand::RunImpl()
 	SendCommand(userCommand);
 }
 
-MojErr AuthPlainCommand::HandleResponse(const std::string& line)
+MojErr AuthPlainCommand::HandleResponse(const std::string&  /*line*/)
 {
 	MojLogInfo(m_log, "AUTH PLAIN command response");
 

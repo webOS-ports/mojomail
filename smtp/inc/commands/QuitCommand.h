@@ -27,12 +27,12 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	QuitCommand(SmtpSession& session);
-	virtual ~QuitCommand();
+	~QuitCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
 private:
-	virtual MojErr HandleResponse(const std::string&);
+	MojErr HandleResponse(const std::string&) override;
 	
 	std::string m_serverName;
 };

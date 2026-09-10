@@ -46,13 +46,13 @@ public:
 	
 	SmtpSendMailCommand(SmtpSession& session,
 			   const MojObject& emailId);
-	virtual ~SmtpSendMailCommand();
+	~SmtpSendMailCommand() override;
 	
-	virtual void RunImpl();
+	void RunImpl() override;
 	
 	void SetSlots(DoneSignal::SlotRef doneSlot);
 	
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
 	static const char* const FROM_COMMAND_STRING;
@@ -94,7 +94,7 @@ protected:
 	void	UpdateSendStatus();
 	MojErr	UpdateSendStatusResponse(MojObject& response, MojErr err);
 	
-	virtual MojErr HandleResponse(const std::string&);
+	MojErr HandleResponse(const std::string&) override;
 	
 	/**
 	 * Queues another SmtpSyncOutbox to send any remaining emails.

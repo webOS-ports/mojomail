@@ -505,7 +505,7 @@ static void registerUnregisterFds() {
 /* Called before all the file descriptors are polled by the glib main loop.
    We must have a look at all fds that libcurl wants polled. If any of them
    are new/no longer needed, we have to (de)register them with glib. */
-gboolean prepare(GSource* source, gint* timeout) {
+gboolean prepare(GSource*  /*source*/, gint* timeout) {
   D((stderr, "prepare\n"));
   assert(source == &curlSrc->source);
 
@@ -545,7 +545,7 @@ gboolean prepare(GSource* source, gint* timeout) {
    poll() call) to our GPollFD objects. How inefficient all that copying
    is... let's add some more and copy the results of these revents into
    libcurl's fd_sets! */
-gboolean check(GSource* source) {
+gboolean check(GSource*  /*source*/) {
   int fd, somethingHappened = 0;
 
   assert(source == &curlSrc->source);
@@ -595,7 +595,7 @@ gboolean check(GSource* source) {
 }
 /*______________________________________________________________________*/
 
-gboolean dispatch(GSource* source, GSourceFunc callback,
+gboolean dispatch(GSource*  /*source*/, GSourceFunc callback,
                   gpointer user_data) {
   CURLMcode x;
 
@@ -618,7 +618,7 @@ gboolean dispatch(GSource* source, GSourceFunc callback,
 }
 /*______________________________________________________________________*/
 
-void finalize(GSource* source) {
+void finalize(GSource*  /*source*/) {
   assert(source == &curlSrc->source);
   registerUnregisterFds();
 }

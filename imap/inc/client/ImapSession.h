@@ -62,7 +62,7 @@ class ImapSession : public MojSignalHandler, public Command::Listener
 
 public:
 	ImapSession(const MojRefCountedPtr<ImapClient>& client, MojLogger& logger = ImapSession::s_log);
-	virtual ~ImapSession();
+	~ImapSession() override;
 	
 	void SetDatabase(DatabaseInterface& dbInterface);
 	void SetFileCacheClient(FileCacheClient& fileCacheClient);
@@ -131,7 +131,7 @@ public:
 	const MojRefCountedPtr<ImapClient>&	GetClient() const { return m_client; }
 	bool HasClient() const { return m_client.get(); }
 
-	virtual void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 	virtual void CommandFailure(Command* command, const std::exception& e);
 
 	const boost::shared_ptr<ImapAccount>& GetAccount();

@@ -283,7 +283,7 @@ MojErr SmtpSyncOutboxCommand::NetworkActivityUpdated(Activity * activity, Activi
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::NetworkActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::NetworkActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has network activity error");
@@ -493,7 +493,7 @@ void SmtpSyncOutboxCommand::UpdateAccountWatchActivity()
 	}
 }
 
-MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity * activity, Activity::EventType)
+MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity *  /*activity*/, Activity::EventType)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxcommand has updated account activity");
@@ -515,7 +515,7 @@ MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity * activity, Activi
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::AccountActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::AccountActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has account activity error");
@@ -973,7 +973,7 @@ void SmtpSyncOutboxCommand::CompleteAndUpdateActivities()
 	}
 }
 
-MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity * activity, Activity::EventType)
+MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity *  /*activity*/, Activity::EventType)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxcommand has updated activity");
@@ -995,7 +995,7 @@ MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity * activity, Activity::Eve
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::ActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::ActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has activity error");

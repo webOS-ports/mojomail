@@ -29,47 +29,47 @@ public:
 	virtual ~MojoDatabase();
 
 	// Query Methods
-	virtual void GetAccount				(Signal::SlotRef slot, const MojObject& accountId);
-	virtual void GetMainAccount			(Signal::SlotRef slot, const MojObject& accountId);
-	virtual void GetAccountFolders		(Signal::SlotRef slot, const MojObject& accountId);
-	virtual void GetFolder				(Signal::SlotRef slot, const MojObject& folderId);
-	virtual void GetEmail				(Signal::SlotRef slot, const MojObject& emailId);
-	virtual void GetEmailTransportObj	(Signal::SlotRef slot, const MojObject& emailId);
-	virtual void GetEmails				(Signal::SlotRef slot, const MojObject& folderId, MojInt32 limit);
-	virtual void GetLocalEmailChanges	(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit);
-	virtual void GetAutoDownloadEmails	(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit);
-	virtual void GetSentEmails			(Signal::SlotRef slot, const MojObject& outboxFolderId, MojInt32 limit = 0);
-	virtual void GetDeletedEmails		(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit = 0);
-	virtual void GetEmailSyncList		(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, bool desc, MojDbQuery::Page& page, MojInt32 limit = 0);
-	virtual void GetUidCache			(Signal::SlotRef slot, const MojObject& accountId);
-	virtual void GetEmailsToMove		(Signal::SlotRef slot, const MojObject& accountId);
-	virtual void GetEmailsToDelete		(Signal::SlotRef slot);
-	virtual void GetById				(Signal::SlotRef slot, const MojObject& id);
-	virtual void GetByIds				(Signal::SlotRef slot, const MojObject::ObjectVec& ids);
+	void GetAccount				(Signal::SlotRef slot, const MojObject& accountId) override;
+	void GetMainAccount			(Signal::SlotRef slot, const MojObject& accountId) override;
+	void GetAccountFolders		(Signal::SlotRef slot, const MojObject& accountId) override;
+	void GetFolder				(Signal::SlotRef slot, const MojObject& folderId) override;
+	void GetEmail				(Signal::SlotRef slot, const MojObject& emailId) override;
+	void GetEmailTransportObj	(Signal::SlotRef slot, const MojObject& emailId) override;
+	void GetEmails				(Signal::SlotRef slot, const MojObject& folderId, MojInt32 limit) override;
+	void GetLocalEmailChanges	(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit) override;
+	void GetAutoDownloadEmails	(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit) override;
+	void GetSentEmails			(Signal::SlotRef slot, const MojObject& outboxFolderId, MojInt32 limit = 0) override;
+	void GetDeletedEmails		(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetEmailSyncList		(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, bool desc, MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetUidCache			(Signal::SlotRef slot, const MojObject& accountId) override;
+	void GetEmailsToMove		(Signal::SlotRef slot, const MojObject& accountId) override;
+	void GetEmailsToDelete		(Signal::SlotRef slot) override;
+	void GetById				(Signal::SlotRef slot, const MojObject& id) override;
+	void GetByIds				(Signal::SlotRef slot, const MojObject::ObjectVec& ids) override;
 
 	// Merge Methods
-	virtual void UpdateEmailParts		(Signal::SlotRef slot, const MojObject& emailId, const MojObject& parts, bool skipAutoDownload = false);
-	virtual void UpdateEmailSummary		(Signal::SlotRef slot, const MojObject& emailId, const MojString& summary);
-	virtual void UpdateAccount			(Signal::SlotRef slot, const MojObject& accountId, const MojObject& props);
-	virtual void UpdateAccountFolders	(Signal::SlotRef slot, const MojObject& accountId, const MojObject& inboxFolderId,
+	void UpdateEmailParts		(Signal::SlotRef slot, const MojObject& emailId, const MojObject& parts, bool skipAutoDownload = false) override;
+	void UpdateEmailSummary		(Signal::SlotRef slot, const MojObject& emailId, const MojString& summary) override;
+	void UpdateAccount			(Signal::SlotRef slot, const MojObject& accountId, const MojObject& props) override;
+	void UpdateAccountFolders	(Signal::SlotRef slot, const MojObject& accountId, const MojObject& inboxFolderId,
 										 const MojObject& draftsFolderId,
 										 const MojObject& sentFolderId,
 										 const MojObject& outboxFolderId,
-										 const MojObject& trashFolderId);
-	virtual void UpdateAccountRetry		(Signal::SlotRef slot, const MojObject& accountId, const MojObject& account);
-	virtual void UpdateAccountInitialSync	(Signal::SlotRef slot, const MojObject& accountId, bool sync);
-	virtual void MoveDeletedEmailToTrash (Signal::SlotRef slot, const MojObject& emailId, const MojObject& trashFolderId);
+										 const MojObject& trashFolderId) override;
+	void UpdateAccountRetry		(Signal::SlotRef slot, const MojObject& accountId, const MojObject& account) override;
+	void UpdateAccountInitialSync	(Signal::SlotRef slot, const MojObject& accountId, bool sync) override;
+	void MoveDeletedEmailToTrash (Signal::SlotRef slot, const MojObject& emailId, const MojObject& trashFolderId) override;
 
 	// Sync Methods
-	virtual void GetExistingItems		(Signal::SlotRef slot, const MojDbQuery& query);
-	virtual void ReserveIds				(Signal::SlotRef slot, int count);
-	virtual void AddItems				(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	virtual void UpdateItem				(Signal::SlotRef slot, const MojObject& obj);
-	virtual void UpdateItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	virtual void UpdateItems			(Signal::SlotRef slot, const MojDbQuery query, const MojObject values);
-	virtual void UpdateItemRevisions	(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	virtual void DeleteItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	virtual void DeleteItems			(Signal::SlotRef slot, const std::string kind, const std::string idField, const MojObject& id);
+	void GetExistingItems		(Signal::SlotRef slot, const MojDbQuery& query) override;
+	void ReserveIds				(Signal::SlotRef slot, int count) override;
+	void AddItems				(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void UpdateItem				(Signal::SlotRef slot, const MojObject& obj) override;
+	void UpdateItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void UpdateItems			(Signal::SlotRef slot, const MojDbQuery query, const MojObject values) override;
+	void UpdateItemRevisions	(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void DeleteItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void DeleteItems			(Signal::SlotRef slot, const std::string kind, const std::string idField, const MojObject& id) override;
 
 private:
 	/**

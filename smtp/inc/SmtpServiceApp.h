@@ -33,14 +33,14 @@ public:
 	static const char* const ServiceName;
 	
 	SmtpServiceApp();
-	virtual MojErr open();
+	MojErr open() override;
 	
 	MojDbServiceClient &GetDbClient() { return m_dbClient; }
 	MojDbServiceClient &GetTempDbClient() { return m_tempDbClient; }
 	MojLunaService &GetService() { return m_service; }
 	
 	// Overrides MojApp::configure
-	virtual MojErr configure(const MojObject& conf);
+	MojErr configure(const MojObject& conf) override;
 
 private:
 	typedef MojReactorApp<MojGmainReactor> Base;

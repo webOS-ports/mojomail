@@ -35,10 +35,10 @@ class SyncLocalChangesCommand : public ImapSyncSessionCommand
 {
 public:
 	SyncLocalChangesCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~SyncLocalChangesCommand();
+	~SyncLocalChangesCommand() override;
 
-	void RunImpl();
-	void Status(MojObject& status) const;
+	void RunImpl() override;
+	void Status(MojObject& status) const override;
 
 protected:
 	void GetChangedEmails();
@@ -68,7 +68,7 @@ protected:
 
 	void DeleteComplete();
 
-	void Cleanup();
+	void Cleanup() override;
 
 	bool		m_expunge;
 

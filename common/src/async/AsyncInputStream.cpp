@@ -227,7 +227,7 @@ MojErr AsyncInputStream::ChannelClosed()
 	return MojErrNone;
 }
 
-void AsyncInputStream::Error(const exception& e)
+void AsyncInputStream::Error(const exception&  /*e*/)
 {
 	Unwatch();
 

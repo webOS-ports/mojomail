@@ -37,10 +37,10 @@ class PopCommand : public Command
 {
 public:
 	PopCommand(Listener& listener, Priority priority = NormalPriority);
-	virtual ~PopCommand();
+	~PopCommand() override;
 
-	virtual void Run();
-	virtual void Cancel();
+	void Run() override;
+	void Cancel() override;
 
 	virtual void Run(MojSignal<>::SlotRef doneSlot);
 
@@ -49,7 +49,7 @@ public:
 
 	virtual const MojRefCountedPtr<PopCommandResult>& GetResult();
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
 	virtual void	RunImpl() = 0;

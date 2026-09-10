@@ -31,9 +31,9 @@ public:
 	static const char* const ID_COMMAND_STRING;
 
 	AuthYahooCommand(ImapSession& session);
-	virtual ~AuthYahooCommand();
+	~AuthYahooCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 	unsigned long long timeSec();
 
 	void GetNduid();
@@ -51,8 +51,8 @@ public:
 	void SendCookiesCommand();
 	MojErr HandleAuthenticateDone();
 
-	void Failure(const std::exception& e);
-	void Cleanup();
+	void Failure(const std::exception& e) override;
+	void Cleanup() override;
 
 protected:
 

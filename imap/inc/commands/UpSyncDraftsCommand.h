@@ -38,11 +38,11 @@ class UpSyncDraftsCommand : public ImapSyncSessionCommand
 
 public:
 	UpSyncDraftsCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~UpSyncDraftsCommand();
+	~UpSyncDraftsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
 

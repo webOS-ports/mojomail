@@ -36,7 +36,7 @@ void OldHelloCommand::RunImpl()
 	SendCommand(std::string(COMMAND_STRING) + " " + m_serverName);
 }
 
-MojErr OldHelloCommand::HandleResponse(const std::string& line)
+MojErr OldHelloCommand::HandleResponse(const std::string&  /*line*/)
 {
 
 	if (m_statusCode == 250) {

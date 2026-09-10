@@ -25,9 +25,9 @@ class ExamineResponseParser : public ImapResponseParser
 {
 public:
 	ExamineResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~ExamineResponseParser();
+	~ExamineResponseParser() override;
 	
-	bool HandleUntaggedResponse(const std::string& line);
+	bool HandleUntaggedResponse(const std::string& line) override;
 
 	// Get the number of messages in the inbox, or -1 if unknown
 	int		GetExistsCount() const { return m_exists; }

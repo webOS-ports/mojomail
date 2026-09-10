@@ -33,9 +33,9 @@ public:
 	DeleteLocalEmailsCommand(PopSession& session,
 			const MojObject::ObjectVec& serverDeletedEmailIds,
 			const MojObject::ObjectVec& oldEmailIds);
-	virtual ~DeleteLocalEmailsCommand();
+	~DeleteLocalEmailsCommand() override;
 
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr			DeleteLocalEmailsResponse(MojObject& response, MojErr err);
 private:
 	void			DetermineDeletedEmails();

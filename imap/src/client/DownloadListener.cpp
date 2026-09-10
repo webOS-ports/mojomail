@@ -44,7 +44,7 @@ void DownloadListener::SetCancelListener(CancelDownloadListener* cancelListener)
 }
 
 // This is called when the bus subscription is called (e.g. cancelled from UI)
-MojErr DownloadListener::Cancelled(MojServiceMessage* msg)
+MojErr DownloadListener::Cancelled(MojServiceMessage*  /*msg*/)
 {
 	m_cancelled = true;
 

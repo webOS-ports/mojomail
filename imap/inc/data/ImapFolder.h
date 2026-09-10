@@ -27,7 +27,7 @@ class ImapFolder : public Folder
 {
 public:
 	ImapFolder();
-	virtual ~ImapFolder();
+	~ImapFolder() override;
 
 	void SetFolderName(const std::string& folderName) { m_folderName = folderName; }
 	void SetDelimiter(const std::string& delimiter) { m_delimiter = delimiter; }

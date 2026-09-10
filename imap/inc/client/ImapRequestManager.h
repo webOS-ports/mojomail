@@ -46,7 +46,7 @@ class ImapRequestManager : public MojSignalHandler
 
 public:
 	ImapRequestManager(ImapSession& session);
-	virtual ~ImapRequestManager();
+	~ImapRequestManager() override;
 	
 	/**
 	 * Send a request with a timeout, and register a response handler.

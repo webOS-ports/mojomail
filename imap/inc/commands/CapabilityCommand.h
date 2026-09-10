@@ -28,9 +28,9 @@ class CapabilityCommand : public ImapSessionCommand
 {
 public:
 	CapabilityCommand(ImapSession& session);
-	virtual ~CapabilityCommand();
+	~CapabilityCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 protected:
 	MojErr Response();
 

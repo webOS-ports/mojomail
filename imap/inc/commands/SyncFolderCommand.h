@@ -30,13 +30,13 @@ class SyncFolderCommand : public ImapClientCommand
 {
 public:
 	SyncFolderCommand(ImapClient& client, const MojObject& folderId, SyncParams params);
-	virtual ~SyncFolderCommand();
+	~SyncFolderCommand() override;
 
-	void Status(MojObject& status) const;
-	std::string Describe() const;
+	void Status(MojObject& status) const override;
+	std::string Describe() const override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 	void PrepareSync();
 
 	void GetFolder();
@@ -53,7 +53,7 @@ protected:
 	void CleanupActivities();
 	MojErr CleanupActivitiesDone();
 
-	void Cleanup();
+	void Cleanup() override;
 
 	MojObject m_folderId;
 	SyncParams m_syncParams;

@@ -256,7 +256,7 @@ void SemanticActions::ParseExtraHeaders(const std::string& headerString)
 			if(end != string::npos) {
 				string line = headerString.substr(offset, end - offset);
 
-				size_t colonPos = line.find(":");
+				size_t colonPos = line.find(':');
 				if(colonPos != string::npos && colonPos != line.size()) {
 					string header = line.substr(0, colonPos);
 					string value = line.substr(colonPos + 1);

@@ -26,12 +26,12 @@ class LoginCommand : public ImapSessionCommand
 {
 public:
 	LoginCommand(ImapSession& session);
-	virtual ~LoginCommand();
+	~LoginCommand() override;
 	
-	void RunImpl();
+	void RunImpl() override;
 	MojErr LoginResponse();
 	
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	static const int LOGIN_TIMEOUT;
 

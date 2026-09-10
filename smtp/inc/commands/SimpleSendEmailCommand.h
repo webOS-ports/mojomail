@@ -31,11 +31,11 @@ public:
 	static const char* const	DATA_COMMAND_STRING;
 
 	SimpleSendEmailCommand(SmtpSession& session, const std::string& fromAddress, const std::vector<std::string>& toAddress, const std::string& data);
-	virtual ~SimpleSendEmailCommand();
+	~SimpleSendEmailCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 	int					m_state;
 	unsigned int		m_toIdx;

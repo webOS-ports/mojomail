@@ -29,10 +29,10 @@ class DeleteFoldersCommand : public ImapClientCommand
 {
 public:
 	DeleteFoldersCommand(ImapClient& client, const MojObject::ObjectVec& folderIds);
-	virtual ~DeleteFoldersCommand();
+	~DeleteFoldersCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void DeleteActivities();
 	MojErr DeleteActivitiesDone();

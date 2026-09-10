@@ -39,7 +39,7 @@ void DeleCommand::RunImpl()
 	SendCommand(command.str());
 }
 
-MojErr DeleCommand::HandleResponse(const std::string& line)
+MojErr DeleCommand::HandleResponse(const std::string&  /*line*/)
 {
 	Complete();
 

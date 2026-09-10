@@ -104,7 +104,7 @@ public:
 
 	SmtpSession(MojService * service);
 	SmtpSession(boost::shared_ptr<SmtpAccount> account, MojService * service);
-	virtual ~SmtpSession();
+	~SmtpSession() override;
 
 	// Remember to update GetStateName()
 	enum State {
@@ -208,7 +208,7 @@ public:
 	FileCacheClient& 					GetFileCacheClient();
 	const boost::shared_ptr<SmtpAccount>& GetAccount();
 
-	virtual void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 	void Validate();
 	void Send();
@@ -220,7 +220,7 @@ public:
 	void SendMail(const MojObject emailId, MojSignal<SmtpSession::SmtpError>::SlotRef);
 	void ClearAccount();
 	
-	MojRefCountedPtr<MojServiceRequest> CreateRequest();
+	MojRefCountedPtr<MojServiceRequest> CreateRequest() override;
 
 	void SetClient(SmtpClient* client) { m_client = client; }
 	bool IsReadyForShutdown() { return m_canShutdown; }

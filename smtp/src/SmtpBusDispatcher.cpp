@@ -96,7 +96,7 @@ MojErr SmtpBusDispatcher::RegisterMethods()
 	return MojErrNone;
 }
 
-MojErr SmtpBusDispatcher::Ping(MojServiceMessage* msg, MojObject& payload)
+MojErr SmtpBusDispatcher::Ping(MojServiceMessage* msg, MojObject&  /*payload*/)
 {
 	MojErr err;
 	
@@ -106,7 +106,7 @@ MojErr SmtpBusDispatcher::Ping(MojServiceMessage* msg, MojObject& payload)
 	return MojErrNone;
 }
 
-MojErr SmtpBusDispatcher::Status(MojServiceMessage* msg, MojObject& payload)
+MojErr SmtpBusDispatcher::Status(MojServiceMessage* msg, MojObject&  /*payload*/)
 {
 	MojErr err;
 	MojObject status;
@@ -680,7 +680,7 @@ void SmtpBusDispatcher::AccountUpdater::UpdateAccount()
 	}
 }
 
-MojErr SmtpBusDispatcher::AccountUpdater::ActivityUpdated(Activity * activity, Activity::EventType e)
+MojErr SmtpBusDispatcher::AccountUpdater::ActivityUpdated(Activity *  /*activity*/, Activity::EventType e)
 {
 	MojLogInfo(s_log, "AccountUpdater has updated activity, activityId=%s activityName=%s", m_activityId.data(), m_activityName.data());
 
@@ -774,7 +774,7 @@ void SmtpBusDispatcher::OutboxSyncer::SyncOutbox()
 	}
 }
 
-MojErr SmtpBusDispatcher::OutboxSyncer::ActivityUpdated(Activity * activity, Activity::EventType event)
+MojErr SmtpBusDispatcher::OutboxSyncer::ActivityUpdated(Activity *  /*activity*/, Activity::EventType event)
 {
 	MojLogInfo(s_log, "Outboxsyncer has updated activity, activityId=%s activityName=%s event=%d", m_activityId.data(), m_activityName.data(), event);
 	

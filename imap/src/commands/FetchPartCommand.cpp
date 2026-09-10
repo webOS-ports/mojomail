@@ -45,7 +45,7 @@ const size_t FetchPartCommand::PREVIEW_TEXT_LENGTH = 128;
 const int FetchPartCommand::FETCH_PROGRESS_TIMEOUT = 120; // 2 minutes with no updates
 
 FetchPartCommand::FetchPartCommand(ImapSession& session,
-	const MojObject& folderId, const MojObject& emailId, const MojObject& partId, Priority priority)
+	const MojObject&  /*folderId*/, const MojObject& emailId, const MojObject& partId, Priority priority)
 : ImapSessionCommand(session, priority),
   m_emailId(emailId),
   m_partId(partId),

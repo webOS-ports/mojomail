@@ -28,9 +28,9 @@ class DownloadPartCommand : public PopClientCommand
 {
 public:
 	DownloadPartCommand(PopClient& client, const MojObject& folderId, const MojObject& emailId, const MojObject& partId, boost::shared_ptr<DownloadListener>& listener);
-	~DownloadPartCommand();
+	~DownloadPartCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	MojObject							m_folderId;
 	MojObject							m_emailId;

@@ -29,24 +29,24 @@ class NoopIdleCommand : public BaseIdleCommand
 {
 public:
 	NoopIdleCommand(ImapSession& session, const MojObject& folderId, int timeoutSeconds);
-	virtual ~NoopIdleCommand();
+	~NoopIdleCommand() override;
 
 protected:
 	static const int NOOP_THRESHOLD; // how long before we need to issue a NOOP to test if it's still alive
 
-	void RunImpl();
+	void RunImpl() override;
 
 	void SetupTimeout();
 
 	MojErr WakeupActivityUpdate(Activity* activity, Activity::EventType);
 	MojErr WakeupActivityError(Activity* activity, Activity::ErrorType, const std::exception& e);
 
-	void EndIdle();
+	void EndIdle() override;
 
 	void	SendNoop();
 	MojErr	NoopResponse();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	MojObject	m_folderId;
 	int			m_timeoutSeconds;

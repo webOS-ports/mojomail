@@ -229,7 +229,7 @@ void SyncSession::SyncSessionComplete()
 	}
 }
 
-MojErr SyncSession::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr SyncSession::UpdateAccountResponse(MojObject&  /*response*/, MojErr  /*err*/)
 {
 	BaseSyncSession::SyncSessionComplete();
 	return MojErrNone;

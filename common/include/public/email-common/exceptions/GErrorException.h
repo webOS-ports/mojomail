@@ -28,12 +28,12 @@ class GErrorException : public MailException
 {
 public:
 	GErrorException(const GError* error, const char* filename, int line);
-	virtual ~GErrorException() throw() {}
+	~GErrorException() throw() override {}
 	
 	static void CheckError(GError* err, const char* filename, int line);
 	static GErrorException ThrowAndFreeError(GError* err, const char* filename, int line);
 
-	MailError::ErrorInfo GetErrorInfo() const;
+	MailError::ErrorInfo GetErrorInfo() const override;
 
 protected:
 	GQuark	m_domain;
@@ -44,13 +44,13 @@ class PslErrorException : public MailException
 {
 public:
 	PslErrorException(PslError pslError, const char* filename, int line);
-	virtual ~PslErrorException() throw() {}
+	~PslErrorException() throw() override {}
 
 	PslError GetPslError() const { return m_pslError; }
 
 	void SetSSLVerifyResult(int sslVerifyResult);
 
-	virtual MailError::ErrorInfo GetErrorInfo() const;
+	MailError::ErrorInfo GetErrorInfo() const override;
 
 	static MailError::ErrorInfo GetSSLVerifyErrorInfo(int verifyResult);
 

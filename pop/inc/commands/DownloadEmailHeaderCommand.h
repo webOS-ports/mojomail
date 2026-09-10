@@ -32,16 +32,16 @@ public:
 
 	DownloadEmailHeaderCommand(PopSession& session, int msgNum,
 			const EmailPtr& email, HeaderDoneSignal::SlotRef doneSlot);
-	virtual ~DownloadEmailHeaderCommand();
+	~DownloadEmailHeaderCommand() override;
 
-	void 			RunImpl();
-	virtual MojErr 	HandleResponse(const std::string& line);
+	void 			RunImpl() override;
+	MojErr 	HandleResponse(const std::string& line) override;
 
 protected:
 	void			ParseFailed();
-	virtual void 	Complete();
-	virtual void	Cleanup();
-	virtual void 	Failure(const std::exception& exc);
+	void 	Complete() override;
+	void	Cleanup() override;
+	void 	Failure(const std::exception& exc) override;
 
 	int 					m_msgNum;
 	MojRefCountedPtr<AsyncEmailParser>	m_emailParser;

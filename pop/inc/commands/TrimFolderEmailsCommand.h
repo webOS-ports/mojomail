@@ -30,10 +30,10 @@ public:
 	static const int LOAD_EMAIL_BATCH_SIZE;  // batch size to load emails from database
 
 	TrimFolderEmailsCommand(PopSession& session, const MojObject& folderId, int trimCount, UidCache& uidCache);
-	~TrimFolderEmailsCommand();
+	~TrimFolderEmailsCommand() override;
 
 private:
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	void 			GetLocalEmails();
 	MojErr			GetLocalEmailsResponse(MojObject& response, MojErr err);
 	void			DeleteLocalEmails();

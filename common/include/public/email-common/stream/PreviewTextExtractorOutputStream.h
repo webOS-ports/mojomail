@@ -26,10 +26,10 @@ class PreviewTextExtractorOutputStream : public ChainedOutputStream
 {
 public:
 	PreviewTextExtractorOutputStream(const OutputStreamPtr& sink, size_t previewLength);
-	virtual ~PreviewTextExtractorOutputStream();
+	~PreviewTextExtractorOutputStream() override;
 
 	// Overrides BaseOutputStream
-	void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	const std::string& GetPreviewText();
 

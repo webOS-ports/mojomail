@@ -114,7 +114,7 @@ void DeleteServerEmailsCommand::MoveDeletedEmailToTrashFolder()
 	}
 }
 
-MojErr DeleteServerEmailsCommand::MoveEmailToTrashFolderResponse(MojObject& response, MojErr err)
+MojErr DeleteServerEmailsCommand::MoveEmailToTrashFolderResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

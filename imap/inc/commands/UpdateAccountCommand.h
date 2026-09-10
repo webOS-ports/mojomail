@@ -38,10 +38,10 @@ class UpdateAccountCommand : public ImapClientCommand
 {
 public:
 	UpdateAccountCommand(ImapClient& client, ActivityPtr activity, bool credentialsChanged);
-	virtual ~UpdateAccountCommand();
+	~UpdateAccountCommand() override;
 
-	virtual void RunImpl();
-	virtual void Status(MojObject& status) const;
+	void RunImpl() override;
+	void Status(MojObject& status) const override;
 
 private:
 	MojObject					m_accountId;

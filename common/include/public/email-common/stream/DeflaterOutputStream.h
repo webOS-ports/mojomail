@@ -28,10 +28,10 @@ public:
 	// Note: memory usage is defined in the zlib manual as:
 	// deflate memory usage (bytes) = (1 << (windowBits+2)) + (1 << (memLevel+9))
 	DeflaterOutputStream(const OutputStreamPtr& sink, int windowBits = -8, int compressLevel = 8);
-	virtual ~DeflaterOutputStream();
+	~DeflaterOutputStream() override;
 
-	virtual void Write(const char* src, size_t length);
-	virtual void Flush(FlushType flushType = FullFlush);
+	void Write(const char* src, size_t length) override;
+	void Flush(FlushType flushType = FullFlush) override;
 
 	struct DeflateStats {
 		DeflateStats() : bytesIn(0), bytesOut(0) {}

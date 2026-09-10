@@ -31,14 +31,14 @@ class PopSessionCommand : public PopCommand
 {
 public:
 	PopSessionCommand(PopSession& session, Priority priority = NormalPriority);
-	virtual ~PopSessionCommand();
+	~PopSessionCommand() override;
 
-	virtual void Run();
+	void Run() override;
 
 protected:
-	virtual void RunImpl() = 0;
-	virtual void Complete();
-	virtual void Failure(const std::exception& exc);
+	void RunImpl() override = 0;
+	void Complete() override;
+	void Failure(const std::exception& exc) override;
 	virtual void NetworkFailure(MailError::ErrorCode errCode, const std::exception& ex);
 
 	PopSession&				m_session;

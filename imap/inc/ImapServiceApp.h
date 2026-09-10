@@ -36,10 +36,10 @@ public:
 	ImapServiceApp();
 
 	// Overrides MojApp::open
-	virtual MojErr open();
+	MojErr open() override;
 	
 	// Overrides MojApp::configure
-	virtual MojErr configure(const MojObject& conf);
+	MojErr configure(const MojObject& conf) override;
 
 	MojDbServiceClient&		GetDbClient()	{ return m_dbClient; }
 	MojLunaService& 		GetService()	{ return m_service; }

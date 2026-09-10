@@ -83,7 +83,7 @@ void MimeHeaderWriter::WriteAddressHeader(const char* header, const EmailAddress
 	EmailAddressList::const_iterator it;
 	
 	for(it = addresses->begin(); it != addresses->end(); it++) {
-		EmailAddressPtr address = *it;
+		const EmailAddressPtr& address = *it;
 		if(it != addresses->begin())
 			out.append(", ");
 		

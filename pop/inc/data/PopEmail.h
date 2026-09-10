@@ -32,7 +32,7 @@ public:
 
 	PopEmail();
 	PopEmail(const Email& email);
-	virtual ~PopEmail();
+	~PopEmail() override;
 
 	// Setters
 	void SetServerUID(const std::string& uid) 				{ m_serverUid = uid; }

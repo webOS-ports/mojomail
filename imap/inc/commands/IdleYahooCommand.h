@@ -29,16 +29,16 @@ class IdleYahooCommand : public BaseIdleCommand
 {
 public:
 	IdleYahooCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~IdleYahooCommand();
+	~IdleYahooCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	// Unsubscribe the yahoo service.
-	void EndIdle();
+	void EndIdle() override;
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
-	std::string Describe() const;
+	std::string Describe() const override;
 
 protected:
 
@@ -49,9 +49,9 @@ protected:
 	void SubscribeTimeout();
 	MojErr SubscriptionResponse(MojObject& response, MojErr err);
 
-	virtual void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
-	void Cleanup();
+	void Cleanup() override;
 
 	bool 		m_subscribedYahoo;
 	bool 		m_syncInProgress;

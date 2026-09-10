@@ -238,7 +238,7 @@ void AsyncEmailParser::HandleHeader(const std::string& origFieldName, const std:
 	}
 }
 
-void AsyncEmailParser::HandleEndHeaders(bool incompleteHeaders)
+void AsyncEmailParser::HandleEndHeaders(bool  /*incompleteHeaders*/)
 {
 	// If no content-type was specified, assume it's text/plain
 	if (CurrentPart().GetMimeType().empty()) {

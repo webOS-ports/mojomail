@@ -34,8 +34,8 @@ public:
 	static const char* const ServiceName;
 
 	PopMain();
-	virtual MojErr open();
-	virtual MojErr close();
+	MojErr open() override;
+	MojErr close() override;
 
 	//MojLunaService& GetService();
 
@@ -44,8 +44,8 @@ public:
 private:
 	typedef MojReactorApp<MojGmainReactor> Base;
 
-	virtual MojErr handleArgs(const StringVec& args);
-	virtual MojErr displayUsage();
+	MojErr handleArgs(const StringVec& args) override;
+	MojErr displayUsage() override;
 
 	static PopMain* 					s_instance;
 	MojRefCountedPtr<PopBusDispatcher> 	m_handler;

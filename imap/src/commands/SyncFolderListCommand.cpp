@@ -472,7 +472,7 @@ void SyncFolderListCommand::CreateNewFolders()
 	m_session.GetDatabaseInterface().CreateFolders(m_createFoldersSlot, newFolderObjs);
 }
 
-MojErr SyncFolderListCommand::CreateNewFoldersResponse(MojObject& response, MojErr err)
+MojErr SyncFolderListCommand::CreateNewFoldersResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 	
@@ -504,7 +504,7 @@ void SyncFolderListCommand::UpdateAccount()
 	}
 }
 
-MojErr SyncFolderListCommand::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr SyncFolderListCommand::UpdateAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 		
@@ -543,7 +543,7 @@ void SyncFolderListCommand::SetupWatchDraftsActivity()
 
 }
 
-MojErr SyncFolderListCommand::SetupWatchDraftsActivityResponse(MojObject& response, MojErr err)
+MojErr SyncFolderListCommand::SetupWatchDraftsActivityResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

@@ -30,10 +30,10 @@ public:
 	// Note: memory usage is defined in the zlib manual as:
 	// inflate memory usage (bytes) = (1 << windowBits) + 1440*2*sizeof(int)
 	InflaterInputStream(const InputStreamPtr& inputStream, int windowBits = -15);
-	virtual ~InflaterInputStream();
+	~InflaterInputStream() override;
 
-	virtual void	StartReading();
-	virtual size_t	HandleData(const char* data, size_t length, bool eof);
+	void	StartReading() override;
+	size_t	HandleData(const char* data, size_t length, bool eof) override;
 
 	struct InflateStats {
 		InflateStats() : bytesIn(0), bytesOut(0) {}

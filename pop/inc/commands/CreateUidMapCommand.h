@@ -30,9 +30,9 @@ class CreateUidMapCommand : public PopSessionCommand
 {
 public:
 	CreateUidMapCommand(PopSession& session, boost::shared_ptr<UidMap>& uidMapPtr);
-	~CreateUidMapCommand();
+	~CreateUidMapCommand() override;
 
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr 			GetUidlCommandResponse();
 	MojErr			GetListCommandResponse();
 private:

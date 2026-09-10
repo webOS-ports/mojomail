@@ -36,7 +36,7 @@ public:
 	{
 	}
 
-	virtual ~Rfc3501TokenizerException() throw() {}
+	~Rfc3501TokenizerException() throw() override {}
 };
 
 /*

@@ -204,7 +204,7 @@ void AsyncEmailWriter::WriteQueuedParts()
 	WriteParts();
 }
 
-MojErr AsyncEmailWriter::WritePartDone(const std::exception* e)
+MojErr AsyncEmailWriter::WritePartDone(const std::exception*  /*e*/)
 {
 	try {
 		WritePartFooter();
@@ -460,7 +460,7 @@ void FilePartWriter::PartFinished()
 	} CATCH_AS_PART_FAILED
 }
 
-void FilePartWriter::WritePartFailed(const std::exception& e)
+void FilePartWriter::WritePartFailed(const std::exception&  /*e*/)
 {
 	m_partChannelReadableSlot.cancel();
 

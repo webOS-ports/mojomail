@@ -28,7 +28,7 @@ StoreResponseParser::~StoreResponseParser()
 {
 }
 
-void StoreResponseParser::HandleResponse(ImapStatusCode status, const std::string& response)
+void StoreResponseParser::HandleResponse(ImapStatusCode  /*status*/, const std::string&  /*response*/)
 {
 	// FIXME handle errors
 	m_responsesLeft--;

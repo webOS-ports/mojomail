@@ -47,7 +47,7 @@ public:
 
 protected:
 	void BuildResponse(MojObject& response, MojInt64 bytesDownloaded, MojInt64 totalBytes);
-	virtual ~DownloadListener();
+	~DownloadListener() override;
 
 	MojErr Cancelled(MojServiceMessage* msg);
 

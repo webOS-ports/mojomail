@@ -45,7 +45,7 @@ class ImapEmail : public Email
 {
 public:
 	ImapEmail();
-	virtual ~ImapEmail();
+	~ImapEmail() override;
 
 	void SetUID(UID uid) { m_uid = uid; }
 	UID GetUID() const { return m_uid; }

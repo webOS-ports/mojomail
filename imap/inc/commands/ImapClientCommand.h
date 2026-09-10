@@ -27,7 +27,7 @@ class ImapClientCommand : public ImapCommand
 {
 public:
 	ImapClientCommand(ImapClient& client, Priority priority = NormalPriority);
-	virtual ~ImapClientCommand();
+	~ImapClientCommand() override;
 
 protected:
 	ImapClient&		m_client;

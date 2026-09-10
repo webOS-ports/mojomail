@@ -87,9 +87,9 @@ public:
 			MojObject::ObjectVec& oldEmailIds,
 			MojObject::ObjectVec& serverDeletedEmailIds,
 			LocalDeletedEmailsVec& localDeletedEmailUids);
-	~ReconcileEmailsCommand();
+	~ReconcileEmailsCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 	const ReconcileInfoQueue& GetReconcileInfoQueue() 	{ return m_reconcileQueue; }
 
 	MojErr	GetLocalEmailsResponse(MojObject& response, MojErr err);

@@ -31,13 +31,13 @@ class ConnectCommand : public PopSessionCommand
 {
 public:
 	ConnectCommand(PopSession& session);
-	virtual ~ConnectCommand();
+	~ConnectCommand() override;
 
 	MojErr Connected(const std::exception* exc);
 	MojErr HandleResponse();
 
 protected:
-	virtual void RunImpl();
+	void RunImpl() override;
 	SocketConnection::ConnectedSignal::Slot<ConnectCommand>	m_connectedSlot;
 	LineReader::LineAvailableSignal::Slot<ConnectCommand> m_handleResponseSlot;
 

@@ -34,7 +34,7 @@ public:
 
 protected:
 	PartWriter() : m_paused(false), m_doneSignal(this) {}
-	virtual ~PartWriter() {}
+	~PartWriter() override {}
 
 public:
 	virtual void WriteToStream(const OutputStreamPtr& outputStream, PartWrittenSignal::SlotRef doneSlot) = 0;
@@ -55,17 +55,17 @@ public:
 	typedef MojSignal<const std::exception*> PartWrittenSignal;
 
 	FilePartWriter();
-	virtual ~FilePartWriter();
+	~FilePartWriter() override;
 
 	void SetChannelFactory(const boost::shared_ptr<AsyncIOChannelFactory>& factory);
 
 	void OpenFile(const std::string& fileName);
-	void WriteToStream(const OutputStreamPtr& outputStream, PartWrittenSignal::SlotRef doneSlot);
+	void WriteToStream(const OutputStreamPtr& outputStream, PartWrittenSignal::SlotRef doneSlot) override;
 
 	// AsyncWriter methods
-	void PauseWriting();
-	void ResumeWriting();
-	void AbortWriting();
+	void PauseWriting() override;
+	void ResumeWriting() override;
+	void AbortWriting() override;
 
 protected:
 	static MojLogger& s_log;
@@ -94,17 +94,17 @@ class InputStreamPartWriter : public PartWriter, public InputStreamSink
 {
 public:
 	InputStreamPartWriter(const InputStreamPtr& inputStream);
-	virtual ~InputStreamPartWriter();
+	~InputStreamPartWriter() override;
 
 	// PartWriter methods
-	virtual void WriteToStream(const OutputStreamPtr& outputStream, PartWrittenSignal::SlotRef doneSlot);
+	void WriteToStream(const OutputStreamPtr& outputStream, PartWrittenSignal::SlotRef doneSlot) override;
 
 	// AsyncWriter methods
-	void PauseWriting();
-	void ResumeWriting();
+	void PauseWriting() override;
+	void ResumeWriting() override;
 
 protected:
-	size_t HandleData(const char* data, size_t length, bool eof);
+	size_t HandleData(const char* data, size_t length, bool eof) override;
 };
 
 class AsyncEmailWriter : public EmailWriter, public AsyncWriter, public MojSignalHandler
@@ -113,7 +113,7 @@ public:
 	typedef MojSignal<const std::exception*> EmailWrittenSignal;
 	
 	AsyncEmailWriter(Email& email);
-	virtual ~AsyncEmailWriter();
+	~AsyncEmailWriter() override;
 	
 	/**
 	 * Used for testing.
@@ -137,9 +137,9 @@ public:
 	void WriteEmail(EmailWrittenSignal::SlotRef doneSlot);
 	
 	// Pause writing parts
-	void PauseWriting();
-	void ResumeWriting();
-	void AbortWriting();
+	void PauseWriting() override;
+	void ResumeWriting() override;
+	void AbortWriting() override;
 	
 protected:
 	static MojLogger& s_log;

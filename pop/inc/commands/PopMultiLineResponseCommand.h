@@ -27,11 +27,11 @@ public:
 	static const char* const	TERMINATOR_CHARS;
 
 	PopMultiLineResponseCommand(PopSession& session);
-	virtual ~PopMultiLineResponseCommand();
+	~PopMultiLineResponseCommand() override;
 
 protected:
-	virtual MojErr	ReceiveResponse();
-	virtual void Complete();
+	MojErr	ReceiveResponse() override;
+	void Complete() override;
 
 	/**
 	 * Test a line to see whether it is the end of the response.

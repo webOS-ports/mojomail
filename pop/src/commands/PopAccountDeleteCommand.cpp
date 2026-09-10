@@ -56,7 +56,7 @@ void PopAccountDeleteCommand::RunImpl()
 	}
 }
 
-MojErr PopAccountDeleteCommand::DeletePopAccountResponse(MojObject& response, MojErr err)
+MojErr PopAccountDeleteCommand::DeletePopAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 	try {
@@ -73,7 +73,7 @@ MojErr PopAccountDeleteCommand::DeletePopAccountResponse(MojObject& response, Mo
 	return MojErrNone;
 }
 
-MojErr PopAccountDeleteCommand::SmtpAccountDeletedResponse(MojObject& response, MojErr err)
+MojErr PopAccountDeleteCommand::SmtpAccountDeletedResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

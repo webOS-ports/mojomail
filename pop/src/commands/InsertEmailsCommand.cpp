@@ -74,7 +74,7 @@ MojErr InsertEmailsCommand::SaveEmails()
 {
 	try{
 		for (PopEmail::PopEmailPtrVector::iterator itr = m_emails->begin(); itr != m_emails->end(); itr++) {
-			PopEmail::PopEmailPtr emailPtr = *itr;
+			const PopEmail::PopEmailPtr& emailPtr = *itr;
 			MojObject mojEmail;
 			PopEmailAdapter::SerializeToDatabasePopObject(*emailPtr, mojEmail);
 			MojErr err = m_persistEmails.push(mojEmail);
@@ -94,7 +94,7 @@ MojErr InsertEmailsCommand::SaveEmails()
 	return MojErrNone;
 }
 
-MojErr InsertEmailsCommand::SaveEmailsResponse(MojObject& response, MojErr err)
+MojErr InsertEmailsCommand::SaveEmailsResponse(MojObject&  /*response*/, MojErr err)
 {
 	MojErrCheck(err);
 

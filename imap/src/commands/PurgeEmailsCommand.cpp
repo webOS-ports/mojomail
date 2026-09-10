@@ -40,7 +40,7 @@ void PurgeEmailsCommand::RunImpl()
 	m_client.GetDatabaseInterface().DeleteFolderEmails(m_purgeSlot, m_folderId);
 }
 
-MojErr PurgeEmailsCommand::PurgeResponse(MojObject& response, MojErr err)
+MojErr PurgeEmailsCommand::PurgeResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

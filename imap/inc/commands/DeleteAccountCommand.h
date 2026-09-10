@@ -29,9 +29,9 @@ class DeleteAccountCommand : public ImapClientCommand
 {
 public:
 	DeleteAccountCommand(ImapClient& client, const MojRefCountedPtr<MojServiceMessage>& msg, const MojObject& payload);
-	virtual ~DeleteAccountCommand();
+	~DeleteAccountCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
 	void GetAccountInfo();

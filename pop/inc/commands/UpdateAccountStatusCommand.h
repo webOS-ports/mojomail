@@ -30,9 +30,9 @@ public:
 			boost::shared_ptr<PopAccount> account,
 			MailError::ErrorCode errCode,
 			const std::string& errMsg);
-	~UpdateAccountStatusCommand();
+	~UpdateAccountStatusCommand() override;
 
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr			UpdateAccountResponse(MojObject& response, MojErr err);
 private:
 	void			UpdateAccount();

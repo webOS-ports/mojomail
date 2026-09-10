@@ -212,7 +212,7 @@ void AuthYahooCommand::WriteCommand()
 	}
 }
 
-MojErr AuthYahooCommand::HandleResponse(const std::string& line)
+MojErr AuthYahooCommand::HandleResponse(const std::string&  /*line*/)
 {
 	SmtpSession::SmtpError error;
 

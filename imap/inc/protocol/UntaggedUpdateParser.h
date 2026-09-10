@@ -29,9 +29,9 @@ class UntaggedUpdateParser : public ImapResponseParser
 {
 public:
 	UntaggedUpdateParser(ImapSession& session);
-	virtual ~UntaggedUpdateParser();
+	~UntaggedUpdateParser() override;
 
-	bool HandleUntaggedResponse(const std::string& line);
+	bool HandleUntaggedResponse(const std::string& line) override;
 
 protected:
 	MojErr UpdateCommandResponse();

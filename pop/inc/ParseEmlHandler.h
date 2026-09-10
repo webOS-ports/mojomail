@@ -36,10 +36,10 @@ public:
 	static const int READ_TIMEOUT_IN_SECONDS;
 
 	ParseEmlHandler(PopBusDispatcher* busDispatcher, boost::shared_ptr<BusClient> bClient, MojRefCountedPtr<CommandManager> manager, MojRefCountedPtr<MojServiceMessage> msg, std::string filePath);
-	virtual ~ParseEmlHandler();
+	~ParseEmlHandler() override;
 
-	void Run();
-	void Cancel();
+	void Run() override;
+	void Cancel() override;
 
 protected:
 	static MojLogger& s_log;
@@ -55,7 +55,7 @@ private:
 	MojErr	HandleEmlDataAvailable();
 	bool 	ReadEmlAndParseData();
 	void 	GetEmlFile();
-	void 	Complete();
+	void 	Complete() override;
 
 	PopBusDispatcher*					m_popBusDispatcher;
 	boost::shared_ptr<BusClient>		m_bClient;

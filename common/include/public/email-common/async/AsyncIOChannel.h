@@ -81,7 +81,7 @@ public:
 
 protected:
 	AsyncIOChannel();
-	virtual ~AsyncIOChannel();
+	~AsyncIOChannel() override;
 	
 	virtual void SetWatchReadable(bool watch);
 	virtual void SetWatchWriteable(bool watch);

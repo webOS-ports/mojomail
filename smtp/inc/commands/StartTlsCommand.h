@@ -27,12 +27,12 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	StartTlsCommand(SmtpSession& session);
-	virtual ~StartTlsCommand();
+	~StartTlsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 	MojErr TlsNegotiated(const std::exception* exc);
 	SocketConnection::TLSReadySignal::Slot<StartTlsCommand> m_tlsNegotiatedSlot;

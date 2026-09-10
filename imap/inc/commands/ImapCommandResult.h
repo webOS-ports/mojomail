@@ -38,7 +38,7 @@ public:
 	void Done();
 
 protected:
-	virtual ~ImapCommandResult();
+	~ImapCommandResult() override;
 
 	MojSignal<>				m_doneSignal;
 	boost::exception_ptr	m_exception;

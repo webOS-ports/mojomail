@@ -30,10 +30,10 @@ class SmtpAccountEnableCommand : public SmtpCommand
 {
 public:
 	SmtpAccountEnableCommand(SmtpClient& client, const MojRefCountedPtr<MojServiceMessage>& msg);
-	virtual ~SmtpAccountEnableCommand();
+	~SmtpAccountEnableCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetMailAccount();
 	MojErr GetMailAccountResponse(MojObject& response, MojErr err);

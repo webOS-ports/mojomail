@@ -98,7 +98,7 @@ void ImapResponseParser::SetResponse(ImapStatusCode status, const string& line)
 	m_responseLine = line;
 }
 
-bool ImapResponseParser::HandleUntaggedResponse(const string& line)
+bool ImapResponseParser::HandleUntaggedResponse(const string&  /*line*/)
 {
 	return false;
 }

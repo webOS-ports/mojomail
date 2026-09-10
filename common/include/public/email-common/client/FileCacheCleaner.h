@@ -29,7 +29,7 @@ class FileCacheCleaner : public MojSignalHandler
 {
 public:
 	FileCacheCleaner(FileCacheClient& fcClient);
-	virtual ~FileCacheCleaner();
+	~FileCacheCleaner() override;
 
 	void DeletePaths(MojSignal<>::SlotRef doneSlot, const std::vector<std::string>& paths, int timeoutSeconds);
 

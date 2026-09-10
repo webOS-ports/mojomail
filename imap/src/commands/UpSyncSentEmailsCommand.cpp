@@ -156,7 +156,7 @@ void UpSyncSentEmailsCommand::PurgeSentEmail()
 	m_session.GetDatabaseInterface().DeleteEmailIds(m_purgeSentEmailSlot, m_pendingPurge);
 }
 
-MojErr UpSyncSentEmailsCommand::PurgeSentEmailResponse(MojObject& response, MojErr err)
+MojErr UpSyncSentEmailsCommand::PurgeSentEmailResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

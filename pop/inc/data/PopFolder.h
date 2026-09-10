@@ -29,7 +29,7 @@ class PopFolder : public Folder
 {
 public:
 	PopFolder();
-	virtual ~PopFolder();
+	~PopFolder() override;
 
 	void	SetLastSyncRev(int rev);
 	int		GetLastSyncRev() const;

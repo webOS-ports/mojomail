@@ -28,11 +28,11 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	UserCommand(PopSession& session, const std::string& user);
-	virtual ~UserCommand();
+	~UserCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 	std::string		m_user;
 };

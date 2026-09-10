@@ -74,7 +74,7 @@ void SyncFolderCommand::RunImpl()
 	}
 }
 
-MojErr SyncFolderCommand::OutboxSyncResponse(MojObject& response, MojErr err) {
+MojErr SyncFolderCommand::OutboxSyncResponse(MojObject&  /*response*/, MojErr err) {
 	try {
 		ErrorToException(err);
 

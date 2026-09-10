@@ -30,10 +30,10 @@ class CRLFTerminatedOutputStream : public ChainedOutputStream
 {
 public:
 	CRLFTerminatedOutputStream(const OutputStreamPtr& sink);
-	virtual ~CRLFTerminatedOutputStream();
+	~CRLFTerminatedOutputStream() override;
 
 	// Write some data to the stream
-	virtual void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 	
 	// Flush the stream at the end
 	virtual void Flush();

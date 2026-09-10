@@ -256,7 +256,7 @@ void SyncLocalChangesCommand::MergeFlags()
 	m_session.GetDatabaseInterface().MergeFlags(m_mergeFlagsSlot, m_pendingMerge);
 }
 
-MojErr SyncLocalChangesCommand::MergeFlagsResponse(MojObject& response, MojErr err)
+MojErr SyncLocalChangesCommand::MergeFlagsResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

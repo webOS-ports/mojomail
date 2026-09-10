@@ -28,8 +28,8 @@ class MailException : public std::exception
 public:
 	MailException(const char* file, int line);
 	MailException(const char* msg, const char* file, int line);
-	virtual ~MailException() throw() { };
-	virtual const char* what() const throw();
+	~MailException() throw() override { };
+	const char* what() const throw() override;
 
 	// Get mail error info
 	virtual MailError::ErrorInfo GetErrorInfo() const;
@@ -48,9 +48,9 @@ class MailNetworkTimeoutException : public MailException
 public:
 	MailNetworkTimeoutException(const char* file, int line) : MailException(file, line) {}
 	MailNetworkTimeoutException(const char* msg, const char* file, int line) : MailException(msg,file,line) {}
-	virtual ~MailNetworkTimeoutException() throw() { }
+	~MailNetworkTimeoutException() throw() override { }
 
-	virtual MailError::ErrorInfo GetErrorInfo() const
+	MailError::ErrorInfo GetErrorInfo() const override
 	{
 		return MailError::ErrorInfo(MailError::CONNECTION_TIMED_OUT);
 	}
@@ -61,9 +61,9 @@ class MailNetworkDisconnectionException : public MailException
 public:
 	MailNetworkDisconnectionException(const char* file, int line) : MailException(file, line) {}
 	MailNetworkDisconnectionException(const char* msg, const char* file, int line) : MailException(msg,file,line) {}
-	virtual ~MailNetworkDisconnectionException() throw() { }
+	~MailNetworkDisconnectionException() throw() override { }
 
-	virtual MailError::ErrorInfo GetErrorInfo() const
+	MailError::ErrorInfo GetErrorInfo() const override
 	{
 		return MailError::ErrorInfo(MailError::CONNECTION_FAILED);
 	}
@@ -74,9 +74,9 @@ class MailFileCacheNotCreatedException : public MailException
 public:
 	MailFileCacheNotCreatedException(const char* file, int line) : MailException(file, line) {}
 	MailFileCacheNotCreatedException(const char* msg, const char* file, int line) : MailException(msg,file,line) {}
-	virtual ~MailFileCacheNotCreatedException() throw() { }
+	~MailFileCacheNotCreatedException() throw() override { }
 
-	virtual MailError::ErrorInfo GetErrorInfo() const
+	MailError::ErrorInfo GetErrorInfo() const override
 	{
 		return MailError::ErrorInfo(MailError::EMAIL_SIZE_EXCEEDED);
 	}

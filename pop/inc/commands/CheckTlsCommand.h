@@ -27,12 +27,12 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	CheckTlsCommand(PopSession& session);
-	virtual ~CheckTlsCommand();
+	~CheckTlsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 };
 
 #endif /* STARTTLSCOMMAND_H_ */

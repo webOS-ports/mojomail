@@ -51,7 +51,7 @@ public:
 	};
 
 	ImapAccount();
-	virtual ~ImapAccount();
+	~ImapAccount() override;
 
 	// Aliases for GetAccountId() and SetAccountId()
 	const MojObject& GetId() const { return GetAccountId(); }

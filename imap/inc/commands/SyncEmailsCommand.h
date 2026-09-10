@@ -43,9 +43,9 @@ class SyncEmailsCommand : public ImapSyncSessionCommand
 {
 public:
 	SyncEmailsCommand(ImapSession& session, const MojObject& folderId, SyncParams syncParams = SyncParams());
-	virtual ~SyncEmailsCommand();
+	~SyncEmailsCommand() override;
 	
-	void RunImpl();
+	void RunImpl() override;
 
 	void SyncLocalChanges();
 	MojErr SyncLocalChangesDone();
@@ -77,12 +77,12 @@ public:
 	void AutoDownload();
 	MojErr AutoDownloadDone();
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
-	std::string Describe() const;
+	std::string Describe() const override;
 
-	CommandType GetType() const { return CommandType_Sync; }
-	bool Equals(const ImapCommand& other) const;
+	CommandType GetType() const override { return CommandType_Sync; }
+	bool Equals(const ImapCommand& other) const override;
 
 protected:
 	int			m_daysBack;

@@ -32,12 +32,12 @@ class AppendResponseParser : public ImapResponseParser
 public:
 	AppendResponseParser(ImapSession& session);
 	AppendResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~AppendResponseParser();
+	~AppendResponseParser() override;
 
-	void HandleResponse(ImapStatusCode status, const string& line);
-	bool HandleContinuationResponse();
+	void HandleResponse(ImapStatusCode status, const string& line) override;
+	bool HandleContinuationResponse() override;
 
-	void SetContinuationResponseSlot(ContinuationSignal::SlotRef continuationSlot);
+	void SetContinuationResponseSlot(ContinuationSignal::SlotRef continuationSlot) override;
 
 	static bool ParseUids(const std::string& line, UID& uid, UID& uidvaildity);
 

@@ -31,10 +31,10 @@ class SearchFolderCommand : public ImapSessionCommand
 {
 public:
 	SearchFolderCommand(ImapSession& session, const MojObject& folderId, const MojRefCountedPtr<SearchRequest>& searchRequest);
-	virtual ~SearchFolderCommand();
+	~SearchFolderCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 	MojErr HandleContinuation();
 	MojErr HandleSearchResponse();
 	void RequestHeaders();
@@ -42,9 +42,9 @@ protected:
 
 	void Done();
 
-	bool Cancel(CancelType cancelReason);
+	bool Cancel(CancelType cancelReason) override;
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	MojObject								m_folderId;
 	MojRefCountedPtr<SearchRequest>			m_searchRequest;

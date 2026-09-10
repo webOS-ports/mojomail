@@ -50,7 +50,7 @@ class ActivitySet : public MojSignalHandler
 	{
 	public:
 		ActivitySlot(ActivitySet* activitySet, const ActivityPtr& activity);
-		virtual ~ActivitySlot();
+		~ActivitySlot() override;
 
 		ActivityPtr			m_activity;
 
@@ -62,7 +62,7 @@ class ActivitySet : public MojSignalHandler
 
 public:
 	ActivitySet(BusClient& busClient);
-	virtual ~ActivitySet();
+	~ActivitySet() override;
 
 	// Add an activity
 	void AddActivity(const ActivityPtr& activity);

@@ -123,7 +123,7 @@ AsyncIOChannelFactory::AsyncIOChannelFactory()
 {
 }
 
-MojRefCountedPtr<AsyncIOChannel> AsyncIOChannelFactory::OpenFileDescriptor(int fd)
+MojRefCountedPtr<AsyncIOChannel> AsyncIOChannelFactory::OpenFileDescriptor(int  /*fd*/)
 {
 	throw MailException("this channel factory cannot adopt a file descriptor", __FILE__, __LINE__);
 }

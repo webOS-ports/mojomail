@@ -27,12 +27,12 @@ class TLSCommand : public ImapSessionCommand
 {
 public:
 	TLSCommand(ImapSession& session);
-	virtual ~TLSCommand();
+	~TLSCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 	MojErr StartTLSResponse();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 protected:
 	void NegotiateTLS();

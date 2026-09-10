@@ -244,7 +244,7 @@ public:
 	DecoderError(std::string msg) : m_message(msg) {
 
 	}
-	virtual ~DecoderError() throw() {
+	~DecoderError() throw() override {
 
 	}
 };

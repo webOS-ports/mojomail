@@ -544,7 +544,7 @@ void BaseSyncSession::UpdateFolder()
 	Merge(m_updateFolderSlot, folderStatus);
 }
 
-MojErr BaseSyncSession::UpdateFolderResponse(MojObject& response, MojErr err)
+MojErr BaseSyncSession::UpdateFolderResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

@@ -27,7 +27,7 @@ class NetworkStatusMonitor : public MojSignalHandler
 {
 public:
 	NetworkStatusMonitor(BusClient& busClient);
-	virtual ~NetworkStatusMonitor();
+	~NetworkStatusMonitor() override;
 
 	/**
 	 * Returns true if the network status is up to date.

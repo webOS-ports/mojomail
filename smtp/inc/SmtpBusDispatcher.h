@@ -38,7 +38,7 @@ public:
 	static MojLogger s_log;
 
 	SmtpBusDispatcher(SmtpServiceApp& app);
-	virtual ~SmtpBusDispatcher();
+	~SmtpBusDispatcher() override;
 	
 	MojErr InitHandler();
 	
@@ -89,7 +89,7 @@ private:
 		AccountCreator(SmtpBusDispatcher& dispatcher,
 					   MojServiceMessage* msg,
 					   MojObject& payload);
-		~AccountCreator();
+		~AccountCreator() override;
 
 		void CreateSmtpAccount();
 
@@ -109,7 +109,7 @@ private:
 		OutboxWatchCreator(SmtpBusDispatcher& dispatcher,
 						   MojServiceMessage* msg,
 						   MojObject& payload);
-		~OutboxWatchCreator();
+		~OutboxWatchCreator() override;
 
 		void CreateOutboxWatch();
 
@@ -136,7 +136,7 @@ private:
 						MojServiceMessage* msg,
 						MojObject& accountId,
 						MojObject& payload);
-		~AccountUpdater();
+		~AccountUpdater() override;
 
 		void UpdateAccount();
 
@@ -168,7 +168,7 @@ private:
 						   MojObject& folderId,
 						   bool force,
 						   MojObject& payload);
-		~OutboxSyncer();
+		~OutboxSyncer() override;
 
 		void SyncOutbox();
 		

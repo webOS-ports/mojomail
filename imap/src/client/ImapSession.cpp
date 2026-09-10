@@ -1182,7 +1182,7 @@ void ImapSession::IdleStarted(bool disconnectNow)
 	}
 }
 
-void ImapSession::IdleError(const std::exception& e, bool fatal)
+void ImapSession::IdleError(const std::exception& e, bool  /*fatal*/)
 {
 	MojLogError(m_log, "error while in idle: %s", e.what());
 
@@ -1648,7 +1648,7 @@ bool ImapSession::IsPushRequested(const MojObject& folderId)
 	return m_account->IsPush() && folderId == m_account->GetInboxFolderId();
 }
 
-bool ImapSession::IsPushAvailable(const MojObject& folderId)
+bool ImapSession::IsPushAvailable(const MojObject&  /*folderId*/)
 {
 	return m_account->IsYahoo() || GetCapabilities().HasCapability(Capabilities::IDLE);
 }
@@ -1770,7 +1770,7 @@ void ImapSession::ScheduleAsyncCleanup()
 	}
 }
 
-gboolean ImapSession::AsyncCleanup(gpointer data)
+gboolean ImapSession::AsyncCleanup(gpointer  /*data*/)
 {
 	s_asyncCleanupCallbackId = 0;
 	s_asyncCleanupItems.clear();

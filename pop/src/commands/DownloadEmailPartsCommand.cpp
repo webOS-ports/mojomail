@@ -71,7 +71,7 @@ void DownloadEmailPartsCommand::RunImpl()
 			EmailPartList parts =  m_email->GetPartList();
 			EmailPartList::iterator itr;
 			for (itr = parts.begin(); itr != parts.end(); itr++) {
-				EmailPartPtr part = *itr;
+				const EmailPartPtr& part = *itr;
 				if (part->GetId() == m_request->GetPartId()) {
 					m_partMimeType = part->GetMimeType();
 					break;
@@ -201,7 +201,7 @@ void DownloadEmailPartsCommand::CompleteDownloadListener()
 					EmailPartList parts = m_email->GetPartList();
 					EmailPartList::iterator itr;
 					for (itr = parts.begin(); itr != parts.end(); itr++) {
-						EmailPartPtr part = *itr;
+						const EmailPartPtr& part = *itr;
 						if (part->GetMimeType().find("text") != std::string::npos) {
 							m_partMimeType = part->GetMimeType();
 							m_partPath = part->GetLocalFilePath();

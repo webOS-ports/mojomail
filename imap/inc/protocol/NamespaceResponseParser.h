@@ -27,14 +27,14 @@ class NamespaceResponseParser : public ImapResponseParser
 
 public:
 	NamespaceResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~NamespaceResponseParser();
+	~NamespaceResponseParser() override;
 
 	void RunImpl();
 
 	const std::string& GetNamespacePrefix() const { return m_namespacePrefix; }
 
 protected:
-	bool HandleUntaggedResponse(const std::string& line);
+	bool HandleUntaggedResponse(const std::string& line) override;
 
 	std::string		m_namespacePrefix;
 };

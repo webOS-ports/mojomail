@@ -27,7 +27,7 @@ class SmtpSessionCommand : public SmtpCommand
 {
 public:
 	SmtpSessionCommand(SmtpSession& session, Priority priority = NormalPriority);
-	virtual ~SmtpSessionCommand();
+	~SmtpSessionCommand() override;
          	
 protected:
 	

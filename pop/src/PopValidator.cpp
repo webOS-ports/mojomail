@@ -143,7 +143,7 @@ void PopValidator::LoginSuccess()
 	return;
 }
 
-void PopValidator::LoginFailure(MailError::ErrorCode errorCode, const std::string& errorText)
+void PopValidator::LoginFailure(MailError::ErrorCode  /*errorCode*/, const std::string& errorText)
 {
 	m_state = State_InvalidCredentials;
 	Failure(MailError::BAD_USERNAME_OR_PASSWORD, errorText);

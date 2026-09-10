@@ -30,15 +30,15 @@ class IdleCommand : public BaseIdleCommand
 {
 public:
 	IdleCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~IdleCommand();
+	~IdleCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	// Sends DONE command to server to exit from the IDLE state
-	void EndIdle();
+	void EndIdle() override;
 
-	void Status(MojObject& status) const;
-	std::string Describe() const;
+	void Status(MojObject& status) const override;
+	std::string Describe() const override;
 
 protected:
 	void BuildUIDMap();
@@ -52,7 +52,7 @@ protected:
 	MojErr IdleContinuation();
 	MojErr IdleResponse();
 
-	virtual void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	static const int IDLE_WAKEUP_SECONDS;
 	static const int IDLE_TIMEOUT_SECONDS;

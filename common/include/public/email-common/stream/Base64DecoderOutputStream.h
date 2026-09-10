@@ -28,10 +28,10 @@ class Base64DecoderOutputStream : public ChainedOutputStream
 
 public:
 	Base64DecoderOutputStream(const OutputStreamPtr& sink);
-	virtual ~Base64DecoderOutputStream();
+	~Base64DecoderOutputStream() override;
 
 	// Write some data to the stream
-	virtual void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Flush the stream, including any chained streams
 	virtual void Flush();

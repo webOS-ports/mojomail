@@ -359,7 +359,7 @@ void ActivityBuilderFactory::BuildDeleteEmailsWatch(ActivityBuilder& builder)
 	builder.SetMetadata(metadata);
 }
 
-int	ActivityBuilderFactory::GetNextRetryIntervalMins(int currInterval)
+int	ActivityBuilderFactory::GetNextRetryIntervalMins(int  /*currInterval*/)
 {
 	// TODO: right now it will always retry in 5 minutes or later when internet connection is available
 	//       But we should get the previous retry interval to determine the next one

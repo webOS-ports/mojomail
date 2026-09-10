@@ -211,7 +211,7 @@ public:
 	/**
 	 * Updates the state machine if a command is completed.
 	 */
-	virtual void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 	/**
 	 * Updates the state machine if a command fails to complete.
@@ -248,7 +248,7 @@ public:
 
 	SyncSessionPtr		GetOrCreateSyncSession(const MojObject& folderId);
 protected :
-	virtual ~PopClient();
+	~PopClient() override;
 
 	void QueueCommand(CommandManager::CommandPtr command, bool runImmediately = false);
 	void RunCommand(CommandManager::CommandPtr command);

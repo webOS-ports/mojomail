@@ -66,7 +66,7 @@ void NoopIdleCommand::SetupTimeout()
 	m_wakeupActivity->Create(m_session.GetBusClient());
 }
 
-MojErr NoopIdleCommand::WakeupActivityUpdate(Activity* activity, Activity::EventType eventType)
+MojErr NoopIdleCommand::WakeupActivityUpdate(Activity*  /*activity*/, Activity::EventType eventType)
 {
 	if(eventType == Activity::StartEvent) {
 		m_timeExpired = true;
@@ -78,7 +78,7 @@ MojErr NoopIdleCommand::WakeupActivityUpdate(Activity* activity, Activity::Event
 	return MojErrNone;
 }
 
-MojErr NoopIdleCommand::WakeupActivityError(Activity* activity, Activity::ErrorType errorType, const exception& e)
+MojErr NoopIdleCommand::WakeupActivityError(Activity*  /*activity*/, Activity::ErrorType  /*errorType*/, const exception& e)
 {
 	MojLogWarning(m_log, "failed to create noop idle wakeup activity: %s", e.what());
 	return MojErrNone;

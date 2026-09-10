@@ -28,9 +28,9 @@ public:
 	PopAccountDeleteCommand(PopClient& client,
 							boost::shared_ptr<DatabaseInterface> dbInterface,
 							const MojObject& payload, MojRefCountedPtr<MojServiceMessage> msg);
-	virtual ~PopAccountDeleteCommand();
+	~PopAccountDeleteCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	MojErr DeletePopAccountResponse(MojObject& response, MojErr err);
 	MojErr SmtpAccountDeletedResponse(MojObject& response, MojErr err);

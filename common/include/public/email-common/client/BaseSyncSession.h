@@ -50,7 +50,7 @@ protected:
 
 public:
 	BaseSyncSession(BusClient& busClient, MojLogger& logger, const MojObject& accountId, const MojObject& folderId);
-	virtual ~BaseSyncSession();
+	~BaseSyncSession() override;
 
 	// Starts a sync session if one hasn't already been started
 	virtual void	RequestStart();

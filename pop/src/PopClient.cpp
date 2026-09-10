@@ -421,7 +421,7 @@ void PopClient::CommandComplete(Command* command)
 	CheckQueue();
 }
 
-void PopClient::CommandFailed(Command* command, MailError::ErrorCode errCode, const std::exception& exc)
+void PopClient::CommandFailed(Command* command, MailError::ErrorCode  /*errCode*/, const std::exception& exc)
 {
 	// TODO: log error to RDX report
 	MojLogError(s_log, "Error running command: %s", exc.what());

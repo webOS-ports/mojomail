@@ -211,7 +211,7 @@ MojString ImapActivityFactory::GetOutboxWatchName(const MojObject& accountId, co
 	return FormatName(OUTBOX_WATCH_NAME, accountId, folderId);
 }
 
-void ImapActivityFactory::BuildOutboxWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64 rev)
+void ImapActivityFactory::BuildOutboxWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64  /*rev*/)
 {
 	MojErr err;
 
@@ -254,7 +254,7 @@ MojString ImapActivityFactory::GetDraftsWatchName(const MojObject& accountId, co
 	return FormatName(DRAFTS_WATCH_NAME, accountId, folderId);
 }
 
-void ImapActivityFactory::BuildDraftsWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64 rev)
+void ImapActivityFactory::BuildDraftsWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64  /*rev*/)
 {
 	MojErr err;
 

@@ -27,7 +27,7 @@ class MojErrException : public MailException
 public:
 	MojErrException(MojErr err, const char* file, int line);
 	MojErrException(MojErr err, const char* msg, const char* file, int line);
-	virtual ~MojErrException() throw() {};
+	~MojErrException() throw() override {};
 	
 	MojErr GetMojErr() const { return m_err; }
 	

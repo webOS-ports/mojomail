@@ -39,7 +39,7 @@ public:
 	static const int DEFAULT_MAX_CONCURRENT_COMMANDS = 4;
 
 	CommandManager(size_t maxConcurrentCommands = DEFAULT_MAX_CONCURRENT_COMMANDS, bool startPaused = false);
-	virtual ~CommandManager();
+	~CommandManager() override;
 
 	/**
 	 * Adds a command to the queue.
@@ -67,7 +67,7 @@ public:
 	 * Called by a Command when it is done executing.
 	 * This will move the command to the completed commands list and mark it for deletion.
 	 */
-	virtual void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 	/**
 	 * Deletes all completed commands.

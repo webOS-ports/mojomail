@@ -24,12 +24,12 @@ class DbMergeRequest : public MojSignalHandler
 {
 public:
 	DbMergeRequest(DbMergeProxy& client, MojDbClient::Signal::SlotRef appSlot, MojUInt32 flags);
-	virtual ~DbMergeRequest();
+	~DbMergeRequest() override;
 
 protected:
 	virtual MojErr execute() = 0;
 	MojErr handleResponse(MojObject& response, MojErr err);
-	MojErr handleCancel();
+	MojErr handleCancel() override;
 
 	DbMergeProxy&		m_dbClient;
 	MojUInt32			m_flags;
@@ -93,9 +93,9 @@ public:
 		MojErr err = m_array.append(begin, end);
 		ErrorToException(err);
 	}
-	virtual ~DbMergeArrayRequest() {}
+	~DbMergeArrayRequest() override {}
 
-	MojErr execute()
+	MojErr execute() override
 	{
 		return m_dbClient.realMerge(m_dbSlot, m_array.begin(), m_array.end(), m_flags);
 	}
@@ -113,9 +113,9 @@ public:
 	  m_props(props)
 	{
 	}
-	virtual ~DbMergePropsRequest() {}
+	~DbMergePropsRequest() override {}
 
-	MojErr execute()
+	MojErr execute() override
 	{
 		return m_dbClient.realMerge(m_dbSlot, m_query, m_props, m_flags);
 	}

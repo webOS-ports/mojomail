@@ -30,9 +30,9 @@ class FetchNewHeadersCommand : public ImapSessionCommand
 {
 public:
 	FetchNewHeadersCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~FetchNewHeadersCommand();
+	~FetchNewHeadersCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	static const std::string FETCH_ITEMS;
 

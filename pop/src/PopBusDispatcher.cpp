@@ -94,7 +94,7 @@ MojErr PopBusDispatcher::Init()
 }
 
 // callback for MojoDB putKind
-MojErr PopBusDispatcher::PutKindResult(MojObject& result, MojErr err)
+MojErr PopBusDispatcher::PutKindResult(MojObject&  /*result*/, MojErr err)
 {
 	MojLogTrace(s_log);
 
@@ -687,7 +687,7 @@ PopBusDispatcher::ClientPtr PopBusDispatcher::GetOrCreateClient(MojObject& accou
 	return client;
 }
 
-MojErr PopBusDispatcher::Status(MojServiceMessage* msg, MojObject& payload)
+MojErr PopBusDispatcher::Status(MojServiceMessage* msg, MojObject&  /*payload*/)
 {
 	MojErr err;
 	MojObject status;
@@ -878,7 +878,7 @@ MojErr PopBusDispatcher::AccountCreator::CreatePopAccountResponse(MojObject& res
 	return MojErrNone;
 }
 
-MojErr PopBusDispatcher::AccountCreator::SmtpAccountCreatedResponse(MojObject& response, MojErr err)
+MojErr PopBusDispatcher::AccountCreator::SmtpAccountCreatedResponse(MojObject&  /*response*/, MojErr err)
 {
 	if (err)
 		return m_msg->replyError(err);
@@ -940,7 +940,7 @@ PopBusDispatcher::Subscription::~Subscription()
 	MojLogTrace(s_log);
 }
 
-MojErr PopBusDispatcher::Subscription::HandleCancel(MojServiceMessage* msg)
+MojErr PopBusDispatcher::Subscription::HandleCancel(MojServiceMessage*  /*msg*/)
 {
 	MojLogTrace(s_log);
 

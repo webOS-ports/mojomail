@@ -38,7 +38,7 @@ class Activity : public MojSignalHandler
 {
 public:
 	Activity();
-	virtual ~Activity();
+	~Activity() override;
 	
 	enum ActivityPurpose {
 		GenericActivity,

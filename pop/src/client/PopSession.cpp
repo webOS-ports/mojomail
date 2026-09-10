@@ -471,7 +471,7 @@ void PopSession::FetchEmail(Request::RequestPtr request)
 	CheckQueue();
 }
 
-void PopSession::DisableAccount(MojServiceMessage* msg)
+void PopSession::DisableAccount(MojServiceMessage*  /*msg*/)
 {
 	m_state = State_AccountDisabled;
 	CheckQueue();

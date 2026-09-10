@@ -34,9 +34,9 @@ public:
 	DeleteServerEmailsCommand(PopSession& session,
 			const ReconcileEmailsCommand::LocalDeletedEmailsVec& localDeletedEmailUids,
 			UidCache& uidCache);
-	virtual ~DeleteServerEmailsCommand();
+	~DeleteServerEmailsCommand() override;
 
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr			DeleteEmailResponse();
 private:
 	void			DeleteNextEmail();

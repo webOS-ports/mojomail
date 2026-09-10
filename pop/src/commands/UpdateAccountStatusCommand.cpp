@@ -54,7 +54,7 @@ void UpdateAccountStatusCommand::UpdateAccount()
 	m_session.GetDatabaseInterface().UpdateItem(m_updateResponseSlot, mojAccount);
 }
 
-MojErr UpdateAccountStatusCommand::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr UpdateAccountStatusCommand::UpdateAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	ErrorToException(err);
 

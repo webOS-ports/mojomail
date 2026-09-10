@@ -39,18 +39,18 @@ public:
 			boost::shared_ptr<PopAccount> account,
 			MojServiceMessage* msg,
 			MojObject& protocolSettings);
-	virtual ~PopValidator();
+	~PopValidator() override;
 	
-	void Run();
-	void Cancel();
-	void Disconnected();
+	void Run() override;
+	void Cancel() override;
+	void Disconnected() override;
 
-	void LoginSuccess();
-	void LoginFailure(MailError::ErrorCode errCode, const std::string& errorText);
-	virtual void ConnectFailure(MailError::ErrorCode errCode, const std::string& errMsg);
+	void LoginSuccess() override;
+	void LoginFailure(MailError::ErrorCode errCode, const std::string& errorText) override;
+	void ConnectFailure(MailError::ErrorCode errCode, const std::string& errMsg) override;
 	void Failure(MailError::ErrorCode errorCode, const std::string& errorText);
 	void Failure(const std::string& errorText);
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 	static gboolean TimeoutCallback(gpointer data);
 
 private:

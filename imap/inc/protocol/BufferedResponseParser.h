@@ -30,9 +30,9 @@ class BufferedResponseParser : public ImapResponseParser
 
 public:
 	BufferedResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~BufferedResponseParser();
+	~BufferedResponseParser() override;
 
-	bool HandleAdditionalData();
+	bool HandleAdditionalData() override;
 
 	// Returns true if done parsing
 	bool CheckResponseReady();

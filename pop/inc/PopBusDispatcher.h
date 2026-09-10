@@ -43,7 +43,7 @@ class PopBusDispatcher : public MojService::CategoryHandler
 public:
 	PopBusDispatcher(PopMain& app, MojDbServiceClient& dbClient,
 					 MojLunaService& service);
-	virtual ~PopBusDispatcher();
+	~PopBusDispatcher() override;
 	MojErr Init();
 
 	/**
@@ -71,7 +71,7 @@ private:
 		AccountCreator(PopBusDispatcher& dispatcher,
 					   MojServiceMessage* message,
 					   MojObject& payload);
-		~AccountCreator();
+		~AccountCreator() override;
 
 		void CreatePopAccount();
 		MojLogger		m_log;
@@ -114,7 +114,7 @@ private:
 	{
 	public:
 		Subscription(PopBusDispatcher& cat, MojServiceMessage* msg);
-		~Subscription();
+		~Subscription() override;
 
 		MojRefCountedPtr<MojServiceMessage> msg() { return m_msg; }
 
