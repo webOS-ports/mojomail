@@ -23,6 +23,12 @@
 
 const char* const AuthYahooCommand::COMMAND_STRING		= "AUTH XYMCOOKIE";
 
+// Absolute on purpose: a bare filename resolves against whatever working
+// directory the service happened to be launched with, so the generated id
+// would be written somewhere arbitrary and never found again.
+static const char* const FAKE_DEVICE_ID_PATH = "/var/lib/mojomail/yahooCachedFakeDeviceId";
+
+
 AuthYahooCommand::AuthYahooCommand(SmtpSession& session)
 : SmtpProtocolCommand(session),
   m_getYahooCookiesSlot(this, &AuthYahooCommand::GetYahooCookiesSlot)
@@ -55,10 +61,10 @@ void AuthYahooCommand::RunImpl()
 	// Read nduid, if available, otherwise make a fake one and try to record it.
 	FILE * nduid = fopen("/proc/nduid", "r");
 	if (!nduid) {
-		nduid = fopen("yahooCachedFakeDeviceId", "r");
+		nduid = fopen(FAKE_DEVICE_ID_PATH, "r");
 		if (!nduid) {
 			snprintf(id, 255, "FEED0BEEF479121481533145%016llX", timeMillis());
-			nduid = fopen("yahooCachedFakeDeviceId", "w");
+			nduid = fopen(FAKE_DEVICE_ID_PATH, "w");
 			if (nduid) {
 				fputs(id, nduid);
 				fclose(nduid);

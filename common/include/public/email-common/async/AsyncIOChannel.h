@@ -108,6 +108,12 @@ public:
 	virtual ~AsyncIOChannelFactory();
 	
 	virtual MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode) = 0;
+
+	// Adopt an already-open descriptor. Callers that must validate what they
+	// opened (rather than the name they opened it by) need this: re-opening by
+	// name after a check is a TOCTOU. Takes ownership of fd on success.
+	// Not pure virtual so existing factories keep compiling.
+	virtual MojRefCountedPtr<AsyncIOChannel> OpenFileDescriptor(int fd);
 };
 
 #endif /*ASYNCIOCHANNEL_H_*/

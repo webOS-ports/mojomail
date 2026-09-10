@@ -36,7 +36,15 @@ public:
 	// Open an IO channel for a file
 	static MojRefCountedPtr<AsyncIOChannel> CreateFileIOChannel(const char* filename, const char* mode);
 
+	// Wrap an already-open descriptor; the channel closes it.
+	static MojRefCountedPtr<AsyncIOChannel> CreateFileIOChannelFromFD(int fd);
+
 	virtual void Shutdown();
+
+	// Non-virtual, so the destructor can shut the channel down without relying
+	// on dynamic dispatch (which is already gone by the time ~GIOChannelWrapper
+	// runs, and would silently skip a subclass override).
+	void ShutdownChannel();
 	
 	virtual size_t Read(char* dst, size_t count, bool& eof);
 	virtual size_t Write(const char* src, size_t count);
@@ -75,6 +83,7 @@ public:
 	virtual ~GIOChannelWrapperFactory();
 	
 	virtual MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode);
+	virtual MojRefCountedPtr<AsyncIOChannel> OpenFileDescriptor(int fd);
 };
 
 #endif /*GIOCHANNELWRAPPER_H_*/

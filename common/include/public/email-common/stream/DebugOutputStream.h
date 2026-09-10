@@ -32,7 +32,9 @@ public:
 	virtual void Close();
 
 protected:
-	virtual void Init(const char* filename);
+	// Deliberately not virtual: it is called from the constructor, where dynamic
+	// dispatch would not reach an override anyway. Nothing overrides it.
+	void Init(const char* filename);
 
 	FILE*	m_file;
 };

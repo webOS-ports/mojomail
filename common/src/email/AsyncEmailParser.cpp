@@ -47,6 +47,10 @@ AsyncEmailParser::AsyncEmailParser()
   m_parseEmailBodies(false),
   m_previewTextSize(0),
   m_estimatedSize(0),
+  // Unused by this class -- BufferedEmailParser shadows it with its own member
+  // and that is the one the parsing actually reads. Initialised anyway so the
+  // base is not left holding garbage for any future subclass.
+  m_endOfStream(false),
   m_paused(false),
   m_doneParsing(false),
   m_done(false),

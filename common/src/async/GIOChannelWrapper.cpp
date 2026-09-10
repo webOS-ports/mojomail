@@ -40,7 +40,7 @@ GIOChannelWrapper::GIOChannelWrapper(GIOChannel* channel)
 GIOChannelWrapper::~GIOChannelWrapper()
 {
 	try {
-		Shutdown();
+		ShutdownChannel();
 	} catch(...) {
 		MojLogError(s_log, "exception shutting down at %s:%d", __FILE__, __LINE__);
 	}
@@ -64,6 +64,25 @@ MojRefCountedPtr<AsyncIOChannel> GIOChannelWrapper::CreateFileIOChannel(const ch
 	g_io_channel_set_encoding(aioChannel->m_channel, NULL, &gerr);
 	GErrorToException(gerr);
 	
+	return aioChannel;
+}
+
+MojRefCountedPtr<AsyncIOChannel> GIOChannelWrapper::CreateFileIOChannelFromFD(int fd)
+{
+	GError* gerr = NULL;
+
+	GIOChannel* channel = g_io_channel_unix_new(fd);
+	// Hand the descriptor to the channel so closing the channel closes it.
+	g_io_channel_set_close_on_unref(channel, true);
+
+	MojRefCountedPtr<GIOChannelWrapper> aioChannel( new GIOChannelWrapper(channel) );
+
+	g_io_channel_set_flags(aioChannel->m_channel, G_IO_FLAG_NONBLOCK, &gerr);
+	GErrorToException(gerr);
+
+	g_io_channel_set_encoding(aioChannel->m_channel, NULL, &gerr);
+	GErrorToException(gerr);
+
 	return aioChannel;
 }
 
@@ -224,6 +243,11 @@ gboolean GIOChannelWrapper::ChannelCallback(GIOChannel* channel, GIOCondition co
 
 void GIOChannelWrapper::Shutdown()
 {
+	ShutdownChannel();
+}
+
+void GIOChannelWrapper::ShutdownChannel()
+{
 	if(m_channel && !m_closed) {
 		fprintf(stderr, "* Shutting down channel %d\n", GetFD());
 	}
@@ -285,6 +309,11 @@ GIOChannelWrapperFactory::~GIOChannelWrapperFactory()
 MojRefCountedPtr<AsyncIOChannel> GIOChannelWrapperFactory::OpenFile(const char* filename, const char* mode)
 {
 	return GIOChannelWrapper::CreateFileIOChannel(filename, mode);
+}
+
+MojRefCountedPtr<AsyncIOChannel> GIOChannelWrapperFactory::OpenFileDescriptor(int fd)
+{
+	return GIOChannelWrapper::CreateFileIOChannelFromFD(fd);
 }
 
 int GIOChannelWrapper::GetFD() const
