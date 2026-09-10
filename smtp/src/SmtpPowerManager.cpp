@@ -55,7 +55,7 @@ void SmtpPowerManager::StayAwake(bool enabled, string reason)
 			m_stayAwakeCount--;
 
 			if (m_stayAwakeCount < 0)
-				throw new MailException("unmatched power request", __FILE__, __LINE__);
+				throw MailException("unmatched power request", __FILE__, __LINE__);
 			else if (m_stayAwakeCount == 0) {
 				MojLogInfo(s_log, "allowing the device to go to sleep");
 				CompleteActivity();

@@ -60,7 +60,7 @@ void PowerManager::StayAwake(bool enabled, string reason)
 
 		if (m_stayAwakeCount < 0) {
 			MojLogCritical(s_log, "unmatched power request for %s", reason.c_str());
-			throw new MailException("unmatched power request", __FILE__,
+			throw MailException("unmatched power request", __FILE__,
 					__LINE__);
 		} else if (m_stayAwakeCount == 0) {
 			MojLogInfo(s_log, "allowing the device to go to sleep");

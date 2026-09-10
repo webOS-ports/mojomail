@@ -189,7 +189,7 @@ void AsyncEmailWriter::WriteQueuedParts()
 			if(canSkip) {
 				continue; // get next part (if any)
 			} else {
-				throw e;
+				throw;
 			}
 		}
 	}
@@ -310,7 +310,7 @@ void FilePartWriter::OpenFile(const std::string& filename)
 	} catch(const std::exception& e) {
 		MojLogError(s_log, "error opening file %s: %s", filePath.c_str(), e.what());
 
-		throw e;
+		throw;
 	}
 }
 

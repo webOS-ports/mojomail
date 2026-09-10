@@ -161,7 +161,7 @@ void AuthYahooCommand::WriteCommand()
 
 		MojLogInfo(m_log, "Pre-encoded command: {%s}", cookie.c_str());
 		
-		gchar * encodedPayload = g_base64_encode((unsigned guchar*)cookie.c_str(), cookie.length());
+		gchar * encodedPayload = g_base64_encode((const guchar*)cookie.c_str(), cookie.length());
 		try {
 			command += encodedPayload;
 		} catch (...) {
@@ -191,7 +191,7 @@ void AuthYahooCommand::WriteCommand()
 		
 		MojLogInfo(m_log, "Pre-encoded cookie: {%s}", cookie.c_str());
 
-		gchar * encodedPayload = g_base64_encode((unsigned guchar*)cookie.c_str(), cookie.length());
+		gchar * encodedPayload = g_base64_encode((const guchar*)cookie.c_str(), cookie.length());
 		try {
 			cookie = encodedPayload;
 		} catch (...) {
