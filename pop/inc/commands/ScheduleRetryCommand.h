@@ -34,10 +34,10 @@ class ScheduleRetryCommand : public PopClientCommand
 {
 public:
 	ScheduleRetryCommand(PopClient& client, const MojObject& folderId, EmailAccount::AccountError err);
-	virtual ~ScheduleRetryCommand();
+	~ScheduleRetryCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void ScheduleRetry();
 	MojErr ScheduleRetryResponse(MojObject& response, MojErr err);

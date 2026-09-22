@@ -244,7 +244,7 @@ public:
 	DecoderError(std::string msg) : m_message(msg) {
 
 	}
-	virtual ~DecoderError() throw() {
+	~DecoderError() throw() override {
 
 	}
 };
@@ -256,12 +256,12 @@ static void decodeBase64(wstring& result, const wstring& s, int pos, int len) {
 		for (int i=0;i<len;i++) {
 			unsigned char c = s[pos++];
 			if (c>=maxl)
-				throw new DecoderError(string("Char not in UTF7 DECODABET: ")+Util::toHexString(c));
+				throw DecoderError(string("Char not in UTF7 DECODABET: ")+Util::toHexString(c));
 			int b = UTF7_DECODABET[c];
 			if (b<0) {
 				if (b==-5)
 					continue;
-				throw new DecoderError(string("Char not in UTF7 DECODABET: ")+Util::toHexString(c));
+				throw DecoderError(string("Char not in UTF7 DECODABET: ")+Util::toHexString(c));
 			}
 			val = (val<<6) | b;
 			bits += 6;

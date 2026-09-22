@@ -53,7 +53,7 @@ void UpdateUidCacheCommand::RunImpl()
 	}
 }
 
-MojErr UpdateUidCacheCommand::SaveUidCacheResponse(MojObject& response, MojErr err)
+MojErr UpdateUidCacheCommand::SaveUidCacheResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		MojLogDebug(m_log, "Save emails' UID cache response: %s", AsJsonString(response).c_str());

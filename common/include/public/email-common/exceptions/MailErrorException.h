@@ -26,9 +26,9 @@ class MailErrorException : public MailException
 {
 public:
 	MailErrorException(MailError::ErrorInfo errorInfo, const char* filename, int line);
-	virtual ~MailErrorException() throw () {}
+	~MailErrorException() throw () override {}
 
-	virtual MailError::ErrorInfo GetErrorInfo() const;
+	MailError::ErrorInfo GetErrorInfo() const override;
 
 protected:
 	MailError::ErrorInfo m_errorInfo;

@@ -30,27 +30,27 @@ class ImapValidator : public ImapSession
 {
 public:
 	ImapValidator(ImapValidationListener& listener, MojServiceMessage* msg, MojObject& protocolSettings);
-	virtual ~ImapValidator();
+	~ImapValidator() override;
 
 	void Validate();
-	virtual bool IsValidator() const { return true; }
+	bool IsValidator() const override { return true; }
 
 protected:
 	// Overrides ImapSession
-	void ConnectFailure(const std::exception& e);
-	void TLSReady();
-	void TLSFailure(const std::exception& e);
-	void LoginSuccess();
-	void LoginFailure(MailError::ErrorCode errorCode, const std::string& errorText);
+	void ConnectFailure(const std::exception& e) override;
+	void TLSReady() override;
+	void TLSFailure(const std::exception& e) override;
+	void LoginSuccess() override;
+	void LoginFailure(MailError::ErrorCode errorCode, const std::string& errorText) override;
 
-	void Disconnected();
+	void Disconnected() override;
 
 	void LoadImapPrefs();
 	MojErr LoadPrefsResponse(MojObject& response, MojErr err);
 
 	void ParseValidatePayload(const MojObject& config, ImapLoginSettings& login, bool serverConfigNeeded);
 
-	bool NeedLoginCapabilities();
+	bool NeedLoginCapabilities() override;
 
 	void ReportFailure(MailError::ErrorCode errorCode, const std::string& errorText);
 

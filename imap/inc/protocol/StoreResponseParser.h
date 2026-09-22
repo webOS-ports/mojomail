@@ -25,15 +25,15 @@ class StoreResponseParser : public ImapResponseParser
 {
 public:
 	StoreResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~StoreResponseParser();
+	~StoreResponseParser() override;
 
-	void HandleResponse(ImapStatusCode status, const std::string& response);
+	void HandleResponse(ImapStatusCode status, const std::string& response) override;
 
 	void AddExpectedResponse();
 
 protected:
 	// Override ImapResponseParser::Done()
-	virtual void Done();
+	void Done() override;
 
 	int		m_responsesLeft;
 };

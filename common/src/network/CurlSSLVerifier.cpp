@@ -62,7 +62,7 @@ void CurlSSLVerifier::SetupCurlConnection(CURL* easy)
 		throw CurlException(curlErr, __FILE__, __LINE__);
 }
 
-CURLcode CurlSSLVerifier::SetupSslCtxCallback(CURL *curl, void *sslCtx, void *data)
+CURLcode CurlSSLVerifier::SetupSslCtxCallback(CURL * /*curl*/, void *sslCtx, void *data)
 {
 	// Clear state. This should get done once per connection.
 	CurlConnection* connection = reinterpret_cast<CurlConnection*>(data);

@@ -30,10 +30,10 @@ class MoveEmailsCommand : public ImapSyncSessionCommand
 {
 public:
 	MoveEmailsCommand(ImapSession& session, const MojObject& srcFolderId, const MojObject& destFolderId, bool deleteEmails, const std::vector<UID>& uids, const MojObject::ObjectVec& ids);
-	virtual ~MoveEmailsCommand();
+	~MoveEmailsCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetDestFolder();
 	MojErr GetDestFolderResponse(MojObject& response, MojErr err);

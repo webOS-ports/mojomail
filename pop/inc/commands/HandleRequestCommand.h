@@ -28,7 +28,7 @@ class HandleRequestCommand :  public PopSessionPowerCommand
 {
 public:
 	HandleRequestCommand(PopSession& session, const std::string& awakeReason);
-	virtual ~HandleRequestCommand();
+	~HandleRequestCommand() override;
 
 	void 			QueueRequest(Request::RequestPtr request);
 protected:

@@ -25,10 +25,10 @@ class CapabilityResponseParser : public ImapResponseParser
 {
 public:
 	CapabilityResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~CapabilityResponseParser();
+	~CapabilityResponseParser() override;
 	
-	virtual bool HandleUntaggedResponse(const std::string& line);
-	virtual void HandleResponse(ImapStatusCode status, const std::string& line);
+	bool HandleUntaggedResponse(const std::string& line) override;
+	void HandleResponse(ImapStatusCode status, const std::string& line) override;
 
 protected:
 	virtual void ParseCapabilities(const std::string& line);

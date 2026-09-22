@@ -139,7 +139,7 @@ void PopAccountDisableCommand::DeletePopFolders()
 	m_dbInterface->DeleteItems(m_deletePopFoldersSlot, PopFolderAdapter::POP_FOLDER_KIND, PopFolderAdapter::ID, m_popFolderIds);
 }
 
-MojErr PopAccountDisableCommand::DeletePopFoldersResponse(MojObject& response, MojErr err)
+MojErr PopAccountDisableCommand::DeletePopFoldersResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 
@@ -168,7 +168,7 @@ void PopAccountDisableCommand::DeleteOldEmailsCache()
 	m_dbInterface->DeleteItems(m_deleteOldEmailsCacheSlot, UidCacheAdapter::EMAILS_UID_CACHE_KIND, UidCacheAdapter::ACCOUNT_ID, m_accountId);
 }
 
-MojErr PopAccountDisableCommand::DeleteOldEmailsCacheResponse(MojObject& response, MojErr err)
+MojErr PopAccountDisableCommand::DeleteOldEmailsCacheResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 
@@ -314,7 +314,7 @@ MojErr PopAccountDisableCommand::CancelActivitiesResponse(MojObject& response, M
 	return MojErrNone;
 }
 
-MojErr PopAccountDisableCommand::SmtpAccountDisabledResponse(MojObject& response, MojErr err)
+MojErr PopAccountDisableCommand::SmtpAccountDisabledResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

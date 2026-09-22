@@ -133,7 +133,7 @@ public:
 	void DisableAccount(MojServiceMessage* msg);
 	void DeleteAccount(MojServiceMessage* msg);
 
-	virtual void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 	void		 CommandFailed(Command* command, MailError::ErrorCode errCode, const std::exception& exc, bool logErrorToAccount = false);
 	void 		 CancelCommands();
 
@@ -142,7 +142,7 @@ public:
 	void Status(MojObject& status) const;
 
 protected:
-	virtual ~PopSession();
+	~PopSession() override;
 
 	void SetState(State toSet);
 	void RunCommandsInQueue();

@@ -26,9 +26,9 @@ class NegotiateTlsCommand : public PopSessionCommand
 {
 public:
 	NegotiateTlsCommand(PopSession& session);
-	virtual ~NegotiateTlsCommand();
+	~NegotiateTlsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	MojErr TlsNegotiated(const std::exception* exc);
 

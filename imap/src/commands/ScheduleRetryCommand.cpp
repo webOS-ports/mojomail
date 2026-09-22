@@ -29,7 +29,7 @@ int ScheduleRetryCommand::SECOND_RETRY_SECONDS = 5 * 60;	// second retry after 5
 float ScheduleRetryCommand::RETRY_MULTIPLIER = 1.5;			// 1.5x backoff thereafter
 int ScheduleRetryCommand::MAX_RETRY_SECONDS = 30 * 60;
 
-ScheduleRetryCommand::ScheduleRetryCommand(ImapClient& client, const MojObject& folderId, SyncParams syncParams, const std::string& reason)
+ScheduleRetryCommand::ScheduleRetryCommand(ImapClient& client, const MojObject& folderId, SyncParams syncParams, const std::string&  /*reason*/)
 : ImapClientCommand(client),
   m_folderId(folderId),
   m_syncParams(syncParams),
@@ -91,7 +91,7 @@ void ScheduleRetryCommand::ScheduleRetry()
 	m_client.SendRequest(m_scheduleRetrySlot, "com.palm.activitymanager", "create", payload);
 }
 
-MojErr ScheduleRetryCommand::ScheduleRetryResponse(MojObject& response, MojErr err)
+MojErr ScheduleRetryCommand::ScheduleRetryResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 
@@ -146,7 +146,7 @@ void ScheduleRetryCommand::UpdateAccount()
 	m_client.GetDatabaseInterface().UpdateAccountRetry(m_updateAccountSlot, m_client.GetAccountId(), accountObj);
 }
 
-MojErr ScheduleRetryCommand::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr ScheduleRetryCommand::UpdateAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

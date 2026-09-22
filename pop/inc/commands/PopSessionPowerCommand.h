@@ -31,7 +31,7 @@ class PopSessionPowerCommand : public PopSessionCommand
 {
 public:
 	PopSessionPowerCommand(PopSession& session, const std::string& reason);
-	~PopSessionPowerCommand();
+	~PopSessionPowerCommand() override;
 protected:
 	void		 PowerUp();
 	void		 PowerDone();
@@ -39,7 +39,7 @@ protected:
 	/**
 	 * Clean up resources that this command allocates.
 	 */
-	virtual void Cleanup();
+	void Cleanup() override;
 
 	std::string						m_stayAwakeReason;
 	PowerUser						m_powerUser;

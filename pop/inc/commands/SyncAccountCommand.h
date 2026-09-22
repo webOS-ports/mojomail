@@ -26,9 +26,9 @@ class SyncAccountCommand : public PopClientCommand
 {
 public:
 	SyncAccountCommand(PopClient& client, MojObject& payload);
-	virtual ~SyncAccountCommand();
+	~SyncAccountCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	boost::shared_ptr<PopAccount>					m_account;
 	MojObject										m_accountId;

@@ -28,19 +28,19 @@ class ImapSyncSessionCommand : public ImapSessionCommand
 {
 public:
 	ImapSyncSessionCommand(ImapSession& session, const MojObject& folderId, Priority priority = NormalPriority);
-	virtual ~ImapSyncSessionCommand();
+	~ImapSyncSessionCommand() override;
 
 	virtual void SetSyncSession(const MojRefCountedPtr<SyncSession>& syncSession);
 
 	virtual MojErr SyncSessionReady();
 
-	virtual void Cleanup();
-	virtual void Complete();
+	void Cleanup() override;
+	void Complete() override;
 
-	virtual void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 protected:
-	virtual bool PrepareToRun();
+	bool PrepareToRun() override;
 	MojInt64 GetLastSyncRev() const;
 
 	MojRefCountedPtr<SyncSession>	m_syncSession;

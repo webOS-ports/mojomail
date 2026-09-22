@@ -33,7 +33,7 @@ class CurlException : public MailException
 public:
 	CurlException(const CURLcode code, const char* file, int line);
 	CurlException(const CURLMcode mCode, const char* file, int line);
-	virtual ~CurlException() throw() { };
+	~CurlException() throw() override { };
 
 private:
 	const CURLcode m_curlCode;

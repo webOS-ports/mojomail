@@ -28,33 +28,33 @@ public:
 	MojoDatabase(MojDbClient& dbClient);
 	virtual ~MojoDatabase();
 
-	virtual void GetAccount(Signal::SlotRef slot, const MojObject& accountId);
+	void GetAccount(Signal::SlotRef slot, const MojObject& accountId) override;
 
-	virtual void GetMainAccount(Signal::SlotRef slot, const MojObject& accountId);
+	void GetMainAccount(Signal::SlotRef slot, const MojObject& accountId) override;
 	
-	virtual void GetOutboxEmail(Signal::SlotRef slot, const MojObject& emailId);
+	void GetOutboxEmail(Signal::SlotRef slot, const MojObject& emailId) override;
 
-	virtual void GetOutboxEmails(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page);
+	void GetOutboxEmails(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page) override;
 
-	virtual void UpdateFolderRetry(Signal::SlotRef slot, const MojObject& folderId, const MojObject& retryDelay);
+	void UpdateFolderRetry(Signal::SlotRef slot, const MojObject& folderId, const MojObject& retryDelay) override;
 
-	virtual void UpdateAccountErrorStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& errorCode, const MojObject& errorText);
+	void UpdateAccountErrorStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& errorCode, const MojObject& errorText) override;
 
 	//	virtual void GetEmails(Signal::SlotRef slot, const MojObject& folderId, int limit);
 	
-	virtual void DeleteItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array);
+	void DeleteItems			(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
 
 	// Outbox methods
-	virtual void UpdateSendStatus		(Signal::SlotRef slot, const MojObject& emailId, const MojObject& status, const MojObject& visible);
+	void UpdateSendStatus		(Signal::SlotRef slot, const MojObject& emailId, const MojObject& status, const MojObject& visible) override;
 
-	virtual void GetFolder				(Signal::SlotRef slot, const MojObject& accountId, const MojObject& folderId);
+	void GetFolder				(Signal::SlotRef slot, const MojObject& accountId, const MojObject& folderId) override;
 
-	virtual void PersistToDatabase		(Signal::SlotRef slot, MojObject& email, const MojObject& folderId, const MojObject& partsArray);
+	void PersistToDatabase		(Signal::SlotRef slot, MojObject& email, const MojObject& folderId, const MojObject& partsArray) override;
 
-	virtual void PersistDraftToDatabase		(Signal::SlotRef slot, MojObject& email, const MojObject& folderId, const MojObject& partsArray);
+	void PersistDraftToDatabase		(Signal::SlotRef slot, MojObject& email, const MojObject& folderId, const MojObject& partsArray) override;
 
-	virtual void CreateSyncStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& folderId, const char* state);
-	virtual void ClearSyncStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& collectionId);
+	void CreateSyncStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& folderId, const char* state) override;
+	void ClearSyncStatus(Signal::SlotRef slot, const MojObject& accountId, const MojObject& collectionId) override;
 
 private:
 	/**

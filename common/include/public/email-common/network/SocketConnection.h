@@ -30,7 +30,7 @@ class PslErrorException;
 class SocketConnection : public GIOChannelWrapper
 {
 public:
-	virtual ~SocketConnection();
+	~SocketConnection() override;
 	
 	typedef MojSignal<const std::exception*> ConnectedSignal;
 	typedef MojSignal<const std::exception*> TLSReadySignal;
@@ -69,7 +69,7 @@ public:
 	 */
 	virtual const std::string& GetBindAddress() const { return m_bindAddress; }
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
 	SocketConnection(GIOChannel* channel, bool useSsl);
@@ -85,7 +85,7 @@ protected:
 
 	virtual std::string DescribeLocalSocket() const;
 
-	virtual void SetException(const std::exception& e);
+	void SetException(const std::exception& e) override;
 
 	void UpdatePslVerifyResult(PslErrorException& exc);
 

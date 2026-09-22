@@ -124,7 +124,7 @@ MojErr CheckOutboxCommand::GetEmailsToDeleteResponse(MojObject& response, MojErr
 	return MojErrNone;
 }
 
-MojErr CheckOutboxCommand::PurgeResponse(MojObject& response, MojErr err)
+MojErr CheckOutboxCommand::PurgeResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

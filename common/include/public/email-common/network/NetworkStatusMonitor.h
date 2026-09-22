@@ -27,7 +27,7 @@ class NetworkStatusMonitor : public MojSignalHandler
 {
 public:
 	NetworkStatusMonitor(BusClient& busClient);
-	virtual ~NetworkStatusMonitor();
+	~NetworkStatusMonitor() override;
 
 	/**
 	 * Returns true if the network status is up to date.
@@ -42,8 +42,19 @@ public:
 
 	/**
 	 * Wait for latest network status.
+	 *
+	 * Careful: the status may never arrive. It's delivered through an activity
+	 * carrying the "internet" requirement, and the ActivityManager holds such an
+	 * activity until the connection manager reports it's online, which on some
+	 * LuneOS builds never happens. Prefer StartMonitoring() unless you can
+	 * genuinely wait forever.
 	 */
 	void WaitForStatus(MojSignal<>::SlotRef slot);
+
+	/**
+	 * Begin monitoring network status without waiting for it.
+	 */
+	void StartMonitoring();
 
 	/**
 	 * Status.

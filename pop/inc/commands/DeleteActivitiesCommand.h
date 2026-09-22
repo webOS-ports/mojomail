@@ -27,7 +27,7 @@ class DeleteActivitiesCommand : public PopClientCommand
 {
 public:
 	DeleteActivitiesCommand(PopClient& client);
-	virtual ~DeleteActivitiesCommand();
+	~DeleteActivitiesCommand() override;
 
 	// Set activity name substring to match for activities that *should* be deleted
 	void SetIncludeNameFilter(const MojString& substring) { m_includeFilter = substring; }
@@ -36,7 +36,7 @@ public:
 	void SetExcludeNameFilter(const MojString& substring) { m_excludeFilter = substring; }
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetActivityList();
 	MojErr GetActivityListResponse(MojObject& response, MojErr err);

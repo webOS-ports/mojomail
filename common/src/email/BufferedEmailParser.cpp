@@ -54,8 +54,6 @@ bool BufferedEmailParser::FeedChar(char c)
 			} else if (c == '\r') {
 				m_seenCR = true; // might be \r or \r\n
 			}
-
-			m_seenCR = false;
 		}
 	}
 
@@ -83,7 +81,7 @@ void BufferedEmailParser::FlushBuffer()
 		m_buffer.erase(0, bytesHandled);
 
 		// update seenCR
-		m_seenCR = m_buffer.empty() ? false : (*m_buffer.end() == '\r');
+		m_seenCR = m_buffer.empty() ? false : (m_buffer.back() == '\r');
 	} else {
 		ParseData(m_buffer.data(), m_buffer.size(), m_endOfStream);
 		m_buffer.clear();

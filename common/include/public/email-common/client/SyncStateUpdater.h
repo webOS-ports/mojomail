@@ -34,7 +34,7 @@ public:
 	virtual void UpdateSyncState(MojSignal<>::SlotRef slot, const SyncState& syncState, bool clearSyncState = false);
 
 protected:
-	virtual ~SyncStateUpdater();
+	~SyncStateUpdater() override;
 
 	virtual MojErr UpdateSyncStateResponse(MojObject& response, MojErr err);
 

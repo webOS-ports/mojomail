@@ -25,7 +25,7 @@ class BaseIdleCommand : public ImapSessionCommand
 {
 public:
 	BaseIdleCommand(ImapSession& session);
-	virtual ~BaseIdleCommand();
+	~BaseIdleCommand() override;
 
 	virtual void EndIdle() = 0;
 

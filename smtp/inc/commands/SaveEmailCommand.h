@@ -37,10 +37,10 @@ public:
 					 MojObject email,
 					 MojObject accountId,
 					 bool isDraft);
-	virtual ~SaveEmailCommand();
+	~SaveEmailCommand() override;
 	
-	void RunImpl();
-	void Cancel();
+	void RunImpl() override;
+	void Cancel() override;
 protected:
 	static const int EMAIL_FILECACHE_COST;
 	static const int EMAIL_NO_LIFE_TIME;

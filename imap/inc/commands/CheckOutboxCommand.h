@@ -31,10 +31,10 @@ class CheckOutboxCommand : public ImapClientCommand
 {
 public:
 	CheckOutboxCommand(ImapClient& client, SyncParams syncParams);
-	virtual ~CheckOutboxCommand();
+	~CheckOutboxCommand() override;
 
 protected:
-	virtual void RunImpl();
+	void RunImpl() override;
 
 	void GetSentEmails();
 	MojErr GetSentEmailsResponse(MojObject& response, MojErr err);

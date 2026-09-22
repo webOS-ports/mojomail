@@ -343,7 +343,7 @@ void SmtpSendMailCommand::WriteEmail()
 	}
 }
 
-MojErr SmtpSendMailCommand::HandleResponse(const std::string& line)
+MojErr SmtpSendMailCommand::HandleResponse(const std::string&  /*line*/)
 {
 	try {
 		switch (m_write_state) {
@@ -636,7 +636,7 @@ void SmtpSendMailCommand::UpdateSendStatus()
 	}
 }
 
-MojErr SmtpSendMailCommand::UpdateSendStatusResponse(MojObject& response, MojErr err)
+MojErr SmtpSendMailCommand::UpdateSendStatusResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		// N.B. update failures should probably be non-fatal

@@ -32,9 +32,9 @@ class UpSyncSentEmailsCommand : public ImapSyncSessionCommand
 
 public:
 	UpSyncSentEmailsCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~UpSyncSentEmailsCommand();
+	~UpSyncSentEmailsCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
 

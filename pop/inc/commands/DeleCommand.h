@@ -27,12 +27,12 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	DeleCommand(PopSession& session, int msgNum);
-	virtual ~DeleCommand();
+	~DeleCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 	int 			m_msgNum;
 };

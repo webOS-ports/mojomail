@@ -39,7 +39,7 @@ void StartTlsCommand::RunImpl()
 	SendCommand(COMMAND_STRING);
 }
 
-MojErr StartTlsCommand::HandleResponse(const std::string& line)
+MojErr StartTlsCommand::HandleResponse(const std::string&  /*line*/)
 {
 	CommandTraceFunction();
 

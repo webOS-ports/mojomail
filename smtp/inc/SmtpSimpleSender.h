@@ -29,18 +29,18 @@ class SmtpSimpleSender : public SmtpSession, public Command
 {
 public:
 	SmtpSimpleSender(boost::shared_ptr<CommandManager> manager, boost::shared_ptr<SmtpAccount> account, MojService * service, MojServiceMessage* msg, MojString& fromAddress, MojString& toAddress, MojString& payload);
-	virtual ~SmtpSimpleSender();
+	~SmtpSimpleSender() override;
 
-	void LoginSuccess();
+	void LoginSuccess() override;
 	void LoginFailure(const std::string& errorText);
-	void SendSuccess();
-	void SendFailure(const std::string& errorText);
+	void SendSuccess() override;
+	void SendFailure(const std::string& errorText) override;
 	void Failure(MailError::ErrorCode errorCode, const std::string& errorText);
 	virtual void Failure(const std::string&);
-	virtual void Failure(SmtpError error);
-	void Disconnected();
-	void Run();
-	void Cancel();
+	void Failure(SmtpError error) override;
+	void Disconnected() override;
+	void Run() override;
+	void Cancel() override;
 
 	MojRefCountedPtr<MojServiceMessage> m_msg;
 

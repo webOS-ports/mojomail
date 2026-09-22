@@ -31,9 +31,9 @@ class AutoDownloadCommand : public ImapSessionCommand
 {
 public:
 	AutoDownloadCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~AutoDownloadCommand();
+	~AutoDownloadCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetAutoDownloads();
 	MojErr GetAutoDownloadsResponse(MojObject& response, MojErr err);

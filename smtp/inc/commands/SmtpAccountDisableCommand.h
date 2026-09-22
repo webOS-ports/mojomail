@@ -29,9 +29,9 @@ class SmtpAccountDisableCommand : public SmtpCommand
 {
 public:
 	SmtpAccountDisableCommand(SmtpClient& client, const MojRefCountedPtr<MojServiceMessage> msg, const MojObject& accountId);
-	virtual ~SmtpAccountDisableCommand();
+	~SmtpAccountDisableCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 	
 protected:
 	

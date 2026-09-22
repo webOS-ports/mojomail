@@ -183,7 +183,7 @@ void MojoDatabase::GetEmailSyncList(Signal::SlotRef slot, const MojObject& folde
 	ErrorToException(err);
 }
 
-void MojoDatabase::GetLocalEmailChanges(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit)
+void MojoDatabase::GetLocalEmailChanges(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32  /*limit*/)
 {
 	MojDbQuery query;
 
@@ -278,7 +278,7 @@ void MojoDatabase::GetSentEmails(Signal::SlotRef slot, const MojObject& outboxFo
 	ErrorToException(err);
 }
 
-void MojoDatabase::GetDeletedEmails(Signal::SlotRef slot, const MojObject& folderId, const MojInt64& rev, MojDbQuery::Page& page, MojInt32 limit)
+void MojoDatabase::GetDeletedEmails(Signal::SlotRef slot, const MojObject& folderId, const MojInt64&  /*rev*/, MojDbQuery::Page& page, MojInt32 limit)
 {
 	MojErr err;
 
@@ -315,7 +315,7 @@ void MojoDatabase::GetDeletedEmails(Signal::SlotRef slot, const MojObject& folde
 	ErrorToException(err);
 }
 
-void MojoDatabase::GetEmailsToMove(Signal::SlotRef slot, const MojObject& accountId)
+void MojoDatabase::GetEmailsToMove(Signal::SlotRef slot, const MojObject&  /*accountId*/)
 {
 	MojErr err;
 

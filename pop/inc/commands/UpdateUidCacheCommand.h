@@ -26,9 +26,9 @@ class UpdateUidCacheCommand : public PopSessionCommand
 {
 public:
 	UpdateUidCacheCommand(PopSession& session, UidCache& cache);
-	~UpdateUidCacheCommand();
+	~UpdateUidCacheCommand() override;
 
-	void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr	SaveUidCacheResponse(MojObject& response, MojErr err);
 private:
 	UidCache&											m_uidCache;

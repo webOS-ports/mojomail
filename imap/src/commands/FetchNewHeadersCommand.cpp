@@ -150,7 +150,7 @@ MojErr FetchNewHeadersCommand::FetchResponse()
 	return MojErrNone;
 }
 
-MojErr FetchNewHeadersCommand::PutEmailsResponse(MojObject& response, MojErr err)
+MojErr FetchNewHeadersCommand::PutEmailsResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

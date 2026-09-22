@@ -128,7 +128,7 @@ void DeleteActivitiesCommand::DeleteActivities()
 	}
 }
 
-MojErr DeleteActivitiesCommand::DeleteActivityResponse(MojObject& response, MojErr err)
+MojErr DeleteActivitiesCommand::DeleteActivityResponse(MojObject&  /*response*/, MojErr err)
 {
 	MojLogTrace(m_log);
 

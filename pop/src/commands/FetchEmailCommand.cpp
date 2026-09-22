@@ -118,7 +118,7 @@ void FetchEmailCommand::ClearPreviousParts()
 	}
 }
 
-MojErr FetchEmailCommand::ClearPreviousPartsResponse(MojObject& response, MojErr err)
+MojErr FetchEmailCommand::ClearPreviousPartsResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);
@@ -200,7 +200,7 @@ void FetchEmailCommand::UpdateEmailSummary(const PopEmail::PopEmailPtr& emailPtr
 	}
 }
 
-MojErr FetchEmailCommand::UpdateEmailSummaryResponse(MojObject& response, MojErr err)
+MojErr FetchEmailCommand::UpdateEmailSummaryResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);
@@ -241,7 +241,7 @@ void FetchEmailCommand::UpdateEmailParts(const PopEmail::PopEmailPtr& emailPtr)
 	}
 }
 
-MojErr FetchEmailCommand::UpdateEmailPartsResponse(MojObject& response, MojErr err)
+MojErr FetchEmailCommand::UpdateEmailPartsResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

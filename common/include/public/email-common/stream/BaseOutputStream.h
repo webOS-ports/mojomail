@@ -36,7 +36,7 @@ public:
 	};
 
 	BaseOutputStream() {}
-	virtual ~BaseOutputStream() {}
+	~BaseOutputStream() override {}
 	
 	// Convenience method (non-virtual)
 	void Write(std::string src) { Write(src.data(), src.length()); }
@@ -68,27 +68,27 @@ class ChainedOutputStream : public BaseOutputStream
 {
 public:
 	ChainedOutputStream(const OutputStreamPtr& sink) : m_sink(sink) {}
-	virtual ~ChainedOutputStream() {}
+	~ChainedOutputStream() override {}
 
 	// Overrides BaseOutputStream
-	inline virtual void Write(const char* src, size_t length)
+	inline void Write(const char* src, size_t length) override
 	{
 		m_sink->Write(src, length);
 	}
 
 	// Overrides BaseOutputStream
-	inline virtual void Flush(FlushType flushType = FullFlush)
+	inline void Flush(FlushType flushType = FullFlush) override
 	{
 		m_sink->Flush(flushType);
 	}
 
 	// Overrides BaseOutputStream
-	inline virtual void Close()
+	inline void Close() override
 	{
 		m_sink->Close();
 	}
 
-	virtual MailError::ErrorInfo GetError() const {
+	MailError::ErrorInfo GetError() const override {
 		if (m_error.errorCode != MailError::NONE) {
 			return m_error;
 		} else if (m_sink.get()) {

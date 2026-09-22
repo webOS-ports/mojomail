@@ -32,10 +32,10 @@ class PurgeEmailsCommand : public ImapClientCommand
 {
 public:
 	PurgeEmailsCommand(ImapClient& client, const MojObject& folderId);
-	virtual ~PurgeEmailsCommand();
+	~PurgeEmailsCommand() override;
 
-	void RunImpl();
-	std::string Describe() const;
+	void RunImpl() override;
+	std::string Describe() const override;
 
 protected:
 

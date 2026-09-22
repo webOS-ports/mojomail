@@ -35,9 +35,9 @@ class CreateDefaultFoldersCommand : public ImapClientCommand
 
 public:
 	CreateDefaultFoldersCommand(ImapClient& client);
-	virtual ~CreateDefaultFoldersCommand();
+	~CreateDefaultFoldersCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
 	void FindSpecialFolders();

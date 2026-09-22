@@ -38,7 +38,7 @@ public:
 	} Priority;
 
 	Command(Listener& listener, Priority priority) : m_listener(listener), m_priority(priority), m_commandNum(0) { }
-	virtual ~Command() { }
+	~Command() override { }
 
 	virtual void Run() = 0;
 	virtual void Cancel() = 0;

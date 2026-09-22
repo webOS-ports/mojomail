@@ -232,20 +232,16 @@ void SmtpSyncOutboxCommand::CheckNetworkConnectivity()
 				return;
 			}
 		} else {
-			MojLogInfo(m_log, "CheckNetworkActivity: state unknown, starting new activity");
-			MojLogInfo(m_log, "OutboxSyncer creating new network activity");
-			ActivityBuilder ab;
-			MojString name;
-			MojErr err = name.format("SMTP Internal Outbox Sync Network Activity for account %s", AsJsonString(m_accountId).c_str());
-			ErrorToException(err);
-			ab.SetName(name);
-			ab.SetDescription("Activity representing SMTP Outbox Sync Network Monitor");
-			ab.SetForeground(true);
-			ab.SetRequiresInternet(false);
-			ab.SetImmediate(true, ActivityBuilder::PRIORITY_LOW);
-			m_networkActivity = Activity::PrepareNewActivity(ab);
-			m_networkActivity->SetSlots(m_networkActivityUpdatedSlot, m_networkActivityErrorSlot);
-			m_networkActivity->Create(m_client);
+			// We used to create an activity here purely to be told the network
+			// status, and wait for it. That never completed: without an
+			// "internet" requirement the ActivityManager reports no requirements
+			// at all, and with one it holds the activity until the connection
+			// manager says it's online -- which doesn't happen on every LuneOS
+			// build. Either way the outbox sync waited forever and mail was
+			// never sent. Just try to send; failing to connect is handled.
+			MojLogInfo(m_log, "CheckNetworkActivity: state unknown, attempting send anyway");
+			GetAccount();
+			return;
 		}
 
 	} catch (std::exception & e) {
@@ -287,7 +283,7 @@ MojErr SmtpSyncOutboxCommand::NetworkActivityUpdated(Activity * activity, Activi
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::NetworkActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::NetworkActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has network activity error");
@@ -497,7 +493,7 @@ void SmtpSyncOutboxCommand::UpdateAccountWatchActivity()
 	}
 }
 
-MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity * activity, Activity::EventType)
+MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity *  /*activity*/, Activity::EventType)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxcommand has updated account activity");
@@ -519,7 +515,7 @@ MojErr SmtpSyncOutboxCommand::AccountActivityUpdated(Activity * activity, Activi
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::AccountActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::AccountActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has account activity error");
@@ -977,7 +973,7 @@ void SmtpSyncOutboxCommand::CompleteAndUpdateActivities()
 	}
 }
 
-MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity * activity, Activity::EventType)
+MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity *  /*activity*/, Activity::EventType)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxcommand has updated activity");
@@ -999,7 +995,7 @@ MojErr SmtpSyncOutboxCommand::ActivityUpdated(Activity * activity, Activity::Eve
 	return MojErrNone;
 }
 
-MojErr SmtpSyncOutboxCommand::ActivityError(Activity * activity, Activity::ErrorType, const std::exception& exc)
+MojErr SmtpSyncOutboxCommand::ActivityError(Activity *  /*activity*/, Activity::ErrorType, const std::exception&  /*exc*/)
 {
 	try {
 		MojLogInfo(m_log, "SyncOutboxCommand has activity error");

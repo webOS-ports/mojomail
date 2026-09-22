@@ -31,8 +31,8 @@ class PopAccountEnableCommand : public PopClientCommand
 {
 public:
 	PopAccountEnableCommand(PopClient& client, MojServiceMessage* msg, MojObject& payload);
-	virtual ~PopAccountEnableCommand();
-	virtual void RunImpl();
+	~PopAccountEnableCommand() override;
+	void RunImpl() override;
 
 private:
 

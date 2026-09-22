@@ -28,10 +28,10 @@ class CheckDraftsCommand : public ImapClientCommand
 {
 public:
 	CheckDraftsCommand(ImapClient& client, const ActivityPtr& activity);
-	virtual ~CheckDraftsCommand();
+	~CheckDraftsCommand() override;
 
 protected:
-	virtual void RunImpl();
+	void RunImpl() override;
 
 	void GetDrafts();
 	MojErr GetDraftsResponse(MojObject& response, MojErr err);

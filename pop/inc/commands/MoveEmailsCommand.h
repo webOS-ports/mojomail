@@ -27,8 +27,8 @@ class MoveEmailsCommand : public PopClientCommand
 {
 public:
 	MoveEmailsCommand(PopClient& client, MojServiceMessage* msg, MojObject& payload);
-	virtual ~MoveEmailsCommand();
-	virtual void RunImpl();
+	~MoveEmailsCommand() override;
+	void RunImpl() override;
 
 private:
 	void 	SentEmailsQuery();

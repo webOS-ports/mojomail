@@ -28,9 +28,9 @@ class UpdateAccountErrorCommand : public ImapClientCommand
 {
 public:
 	UpdateAccountErrorCommand(ImapClient& client, const MailError::ErrorInfo& error);
-	virtual ~UpdateAccountErrorCommand();
+	~UpdateAccountErrorCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
 

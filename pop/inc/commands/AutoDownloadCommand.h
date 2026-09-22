@@ -31,15 +31,15 @@ public:
 	const static int BATCH_SIZE = 100;			// how many emails to request from the db at at time (must be <= 500)
 
 	AutoDownloadCommand(PopSession& session, const MojObject& folderId);
-	virtual ~AutoDownloadCommand();
+	~AutoDownloadCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 	MojErr	GetEmailsToFetchResponse(MojObject& response, MojErr err);
 
 private:
 	void		 GetEmailsToFetch();
-	virtual void Complete();
-	virtual	void Failure(const std::exception& ex);
+	void Complete() override;
+	void Failure(const std::exception& ex) override;
 
 	MojObject										m_folderId;
 	MojInt64										m_lastSyncRev;

@@ -28,11 +28,11 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	AuthPlainCommand(SmtpSession& session);
-	virtual ~AuthPlainCommand();
+	~AuthPlainCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 };
 
 #endif /* AUTHPLAINCOMMAND_H_ */

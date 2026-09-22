@@ -26,7 +26,7 @@ class FileCacheResizerOutputStream : public ChainedOutputStream
 {
 public:
 	FileCacheResizerOutputStream(const OutputStreamPtr& sink, FileCacheClient& fileCacheClient, const std::string& path, MojInt64 initialSize);
-	virtual ~FileCacheResizerOutputStream();
+	~FileCacheResizerOutputStream() override;
 
 	typedef MojSignal<> FullSignal;  // please stop writing new data
 	typedef MojSignal<> WriteableSignal; // space available to write
@@ -40,13 +40,13 @@ public:
 	}
 
 	// Overrides ByteBufferOutputStream
-	void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Overrides ByteBufferOutputStream
-	void Flush(FlushType flushType = FullFlush);
+	void Flush(FlushType flushType = FullFlush) override;
 
 	// Overrides ByteBufferOutputStream
-	void Close();
+	void Close() override;
 
 protected:
 	void FlushBuffer();

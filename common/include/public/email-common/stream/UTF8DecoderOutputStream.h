@@ -33,13 +33,13 @@ class UTF8DecoderOutputStream : public ChainedOutputStream
 
 public:
 	UTF8DecoderOutputStream(const OutputStreamPtr& sink, const char* converterName);
-	virtual ~UTF8DecoderOutputStream();
+	~UTF8DecoderOutputStream() override;
 
 	// Write some data to the stream
-	void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Close the stream
-	void Close();
+	void Close() override;
 
 protected:
 	void Write(const char* src, size_t length, bool eof);

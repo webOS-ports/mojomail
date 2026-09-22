@@ -30,14 +30,14 @@ class EnableAccountCommand : public ImapClientCommand
 {
 public:
 	EnableAccountCommand(ImapClient& client, MojServiceMessage* msg);
-	virtual ~EnableAccountCommand();
+	~EnableAccountCommand() override;
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
-	virtual bool Cancel(CancelType cancelType);
+	bool Cancel(CancelType cancelType) override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void CreateDefaultFolders();
 	MojErr CreateDefaultFoldersDone();
@@ -52,7 +52,7 @@ protected:
 	MojErr 	UpdateMissingCredentialsSyncStatusResponse();
 
 	void Done();
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	MojRefCountedPtr<MojServiceMessage>				m_msg;
 	std::string										m_capabilityProvider;

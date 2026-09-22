@@ -27,10 +27,10 @@ class HandleUpdateCommand : public ImapSyncSessionCommand
 {
 public:
 	HandleUpdateCommand(ImapSession& session, const MojObject& folderId, UID uid, bool deleted, const MojObject& newFlags);
-	virtual ~HandleUpdateCommand();
+	~HandleUpdateCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetEmail();
 	MojErr GetEmailResponse(MojObject& response, MojErr err);

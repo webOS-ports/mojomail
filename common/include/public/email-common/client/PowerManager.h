@@ -28,7 +28,7 @@ class PowerManager : public MojSignalHandler
 {
 public:
 	PowerManager(BusClient& client);
-	virtual ~PowerManager();
+	~PowerManager() override;
 
 	/**
 	 * Enable or disable the power manager.

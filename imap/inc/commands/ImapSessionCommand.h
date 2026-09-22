@@ -31,15 +31,15 @@ class ImapSessionCommand : public ImapCommand
 {
 public:
 	ImapSessionCommand(ImapSession& session, Priority priority = NormalPriority);
-	virtual ~ImapSessionCommand();
+	~ImapSessionCommand() override;
 	
 	static std::string QuoteString(const std::string& s);
 
 	void AddActivity(const ActivityPtr& activity);
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
-	virtual std::string Describe() const;
+	std::string Describe() const override;
 	std::string Describe(const MojObject& folderId) const;
 
 protected:
@@ -59,11 +59,11 @@ protected:
 		}
 	}
 
-	virtual bool PrepareToRun();
+	bool PrepareToRun() override;
 
 	virtual MojErr CommandActivityStarted();
 
-	virtual void Cleanup();
+	void Cleanup() override;
 
 	ImapSession&	m_session;
 

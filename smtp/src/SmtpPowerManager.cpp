@@ -55,7 +55,7 @@ void SmtpPowerManager::StayAwake(bool enabled, string reason)
 			m_stayAwakeCount--;
 
 			if (m_stayAwakeCount < 0)
-				throw new MailException("unmatched power request", __FILE__, __LINE__);
+				throw MailException("unmatched power request", __FILE__, __LINE__);
 			else if (m_stayAwakeCount == 0) {
 				MojLogInfo(s_log, "allowing the device to go to sleep");
 				CompleteActivity();
@@ -104,7 +104,7 @@ void SmtpPowerManager::CompleteActivity()
 	}
 }
 
-MojErr SmtpPowerManager::ActivityUpdate(Activity* activity, Activity::EventType event)
+MojErr SmtpPowerManager::ActivityUpdate(Activity*  /*activity*/, Activity::EventType event)
 {
 	if (event == Activity::StartEvent) {
 		if (m_state == State_PendingCompletion) {
@@ -118,7 +118,7 @@ MojErr SmtpPowerManager::ActivityUpdate(Activity* activity, Activity::EventType 
 	return MojErrNone;
 }
 
-MojErr SmtpPowerManager::ActivityException(Activity* activity, Activity::ErrorType errorType, const exception& exc)
+MojErr SmtpPowerManager::ActivityException(Activity*  /*activity*/, Activity::ErrorType errorType, const exception& exc)
 {
 	MojLogCritical(s_log, "error occurred when managing power activity: %s (type: %i)", exc.what(), errorType);
 	return MojErrNone;

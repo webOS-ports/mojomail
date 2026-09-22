@@ -34,10 +34,10 @@ class ScheduleRetryCommand : public ImapClientCommand
 {
 public:
 	ScheduleRetryCommand(ImapClient& client, const MojObject& folderId, SyncParams syncParams, const std::string& reason = "");
-	virtual ~ScheduleRetryCommand();
+	~ScheduleRetryCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void ScheduleRetry();
 	MojErr ScheduleRetryResponse(MojObject& response, MojErr err);

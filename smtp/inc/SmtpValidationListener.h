@@ -49,7 +49,7 @@ public:
 		UNKNOWN = 1000
 	} ValidationErrorCode;
 
-	virtual ~SmtpValidationListener() { };
+	~SmtpValidationListener() override { };
 
 	virtual void Success() = 0;
 	virtual void Failure(ValidationErrorCode errorCode, std::string errorText) = 0;

@@ -28,16 +28,16 @@ class AsyncOutputStream : public ByteBufferOutputStream
 {
 public:
 	AsyncOutputStream(AsyncIOChannel* channel);
-	virtual ~AsyncOutputStream();
+	~AsyncOutputStream() override;
 	
 	// Overrides ByteBufferOutputStream
-	void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Overrides ByteBufferOutputStream
-	void Flush(FlushType flushType = FullFlush);
+	void Flush(FlushType flushType = FullFlush) override;
 	
 	// Overrides ByteBufferOutputStream
-	void Close();
+	void Close() override;
 
 protected:
 	void FlushBuffer();

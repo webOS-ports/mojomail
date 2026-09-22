@@ -31,24 +31,24 @@ class FetchEmailCommand : public PopSessionPowerCommand
 {
 public:
 	FetchEmailCommand(PopSession& session, Request::RequestPtr request);
-	~FetchEmailCommand();
+	~FetchEmailCommand() override;
 
-	virtual void 	RunImpl();
+	void 	RunImpl() override;
 	MojErr			LoadEmailResponse(MojObject& response, MojErr err);
 	MojErr			ClearPreviousPartsResponse(MojObject& response, MojErr err);
 	MojErr 			GetEmailBodyResponse();
 	MojErr			UpdateEmailSummaryResponse(MojObject& response, MojErr err);
 	MojErr			UpdateEmailPartsResponse(MojObject& response, MojErr err);
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 private:
 	void			LoadEmail();
 	void			ClearPreviousParts();
 	void			FetchEmailBody();
 	void			UpdateEmailSummary(const PopEmail::PopEmailPtr& email);
 	void			UpdateEmailParts(const PopEmail::PopEmailPtr& email);
-	virtual void	Complete();
-	virtual	void	Failure(const std::exception& ex);
+	void	Complete() override;
+	void	Failure(const std::exception& ex) override;
 
 	Request::RequestPtr								m_request;
 	PopEmail::PopEmailPtr							m_email;

@@ -30,14 +30,14 @@ class ByteBufferOutputStream : public BaseOutputStream
 {
 public:
 	ByteBufferOutputStream(size_t softSizeLimit = 8192);
-	virtual ~ByteBufferOutputStream();
+	~ByteBufferOutputStream() override;
 	
 	typedef MojSignal<> FullSignal;  // please stop writing new data
 	typedef MojSignal<> ReadableSignal; // data ready to read
 	typedef MojSignal<> WriteableSignal; // space available to write
 	
 public: // BaseOutputStream methods
-	void Write(const char *src, size_t length) {
+	void Write(const char *src, size_t length) override {
 		m_buffer.append(src, length);
 
 		// If the buffer is full (past soft limit) call full signal
@@ -49,11 +49,11 @@ public: // BaseOutputStream methods
 			m_readableSignal.call();
 	}
 	
-	void Flush(FlushType flushType = FullFlush) {
+	void Flush(FlushType  /*flushType*/ = FullFlush) override {
 		m_readableSignal.call();
 	}
 	
-	void Close() {
+	void Close() override {
 		// does nothing
 	}
 

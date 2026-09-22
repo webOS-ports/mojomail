@@ -80,7 +80,7 @@ public:
 	//SmtpClient();
 	SmtpClient(SmtpBusDispatcher* smtpBusDispatcher, boost::shared_ptr<DatabaseInterface> dbInterface, boost::shared_ptr<DatabaseInterface> tempDbInterface,
 			  MojLunaService* service);
-	virtual ~SmtpClient();
+	~SmtpClient() override;
 
 	boost::shared_ptr<SmtpSession> GetSession();
 
@@ -102,7 +102,7 @@ public:
 	/**
 	 * @return ref counted pointer to a MojServiceRequest used for sending requests over the bus
 	 */
-	MojRefCountedPtr<MojServiceRequest> CreateRequest();
+	MojRefCountedPtr<MojServiceRequest> CreateRequest() override;
 
 	/**
 	 * Sets the account based on the ID.
@@ -141,7 +141,7 @@ public:
 
 	void RemoveWatches(const MojRefCountedPtr<MojServiceMessage> msg, MojObject& accountId);
 
-	void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 	/**
 	 * Handles failure of a command

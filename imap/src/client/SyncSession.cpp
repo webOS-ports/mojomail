@@ -130,7 +130,7 @@ void SyncSession::ClearRetry()
 	m_client.GetDatabaseInterface().UpdateAccountRetry(m_clearRetrySlot, m_client.GetAccountId(), accountObj);
 }
 
-MojErr SyncSession::ClearRetryResponse(MojObject& response, MojErr err)
+MojErr SyncSession::ClearRetryResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);
@@ -225,7 +225,7 @@ void SyncSession::UpdateScheduledSyncActivity()
 
 	if(m_folderId == m_client.GetAccount().GetInboxFolderId() && !m_client.GetAccount().IsManualSync() && !m_client.GetAccount().IsPush()) {
 		int intervalSeconds = m_client.GetAccount().GetSyncFrequencyMins() * 60;
-		factory.BuildScheduledSync(ab, accountId, m_folderId, intervalSeconds, true);
+		factory.BuildScheduledSync(ab, accountId, m_folderId, intervalSeconds);
 
 		m_activities->ReplaceActivity(ab.GetName(), ab.GetActivityObject());
 	}

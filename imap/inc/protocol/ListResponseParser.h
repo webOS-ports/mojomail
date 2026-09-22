@@ -33,19 +33,19 @@ class ListResponseParser : public BufferedResponseParser
 	
 public:
 	ListResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~ListResponseParser();
+	~ListResponseParser() override;
 	
 	void RunImpl();
 	
 	const std::vector<ImapFolderPtr>& GetFolders() const { return m_folders; }
 
 protected:
-	bool HandleUntaggedResponse(const std::string& line);
+	bool HandleUntaggedResponse(const std::string& line) override;
 	
 	void ParseFolder(const std::string& line, ImapFolder& folder);
 	void ParseFolder(TokenBuffer& tokenBuffer, ImapFolder& folder);
 	
-	void ResponseLineReady();
+	void ResponseLineReady() override;
 
 	std::vector<ImapFolderPtr>	m_folders;
 };

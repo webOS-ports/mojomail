@@ -32,9 +32,9 @@ class DisableAccountCommand : public ImapClientCommand
 {
 public:
 	DisableAccountCommand(ImapClient& client, const MojRefCountedPtr<MojServiceMessage>& msg, const MojObject& payload);
-	virtual ~DisableAccountCommand();
+	~DisableAccountCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 protected:
 	void GetFolders();
@@ -56,7 +56,7 @@ protected:
 
 	void Done();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	MojRefCountedPtr<MojServiceMessage>	m_msg;
 	MojObject							m_payload;

@@ -29,12 +29,12 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	LogoutCommand(PopSession& session);
-	~LogoutCommand();
+	~LogoutCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
-	virtual void   Failure(const std::exception& ex);
+	MojErr HandleResponse(const std::string& line) override;
+	void   Failure(const std::exception& ex) override;
 };
 
 #endif /* LOGOUTCOMMAND_H_ */

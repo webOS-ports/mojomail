@@ -27,10 +27,10 @@ class UidSearchResponseParser : public ImapResponseParser
 {
 public:
 	UidSearchResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot, std::vector<UID>& uidList);
-	virtual ~UidSearchResponseParser();
+	~UidSearchResponseParser() override;
 	
-	bool HandleUntaggedResponse(const std::string& line);
-	void HandleResponse(ImapStatusCode status, const std::string& response);
+	bool HandleUntaggedResponse(const std::string& line) override;
+	void HandleResponse(ImapStatusCode status, const std::string& response) override;
 	
 	static bool ParseUids(const std::string& line, std::vector<UID>& uids);
 	

@@ -460,7 +460,7 @@ void PopAccountEnableCommand::EnableSmtpAccount()
 	m_client.SendRequest(m_smtpAccountEnabledSlot, "com.palm.smtp", "accountEnabled", m_payload);
 }
 
-MojErr PopAccountEnableCommand::SmtpAccountEnabledResponse(MojObject& response, MojErr err)
+MojErr PopAccountEnableCommand::SmtpAccountEnabledResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		// check error response

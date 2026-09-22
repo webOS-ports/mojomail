@@ -28,6 +28,10 @@ LineReader::LineReader(const InputStreamPtr& inputStream)
   m_eof(false),
   m_expect(EXPECT_NONE),
   m_sizeExpected(0),
+  m_currentBufferPos(NULL),
+  m_currentBufferEnd(NULL),
+  m_currentLineEnd(NULL),
+  m_currentNewlinePos(NULL),
   m_lineLengthExceeded(false),
   m_timeoutExceeded(false),
   m_maximumLineLength(1048576), // 1MB

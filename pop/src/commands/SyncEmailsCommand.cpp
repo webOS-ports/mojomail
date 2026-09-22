@@ -259,7 +259,7 @@ void SyncEmailsCommand::FetchEmailHeader(const ReconcileEmailsCommand::Reconcile
 	m_downloadHeaderCommand->Run();
 }
 
-MojErr SyncEmailsCommand::GetEmailHeaderResponse(bool failed)
+MojErr SyncEmailsCommand::GetEmailHeaderResponse(bool  /*failed*/)
 {
 	m_visitedEmailHeadersCount++;
 
@@ -445,7 +445,7 @@ MojErr SyncEmailsCommand::LoadUidCacheResponse()
 			DeletedEmailsCache::CacheSet deleted = m_latestUidCache.GetDeletedEmailsCache().GetPendingDeletedCache();
 			DeletedEmailsCache::CacheSet::iterator setItr;
 			for (setItr = deleted.begin(); setItr != deleted.end(); setItr++) {
-				std::string uid = *setItr;
+				const std::string& uid = *setItr;
 				ReconcileEmailsCommand::LocalDeletedEmailInfo deletedInfo(MojObject::Undefined, uid);
 
 				if (m_alreadyDeletedUids.find(deletedInfo) == m_alreadyDeletedUids.end()) {

@@ -187,7 +187,7 @@ void ActivitySet::EndSomeActivities(set<ActivityPtr>& activities)
 	// Note, this could be called recursively
 	while(!activities.empty()) {
 		set<ActivityPtr>::iterator it = activities.begin();
-		ActivityPtr activity = *it;
+		const ActivityPtr& activity = *it;
 		activities.erase(it);
 
 		m_ending.insert(activity);
@@ -328,7 +328,7 @@ MojErr ActivitySet::ActivityUpdate(Activity* activity, Activity::EventType event
 	return MojErrNone;
 }
 
-MojErr ActivitySet::ActivityError(Activity* activity, Activity::ErrorType event, const std::exception& e)
+MojErr ActivitySet::ActivityError(Activity* activity, Activity::ErrorType  /*event*/, const std::exception& e)
 {
 	MojLogError(s_log, "activity error in activity set: %s: %s", activity->Describe().c_str(), e.what());
 	m_exception = ExceptionUtils::CopyException(e);

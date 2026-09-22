@@ -35,7 +35,7 @@ void QuitCommand::RunImpl()
 	SendCommand(COMMAND_STRING);
 }
 
-MojErr QuitCommand::HandleResponse(const std::string& line)
+MojErr QuitCommand::HandleResponse(const std::string&  /*line*/)
 {
 	if (m_status == Status_Ok) {
 		m_session.QuitSuccess();

@@ -30,9 +30,9 @@ QuotedPrintableEncoderOutputStream::~QuotedPrintableEncoderOutputStream() {
 
 #define output_char(c, force) do {					\
 	bool encode = force;							\
-	if (!((c == 32) || (c == 9) ||					\
-		(c >= 33 && c <= 60) ||						\
-		(c >= 62 && c <= 126)))						\
+	if (!(((c) == 32) || ((c) == 9) ||					\
+		((c) >= 33 && (c) <= 60) ||						\
+		((c) >= 62 && (c) <= 126)))						\
 		encode = true;								\
 													\
 	/* Enforce line wrapping */						\
@@ -44,13 +44,13 @@ QuotedPrintableEncoderOutputStream::~QuotedPrintableEncoderOutputStream() {
 	}												\
 													\
     /* For SMTP transparency, over-encode dots at beginning of line. */ \
-	if (c == '.' && m_col == 0)						\
+	if ((c) == '.' && m_col == 0)						\
 		encode = true;								\
 													\
 	if (encode) {									\
 		const char HEX[] = "0123456789ABCDEF";		\
-		unsigned int hi = ((unsigned char)c)>>4;	\
-		unsigned int lo = ((unsigned char)c)&0x0f;	\
+		unsigned int hi = ((unsigned char)(c))>>4;	\
+		unsigned int lo = ((unsigned char)(c))&0x0f;	\
 		outbuf[cnt++] = '=';						\
 		outbuf[cnt++] = HEX[hi];					\
 		outbuf[cnt++] = HEX[lo];					\

@@ -302,7 +302,7 @@ void ImapClient::EnableAccount(MojServiceMessage* msg)
 /**
  * Update account
  */
-void ImapClient::UpdateAccount(const MojObject& accountId, const ActivityPtr& activity, bool credentialsChanged)
+void ImapClient::UpdateAccount(const MojObject&  /*accountId*/, const ActivityPtr& activity, bool credentialsChanged)
 {
 	// Don't do anything if it is in progress disabling the account.
 	if(!DisableAccountInProgress())
@@ -717,7 +717,7 @@ void ImapClient::SendSmtpAccountEnableRequest(bool enabling)
 	SendRequest(m_smtpAccountEnabledSlot, "com.palm.smtp", "accountEnabled", payload);
 }
 
-MojErr ImapClient::SmtpAccountEnabledResponse(MojObject& response, MojErr err)
+MojErr ImapClient::SmtpAccountEnabledResponse(MojObject&  /*response*/, MojErr err)
 {
 	if (err)
 		return m_accountEnabledMsg->replyError(err);
@@ -805,7 +805,7 @@ void ImapClient::MagicWand(MojServiceMessage* msg, const MojObject& payload)
 	}
 }
 
-void ImapClient::UpdateSessionActive(ImapSession* session, bool isActive)
+void ImapClient::UpdateSessionActive(ImapSession*  /*session*/, bool  /*isActive*/)
 {
 	if(m_busDispatcher)
 		m_busDispatcher->UpdateClientActive(this, IsActive());

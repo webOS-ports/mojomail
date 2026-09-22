@@ -42,15 +42,15 @@ public:
 	};
 	
 	void Failure(const exception& exc);
-	void Cancel();
+	void Cancel() override;
 
 	SmtpCommand(Listener& client, Priority priority = NormalPriority);
-	virtual ~SmtpCommand();
+	~SmtpCommand() override;
 	
-	virtual void Run();
+	void Run() override;
 	virtual void RunImpl() = 0;
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
          	
 protected:
 	MojLogger& m_log;

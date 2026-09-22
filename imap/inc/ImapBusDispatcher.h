@@ -43,7 +43,7 @@ class ImapBusDispatcher : public MojService::CategoryHandler, public ImapValidat
 {
 public:
 	ImapBusDispatcher(ImapServiceApp& app);
-	virtual ~ImapBusDispatcher();
+	~ImapBusDispatcher() override;
 	
 	MojErr InitHandler();
 	
@@ -54,7 +54,7 @@ public:
 
 	NetworkStatusMonitor& GetNetworkStatusMonitor() const { return *m_networkStatusMonitor; }
 
-	void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 private:
 
@@ -72,10 +72,10 @@ private:
 		AccountCreator(ImapBusDispatcher& dispatcher, MojLogger& logger,
 					   MojServiceMessage* message,
 					   MojObject& payload);
-		virtual ~AccountCreator();
+		~AccountCreator() override;
 
-		void RunImpl();
-		void Status(MojObject& status) const;
+		void RunImpl() override;
+		void Status(MojObject& status) const override;
 
 	private:
 		MojErr GetAccountResponse(MojObject& response, MojErr err);
@@ -99,12 +99,12 @@ private:
 		{
 			msg->notifyCancel(m_cancelSlot);
 		}
-		virtual ~StatusSubscription() {}
+		~StatusSubscription() override {}
 
 		const MojRefCountedPtr<MojServiceMessage>& GetServiceMessage() const { return m_message; }
 
 	protected:
-		MojErr handleCancel(MojServiceMessage* msg) { m_dispatcher.StatusUnsubscribe(this); return MojErrNone; }
+		MojErr handleCancel(MojServiceMessage*  /*msg*/) { m_dispatcher.StatusUnsubscribe(this); return MojErrNone; }
 
 		ImapBusDispatcher& m_dispatcher;
 		MojRefCountedPtr<MojServiceMessage> m_message;
@@ -154,7 +154,7 @@ private:
 	static gboolean InactivityCallback(gpointer data);
 
 	// Called by ImapValidator
-	void	ValidationDone(ImapValidator* validator);
+	void	ValidationDone(ImapValidator* validator) override;
 
 	static gboolean	CleanupValidatorsCallback(gpointer data);
 

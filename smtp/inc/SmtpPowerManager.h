@@ -28,10 +28,10 @@ class SmtpPowerManager : public PowerManager, public MojSignalHandler
 {
 public:
 	SmtpPowerManager(SmtpClient& client);
-	virtual ~SmtpPowerManager();
+	~SmtpPowerManager() override;
 
 	void enabled(bool enabled) { m_enabled = enabled; };
-	virtual void StayAwake(bool enabled, std::string reason = "");
+	void StayAwake(bool enabled, std::string reason = "") override;
 
 private:
 	typedef enum {

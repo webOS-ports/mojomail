@@ -34,11 +34,11 @@ public:
 	ImapAccountFinder(ImapClient& client,
 					 MojObject accountId,
 					 bool sync);
-	virtual ~ImapAccountFinder();
+	~ImapAccountFinder() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
-	virtual void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 private:
 	ImapClient&						m_client;

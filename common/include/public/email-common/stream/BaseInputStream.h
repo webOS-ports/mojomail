@@ -32,7 +32,7 @@ class InputStreamSink : public virtual MojSignalHandler
 {
 public:
 	InputStreamSink(const MojRefCountedPtr<BaseInputStream>& source);
-	virtual ~InputStreamSink();
+	~InputStreamSink() override;
 
 	/**
 	 * Handle incoming data. If not all of the data is handled, it will get
@@ -61,7 +61,7 @@ class BaseInputStream : public InputStreamSink
 {
 public:
 	BaseInputStream(const MojRefCountedPtr<BaseInputStream>& source = MojRefCountedPtr<BaseInputStream>(NULL)) : InputStreamSink(source) {}
-	virtual ~BaseInputStream() {}
+	~BaseInputStream() override {}
 	
 	/**
 	 * Called to trigger a read, or start waiting for data to be available.
@@ -96,13 +96,13 @@ class ChainableInputStream : public BaseInputStream
 {
 public:
 	ChainableInputStream(const MojRefCountedPtr<BaseInputStream>& source = MojRefCountedPtr<BaseInputStream>(NULL));
-	virtual ~ChainableInputStream();
+	~ChainableInputStream() override;
 
-	virtual void StartReading();
-	virtual void DoneReading();
+	void StartReading() override;
+	void DoneReading() override;
 	
-	virtual void SetSink(InputStreamSink* sink);
-	virtual void RemoveSink(InputStreamSink* sink);
+	void SetSink(InputStreamSink* sink) override;
+	void RemoveSink(InputStreamSink* sink) override;
 	
 protected:
 	InputStreamSink* m_sink;

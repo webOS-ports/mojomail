@@ -140,7 +140,7 @@ void HandleUpdateCommand::UpdateFlags()
 	m_session.GetDatabaseInterface().MergeFlags(m_updateFlagsSlot, objects);
 }
 
-MojErr HandleUpdateCommand::UpdateFlagsResponse(MojObject& response, MojErr err)
+MojErr HandleUpdateCommand::UpdateFlagsResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

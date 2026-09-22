@@ -402,7 +402,7 @@ void EmailAdapter::SerializeRecipients(const char* type, const EmailAddressListP
 	EmailAddressList::const_iterator it;
 	
 	for(it = list->begin(); it != list->end(); ++it) {
-		EmailAddressPtr address = *it;
+		const EmailAddressPtr& address = *it;
 		if (!address.get()) {
 			throw MailException("Unable to serialize email: one of recipients is null", __FILE__, __LINE__);
 		}
@@ -447,7 +447,7 @@ void EmailAdapter::SerializeParts(const EmailPartList& partsList, MojObject& par
 	EmailPartList::const_iterator it;
 	
 	for(it = partsList.begin(); it != partsList.end(); ++it) {
-		EmailPartPtr emailPart = *it;
+		const EmailPartPtr& emailPart = *it;
 		if (!emailPart.get()) {
 			throw MailException("Unable to serialize email: one of the parts is null", __FILE__, __LINE__);
 		}

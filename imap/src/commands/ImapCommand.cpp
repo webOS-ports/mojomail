@@ -128,7 +128,7 @@ void ImapCommand::Cancel()
 	Cancel(CancelType_Unknown);
 }
 
-bool ImapCommand::Cancel(CancelType type)
+bool ImapCommand::Cancel(CancelType  /*type*/)
 {
 	if(IsRunning()) {
 		// Don't cancel

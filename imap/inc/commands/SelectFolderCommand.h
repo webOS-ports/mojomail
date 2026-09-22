@@ -30,10 +30,10 @@ class SelectFolderCommand : public ImapSessionCommand
 {
 public:
 	SelectFolderCommand(ImapSession& session, const MojObject& folderId);
-	virtual ~SelectFolderCommand();
+	~SelectFolderCommand() override;
 	
-	void RunImpl();
-	std::string Describe() const;
+	void RunImpl() override;
+	std::string Describe() const override;
 
 protected:
 	void GetFolder();
@@ -50,7 +50,7 @@ protected:
 
 	void SelectDone();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	ImapFolderPtr	m_folder;
 	MojObject 		m_selectFolderId;

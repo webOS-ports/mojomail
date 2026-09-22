@@ -26,47 +26,47 @@ class MojoDatabase : public DatabaseInterface
 {
 public:
 	MojoDatabase(MojDbClient& dbClient);
-	virtual ~MojoDatabase();
+	~MojoDatabase() override;
 	
-	void Find(Signal::SlotRef slot, MojDbQuery query);
-	void GetById(Signal::SlotRef slot, const MojObject& id);
-	void GetByIds(Signal::SlotRef slot, const MojObject::ObjectVec& ids);
-	void GetEmail(Signal::SlotRef slot, const MojObject& folderId, UID uid);
+	void Find(Signal::SlotRef slot, MojDbQuery query) override;
+	void GetById(Signal::SlotRef slot, const MojObject& id) override;
+	void GetByIds(Signal::SlotRef slot, const MojObject::ObjectVec& ids) override;
+	void GetEmail(Signal::SlotRef slot, const MojObject& folderId, UID uid) override;
 
-	void CreateFolders(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	void ReserveIds(Signal::SlotRef slot, MojUInt32 num);
-	void DeleteIds(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	void PurgeIds(Signal::SlotRef slot, const MojObject::ObjectVec& array);
-	void DeleteFolderEmails(Signal::SlotRef slot, const MojObject& folderId);
-	void DeleteAccount(Signal::SlotRef slot, const MojObject& accountId);
+	void CreateFolders(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void ReserveIds(Signal::SlotRef slot, MojUInt32 num) override;
+	void DeleteIds(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void PurgeIds(Signal::SlotRef slot, const MojObject::ObjectVec& array) override;
+	void DeleteFolderEmails(Signal::SlotRef slot, const MojObject& folderId) override;
+	void DeleteAccount(Signal::SlotRef slot, const MojObject& accountId) override;
 	
-	void GetAccount(Signal::SlotRef slot, const MojObject& accountId);
+	void GetAccount(Signal::SlotRef slot, const MojObject& accountId) override;
 
 	// Sync
-	void GetEmailChanges(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0);
-	void GetSentEmails(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0);
-	void GetDrafts(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0);
-	void GetMovedEmails(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0);
-	void GetDeletedEmails(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0);
-	void GetEmailSyncList(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0);
+	void GetEmailChanges(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetSentEmails(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetDrafts(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetMovedEmails(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetDeletedEmails(Signal::SlotRef slot, const MojObject& folderId, MojInt64 rev, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
+	void GetEmailSyncList(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit = 0) override;
 
-	void GetAutoDownloads(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit);
+	void GetAutoDownloads(Signal::SlotRef slot, const MojObject& folderId, const MojDbQuery::Page& page, MojInt32 limit) override;
 
-	void GetFolders(Signal::SlotRef slot, const MojObject& accountId, const MojDbQuery::Page& page, bool allFolders = false);
-	void GetFolderName(Signal::SlotRef slot, const MojObject& folderId);
+	void GetFolders(Signal::SlotRef slot, const MojObject& accountId, const MojDbQuery::Page& page, bool allFolders = false) override;
+	void GetFolderName(Signal::SlotRef slot, const MojObject& folderId) override;
 	
-	void UpdateAccount(Signal::SlotRef slot, const MojObject& accountId, const MojObject& props);
-	void UpdateAccountSpecialFolders(Signal::SlotRef slot, const ImapAccount& account);
-	void UpdateAccountError(Signal::SlotRef slot, const MojObject& accountId, const MojObject& errStatus);
-	void UpdateAccountRetry(Signal::SlotRef slot, const MojObject& accountId, const MojObject& retryStatus);
+	void UpdateAccount(Signal::SlotRef slot, const MojObject& accountId, const MojObject& props) override;
+	void UpdateAccountSpecialFolders(Signal::SlotRef slot, const ImapAccount& account) override;
+	void UpdateAccountError(Signal::SlotRef slot, const MojObject& accountId, const MojObject& errStatus) override;
+	void UpdateAccountRetry(Signal::SlotRef slot, const MojObject& accountId, const MojObject& retryStatus) override;
 
-	void PutEmails(Signal::SlotRef slot, const MojObject::ObjectVec& ids);
-	void MergeFlags(Signal::SlotRef slot, const MojObject::ObjectVec& objects);
-	void UpdateEmails(Signal::SlotRef slot, const MojObject::ObjectVec& objects);
-	void DeleteEmailIds(Signal::SlotRef slot, const MojObject::ObjectVec& ids);
+	void PutEmails(Signal::SlotRef slot, const MojObject::ObjectVec& ids) override;
+	void MergeFlags(Signal::SlotRef slot, const MojObject::ObjectVec& objects) override;
+	void UpdateEmails(Signal::SlotRef slot, const MojObject::ObjectVec& objects) override;
+	void DeleteEmailIds(Signal::SlotRef slot, const MojObject::ObjectVec& ids) override;
 	
-	void UpdateEmail(Signal::SlotRef slot, const MojObject& email);
-	void UpdateFolder(Signal::SlotRef slot, const MojObject& obj);
+	void UpdateEmail(Signal::SlotRef slot, const MojObject& email) override;
+	void UpdateFolder(Signal::SlotRef slot, const MojObject& obj) override;
 
 protected:
 	MojDbClient&	m_dbClient;

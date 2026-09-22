@@ -154,7 +154,7 @@ void ScheduleRetryCommand::UpdateAccount()
 	m_client.GetDatabaseInterface().UpdateAccountRetry(m_updateAccountSlot, m_client.GetAccountId(), accountObj);
 }
 
-MojErr ScheduleRetryCommand::UpdateAccountResponse(MojObject& response, MojErr err)
+MojErr ScheduleRetryCommand::UpdateAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

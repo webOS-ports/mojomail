@@ -31,10 +31,10 @@ class QuotePrintableDecoderOutputStream : public ChainedOutputStream
 
 public:
 	QuotePrintableDecoderOutputStream(const OutputStreamPtr& sink);
-	virtual ~QuotePrintableDecoderOutputStream();
+	~QuotePrintableDecoderOutputStream() override;
 
 	// Write some data to the stream
-	virtual void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 protected:
 	boost::shared_array<char>	m_outbuf;

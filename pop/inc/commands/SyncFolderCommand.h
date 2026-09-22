@@ -29,9 +29,9 @@ class SyncFolderCommand : public PopClientCommand
 {
 public:
 	SyncFolderCommand(PopClient& client, const MojObject& payload);
-	virtual ~SyncFolderCommand();
+	~SyncFolderCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	MojErr		 OutboxSyncResponse(MojObject& response, MojErr err);
 	void		 SyncFolder();

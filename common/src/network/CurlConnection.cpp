@@ -320,7 +320,7 @@ size_t CurlConnection::CurlHeaderCallback(char* stream, size_t size, size_t nmem
 	return (size_t) -1;
 }
 
-void CurlConnection::GlibcurlCallback(void* data)
+void CurlConnection::GlibcurlCallback(void*  /*data*/)
 {
 	// Loop through the message queue to see if we're done with the connection
 	CURLMsg* msg = NULL;
@@ -554,7 +554,7 @@ std::string CurlConnection::ExtractHostnameFromUrl(const std::string& url)
 	size_t schemeDelim = url.find("://");
 	if (schemeDelim) {
 		size_t schemeEnd = schemeDelim + 3; // skip past ://
-		size_t hostEnd = url.find("/", schemeEnd);
+		size_t hostEnd = url.find('/', schemeEnd);
 
 		if (url.at(schemeEnd) == '[') { // IPv6 literal (RFC 2732)
 			// strip the brackets

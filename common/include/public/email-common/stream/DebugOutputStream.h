@@ -25,14 +25,16 @@ class DebugOutputStream : public ChainedOutputStream
 {
 public:
 	DebugOutputStream(const OutputStreamPtr& sink, const char* filename = "/dev/fd/2");
-	virtual ~DebugOutputStream();
+	~DebugOutputStream() override;
 
-	virtual void Write(const char* src, size_t bytes);
+	void Write(const char* src, size_t bytes) override;
 	virtual void Flush();
-	virtual void Close();
+	void Close() override;
 
 protected:
-	virtual void Init(const char* filename);
+	// Deliberately not virtual: it is called from the constructor, where dynamic
+	// dispatch would not reach an override anyway. Nothing overrides it.
+	void Init(const char* filename);
 
 	FILE*	m_file;
 };
@@ -41,9 +43,9 @@ class HexOutputStream : public DebugOutputStream
 {
 public:
 	HexOutputStream(const OutputStreamPtr& sink, const char* filename = "/dev/fd/2");
-	virtual ~HexOutputStream();
+	~HexOutputStream() override;
 
-	virtual void Write(const char* src, size_t bytes);
+	void Write(const char* src, size_t bytes) override;
 };
 
 #endif /* DEBUGOUTPUTSTREAM_H_ */

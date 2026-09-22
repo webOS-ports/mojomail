@@ -52,9 +52,9 @@ public:
 	typedef MojSignal1<bool>	DoneSignal;
 
 	SyncEmailsCommand(PopSession& sesion, const MojObject& folderId, boost::shared_ptr<UidMap>& uidMap);
-	virtual ~SyncEmailsCommand();
+	~SyncEmailsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
 	static const int LOAD_EMAIL_BATCH_SIZE;  // batch size to load emails from database
 	static const int SAVE_EMAIL_BATCH_SIZE;  // batch size to persist emails to database
@@ -101,12 +101,12 @@ private:
 	void 			DeleteServerEmails();
 	void			LoadLatestUidCache();
 	void			SaveUidCache();
-	virtual void 	HandleNextRequest();
+	void 	HandleNextRequest() override;
 	void			CheckState();
 	void			CommandComplete();
-	virtual	void	Failure(const std::exception& ex);
+	void	Failure(const std::exception& ex) override;
 
-	virtual MojErr 	HandleRequestResponse();
+	MojErr 	HandleRequestResponse() override;
 
 	boost::shared_ptr<PopAccount>					m_account;
 	MojObject 										m_folderId;

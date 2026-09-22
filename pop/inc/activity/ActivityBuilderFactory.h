@@ -29,7 +29,7 @@ public:
 	static const char* const POP_ACTIVITY_CREATOR_ID;
 
 	ActivityBuilderFactory();
-	~ActivityBuilderFactory();
+	~ActivityBuilderFactory() override;
 
 	void SetAccountId(const MojObject& accountId);
 

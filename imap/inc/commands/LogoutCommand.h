@@ -27,15 +27,15 @@ class LogoutCommand : public ImapSessionCommand
 {
 public:
 	LogoutCommand(ImapSession& session);
-	virtual ~LogoutCommand();
+	~LogoutCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void SendLogout();
 	MojErr LogoutResponse();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	static const int LOGOUT_RESPONSE_TIMEOUT;
 

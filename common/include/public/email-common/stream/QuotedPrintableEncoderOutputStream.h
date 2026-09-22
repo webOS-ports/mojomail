@@ -28,15 +28,15 @@ class QuotedPrintableEncoderOutputStream : public ChainedOutputStream
 	
 public:
 	QuotedPrintableEncoderOutputStream(const OutputStreamPtr& sink);
-	virtual ~QuotedPrintableEncoderOutputStream();
+	~QuotedPrintableEncoderOutputStream() override;
 
 	// Write some data to the stream
 	// Overrides BaseOutputStream
-	virtual void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Flush the stream, including any chained streams
 	// Overrides BaseOutputStream
-	virtual void Flush(FlushType fullFlush = FullFlush);
+	void Flush(FlushType fullFlush = FullFlush) override;
 
 protected:
 	boost::shared_array<char>	m_outbuf;

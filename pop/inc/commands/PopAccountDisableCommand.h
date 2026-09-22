@@ -27,9 +27,9 @@ class PopAccountDisableCommand : public PopClientCommand
 public:
 	PopAccountDisableCommand(PopClient& client, boost::shared_ptr<DatabaseInterface> dbInterface,
 			const MojObject& payload, MojRefCountedPtr<MojServiceMessage> msg);
-	~PopAccountDisableCommand();
+	~PopAccountDisableCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	MojLogger m_log;
 

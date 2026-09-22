@@ -26,12 +26,12 @@ class ConnectCommand : public ImapSessionCommand
 {
 public:
 	ConnectCommand(ImapSession& session, const std::string& bindAddress = "");
-	virtual ~ConnectCommand();
+	~ConnectCommand() override;
 	
-	std::string Describe() const;
+	std::string Describe() const override;
 
 protected:
-	virtual void RunImpl();
+	void RunImpl() override;
 	MojErr Connected(const std::exception* exc);
 	void ConnectFailure(const std::exception& exc);
 	

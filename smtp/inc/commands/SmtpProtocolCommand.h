@@ -32,7 +32,7 @@ public:
 		Status_Err
 	};
 	SmtpProtocolCommand(SmtpSession& session, Priority priority = NormalPriority);
-	virtual ~SmtpProtocolCommand();
+	~SmtpProtocolCommand() override;
 
 	// Invoked for all lines of response
 	virtual MojErr HandleMultilineResponse(const std::string& line, int lineNumber, bool lastLine);

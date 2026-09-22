@@ -58,7 +58,7 @@ bool CapabilityResponseParser::HandleUntaggedResponse(const std::string& line)
 	return false;
 }
 
-void CapabilityResponseParser::HandleResponse(ImapStatusCode status, const std::string& line)
+void CapabilityResponseParser::HandleResponse(ImapStatusCode  /*status*/, const std::string& line)
 {
 	if(boost::istarts_with(line, "[CAPABILITY")) {
 		size_t end = line.find(']');

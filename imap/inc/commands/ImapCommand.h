@@ -51,10 +51,10 @@ public:
 	};
 
 	ImapCommand(Listener& listener, Priority priority = NormalPriority, MojLogger& logger = *MojLogEngine::instance()->defaultLogger());
-	virtual ~ImapCommand();
+	~ImapCommand() override;
 	
-	virtual void Run();
-	virtual void Cancel();
+	void Run() override;
+	void Cancel() override;
 	virtual bool Cancel(CancelType cancelType);
 
 	static MailError::ErrorInfo GetCancelErrorInfo(CancelType cancelType);
@@ -64,18 +64,18 @@ public:
 	virtual void Run(MojSignal<>::SlotRef doneSlot);
 
 	// Returns a string with a short description of the command
-	virtual std::string Describe() const;
+	std::string Describe() const override;
 
 	// Store a result object which monitors the command failure/completion
 	virtual void SetResult(const MojRefCountedPtr<ImapCommandResult>& result);
 
 	virtual const MojRefCountedPtr<ImapCommandResult>& GetResult();
 
-	virtual void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 	virtual CommandType GetType() const { return CommandType_Unknown; }
 
-	virtual bool Equals(const ImapCommand& other) const { return false; }
+	virtual bool Equals(const ImapCommand&  /*other*/) const { return false; }
 
 	/**
 	 * Reports that the command is busy doing something, and therefore not stuck.
@@ -86,7 +86,7 @@ public:
 protected:
 	virtual void	RunImpl() = 0;
 	virtual void	Failure(const std::exception& exc);
-	virtual void	Complete();
+	void	Complete() override;
 	virtual void	Cleanup();
 
 	virtual bool	PrepareToRun();

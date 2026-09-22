@@ -36,27 +36,35 @@ public:
 	// Open an IO channel for a file
 	static MojRefCountedPtr<AsyncIOChannel> CreateFileIOChannel(const char* filename, const char* mode);
 
-	virtual void Shutdown();
+	// Wrap an already-open descriptor; the channel closes it.
+	static MojRefCountedPtr<AsyncIOChannel> CreateFileIOChannelFromFD(int fd);
+
+	void Shutdown() override;
+
+	// Non-virtual, so the destructor can shut the channel down without relying
+	// on dynamic dispatch (which is already gone by the time ~GIOChannelWrapper
+	// runs, and would silently skip a subclass override).
+	void ShutdownChannel();
 	
-	virtual size_t Read(char* dst, size_t count, bool& eof);
-	virtual size_t Write(const char* src, size_t count);
+	size_t Read(char* dst, size_t count, bool& eof) override;
+	size_t Write(const char* src, size_t count) override;
 	
-	virtual const InputStreamPtr&		GetInputStream();
-	virtual const OutputStreamPtr&		GetOutputStream();
+	const InputStreamPtr&		GetInputStream() override;
+	const OutputStreamPtr&		GetOutputStream() override;
 	
 	int GetFD() const;
 	virtual void Status(MojObject& status) const;
 
 protected:
 	GIOChannelWrapper(GIOChannel* channel);
-	virtual ~GIOChannelWrapper();
+	~GIOChannelWrapper() override;
 	
 	static gboolean ChannelCallback(GIOChannel* channel, GIOCondition cond, gpointer data);
 	
 	virtual void ErrorOrEOF();
 
-	virtual void SetWatchReadable(bool watch);
-	virtual void SetWatchWriteable(bool watch);
+	void SetWatchReadable(bool watch) override;
+	void SetWatchWriteable(bool watch) override;
 
 	GIOChannel*		m_channel;
 	int				m_readers;
@@ -72,9 +80,10 @@ class GIOChannelWrapperFactory : public AsyncIOChannelFactory
 {
 public:
 	GIOChannelWrapperFactory();
-	virtual ~GIOChannelWrapperFactory();
+	~GIOChannelWrapperFactory() override;
 	
-	virtual MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode);
+	MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode) override;
+	MojRefCountedPtr<AsyncIOChannel> OpenFileDescriptor(int fd) override;
 };
 
 #endif /*GIOCHANNELWRAPPER_H_*/

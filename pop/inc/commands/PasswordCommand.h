@@ -28,11 +28,11 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	PasswordCommand(PopSession& session, std::string pwd);
-	~PasswordCommand();
+	~PasswordCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 	std::string		m_password;
 };
 

@@ -27,6 +27,12 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/foreach.hpp>
 #include "CommonPrivate.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <limits.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -189,7 +195,7 @@ void AsyncEmailWriter::WriteQueuedParts()
 			if(canSkip) {
 				continue; // get next part (if any)
 			} else {
-				throw e;
+				throw;
 			}
 		}
 	}
@@ -198,7 +204,7 @@ void AsyncEmailWriter::WriteQueuedParts()
 	WriteParts();
 }
 
-MojErr AsyncEmailWriter::WritePartDone(const std::exception* e)
+MojErr AsyncEmailWriter::WritePartDone(const std::exception*  /*e*/)
 {
 	try {
 		WritePartFooter();
@@ -266,51 +272,85 @@ void FilePartWriter::SetChannelFactory(const boost::shared_ptr<AsyncIOChannelFac
 	m_ioFactory = factory;
 }
 
+// Resolve the path the kernel associates with an open descriptor. Unlike
+// canonicalising the name we were handed, this describes the object we are
+// already holding, so nothing can be swapped underneath it afterwards.
+static bool ResolveOpenPath(int fd, std::string& resolved)
+{
+	char fdPath[64];
+	snprintf(fdPath, sizeof(fdPath), "/proc/self/fd/%d", fd);
+
+	char buf[PATH_MAX];
+	ssize_t len = readlink(fdPath, buf, sizeof(buf) - 1);
+	if(len < 0) {
+		return false;
+	}
+
+	buf[len] = '\0';
+	resolved.assign(buf, len);
+	return true;
+}
+
 void FilePartWriter::OpenFile(const std::string& filename)
 {
 	std::string filePath = filename;
 
 	StringUtils::SanitizeFilePath(filePath);
 
-	bool isPathAllowed = SBIsPathAllowed(filePath.c_str(), "" /* publicly-accessible files only */, SB_READ);
+	// Open first, then validate what we actually got. Validating the name and
+	// re-opening it afterwards is a TOCTOU: between the check and the open the
+	// path can be pointed somewhere else. O_NOFOLLOW additionally refuses a
+	// symlink as the final component, which is what the old comment here
+	// admitted it could not handle.
+	int fd = ::open(filePath.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC);
+	if(fd < 0) {
+		MojLogError(s_log, "error opening file %s: %s", filePath.c_str(), strerror(errno));
+		throw MailException("error opening part file", __FILE__, __LINE__);
+	}
 
-	// FIXME: exempt /tmp until people stop using it
-	if(!isPathAllowed) {
-		// NOTE: this allocates memory which must be freed.
-		char* tempPath = SBCanonicalizePath(filePath.c_str());
-
-		std::string canonicalPath;
-
-		if(tempPath) {
-			if(tempPath)
-				canonicalPath.assign(tempPath);
-
-			free(tempPath);
+	try {
+		// Attachments are files. Anything else -- a fifo, a device node -- would
+		// block or hand us something we should not be reading.
+		struct stat st;
+		if(fstat(fd, &st) != 0) {
+			throw MailException("could not stat part file", __FILE__, __LINE__);
 		}
 
-		// NOTE: this doesn't check for malicious symlinks
-		if(boost::starts_with(canonicalPath, "/tmp/")) {
+		if(!S_ISREG(st.st_mode)) {
+			MojLogWarning(s_log, "part path is not a regular file");
+			throw MailException("invalid part file path: not a regular file", __FILE__, __LINE__);
+		}
+
+		// Run the sandbox check against the path of the descriptor we hold, not
+		// against the name we were given.
+		std::string openedPath;
+		if(!ResolveOpenPath(fd, openedPath)) {
+			throw MailException("could not resolve part file path", __FILE__, __LINE__);
+		}
+
+		bool isPathAllowed = SBIsPathAllowed(openedPath.c_str(), "" /* publicly-accessible files only */, SB_READ);
+
+		// FIXME: exempt /tmp until people stop using it
+		if(!isPathAllowed && boost::starts_with(openedPath, "/tmp/")) {
 			isPathAllowed = true;
 		}
-	}
 
-	// Check if the path is valid
-	if(!isPathAllowed) {
-		MojLogWarning(s_log, "attempted to access part path outside of sandbox");
-		throw MailException("invalid part file path: permission denied", __FILE__, __LINE__);
-	}
+		if(!isPathAllowed) {
+			MojLogWarning(s_log, "attempted to access part path outside of sandbox");
+			throw MailException("invalid part file path: permission denied", __FILE__, __LINE__);
+		}
 
-	// Create channel
-	try {
 		if(!m_ioFactory.get()) {
 			m_ioFactory.reset(new GIOChannelWrapperFactory());
 		}
 
-		m_partChannel = m_ioFactory->OpenFile(filePath.c_str(), "r");
+		// The channel adopts the descriptor from here on.
+		m_partChannel = m_ioFactory->OpenFileDescriptor(fd);
 	} catch(const std::exception& e) {
+		::close(fd);
 		MojLogError(s_log, "error opening file %s: %s", filePath.c_str(), e.what());
 
-		throw e;
+		throw;
 	}
 }
 
@@ -420,7 +460,7 @@ void FilePartWriter::PartFinished()
 	} CATCH_AS_PART_FAILED
 }
 
-void FilePartWriter::WritePartFailed(const std::exception& e)
+void FilePartWriter::WritePartFailed(const std::exception&  /*e*/)
 {
 	m_partChannelReadableSlot.cancel();
 

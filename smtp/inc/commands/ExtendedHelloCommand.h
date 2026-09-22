@@ -35,13 +35,13 @@ public:
 	static const char* const	YAHOO_AUTH_KEYWORD;
 
 	ExtendedHelloCommand(SmtpSession& session, const std::string & serverName);
-	virtual ~ExtendedHelloCommand();
+	~ExtendedHelloCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 
 private:
-	virtual MojErr HandleResponse(const std::string&);
-	virtual MojErr HandleMultilineResponse(const std::string& line, int lineNumber, bool lastLine);
+	MojErr HandleResponse(const std::string&) override;
+	MojErr HandleMultilineResponse(const std::string& line, int lineNumber, bool lastLine) override;
 	
 	std::string m_serverName;
 	bool m_sawSizeExtension;

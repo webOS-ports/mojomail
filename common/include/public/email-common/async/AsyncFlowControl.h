@@ -29,7 +29,7 @@ class AsyncFlowControl : public MojSignalHandler
 {
 public:
 	AsyncFlowControl(const MojRefCountedPtr<AsyncEmailWriter>& writer, const MojRefCountedPtr<AsyncOutputStream>& sink);
-	virtual ~AsyncFlowControl();
+	~AsyncFlowControl() override;
 
 protected:
 	MojErr HandleSinkFull();

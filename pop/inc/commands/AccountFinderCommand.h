@@ -30,9 +30,9 @@ class AccountFinderCommand : public PopClientCommand
 {
 public:
 	AccountFinderCommand(PopClient& client, MojObject accountId);
-	virtual ~AccountFinderCommand();
+	~AccountFinderCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
 	boost::shared_ptr<PopAccount>	m_account;
 	MojObject						m_accountId;
@@ -44,7 +44,7 @@ private:
 	MojErr	GetPasswordResponse(MojObject& response, MojErr err);
 	void	GetPopAccount();
 	MojErr	GetPopAccountResponse(MojObject& response, MojErr err);
-	virtual void Failure(const std::exception& exc);
+	void Failure(const std::exception& exc) override;
 
 	MojServiceRequest::ReplySignal::Slot<AccountFinderCommand> 	m_getAccountSlot;
 	MojServiceRequest::ReplySignal::Slot<AccountFinderCommand> 	m_getPasswordSlot;

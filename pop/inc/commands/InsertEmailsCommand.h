@@ -28,9 +28,9 @@ class InsertEmailsCommand : public PopSessionCommand
 {
 public:
 	InsertEmailsCommand(PopSession& session, PopEmail::PopEmailPtrVectorPtr emails);
-	virtual ~InsertEmailsCommand();
+	~InsertEmailsCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 	MojErr	ReserverEmailIdsResponse(MojObject& response, MojErr err);
 	MojErr	SaveEmailsResponse(MojObject& response, MojErr err);
 private:

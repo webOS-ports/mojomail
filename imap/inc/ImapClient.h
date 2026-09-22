@@ -60,7 +60,7 @@ class ImapClient : public MojSignalHandler, public BusClient, public Command::Li
 public:
 
 	ImapClient(MojLunaService* service, ImapBusDispatcher* dispatcher, const MojObject& accountId, const boost::shared_ptr<DatabaseInterface>& dbInterface);
-	virtual ~ImapClient();
+	~ImapClient() override;
 
 	// singleton session // possibly in an array // just for now
 	// pick the first session and call the corresponding method
@@ -137,7 +137,7 @@ public:
 	/**
 	 * Handles completion of a command
 	 */
-	void CommandComplete(Command* command);
+	void CommandComplete(Command* command) override;
 
 	/**
 	 * Handles failure of a command

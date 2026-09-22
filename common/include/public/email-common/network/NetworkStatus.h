@@ -93,11 +93,17 @@ public:
 	// May be a NULL pointer if no interface is persistent.
 	const boost::shared_ptr<InterfaceStatus>& GetPersistentInterface() const;
 
-	// Get WAN status
+	// Get WAN status. On webOS OSE this is the connection manager's "cellular"
+	// interface; legacy webOS called it "wan".
 	const boost::shared_ptr<InterfaceStatus>& GetWanStatus() const { return m_wan; }
 
 	// Get WIFI status
 	const boost::shared_ptr<InterfaceStatus>& GetWifiStatus() const { return m_wifi; }
+
+	// Get wired (ethernet) status. Legacy webOS phones had no wired interface,
+	// but the webOS OSE connection manager reports one and it's the only
+	// interface available on emulator/desktop builds.
+	const boost::shared_ptr<InterfaceStatus>& GetWiredStatus() const { return m_wired; }
 
 	// Compare to another NetworkStatus. Make sure to deref pointers.
 	bool operator==(const NetworkStatus& other) const;
@@ -110,6 +116,7 @@ protected:
 
 	boost::shared_ptr<InterfaceStatus>		m_wan;
 	boost::shared_ptr<InterfaceStatus>		m_wifi;
+	boost::shared_ptr<InterfaceStatus>		m_wired;
 
 	const boost::shared_ptr<InterfaceStatus> s_nullInterface;
 };

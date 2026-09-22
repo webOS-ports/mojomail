@@ -112,7 +112,7 @@ void IdleCommand::Idle()
 	m_session.SendRequest("IDLE", m_parser);
 }
 
-MojErr IdleCommand::WakeupActivityUpdate(Activity* activity, Activity::EventType eventType)
+MojErr IdleCommand::WakeupActivityUpdate(Activity*  /*activity*/, Activity::EventType eventType)
 {
 	if(eventType == Activity::StartEvent) {
 		EndIdle();
@@ -121,7 +121,7 @@ MojErr IdleCommand::WakeupActivityUpdate(Activity* activity, Activity::EventType
 	return MojErrNone;
 }
 
-MojErr IdleCommand::WakeupActivityError(Activity* activity, Activity::ErrorType errorType, const exception& e)
+MojErr IdleCommand::WakeupActivityError(Activity*  /*activity*/, Activity::ErrorType  /*errorType*/, const exception& e)
 {
 	MojLogWarning(m_log, "failed to create idle wakeup activity: %s", e.what());
 	return MojErrNone;

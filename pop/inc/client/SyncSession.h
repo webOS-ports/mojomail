@@ -32,37 +32,37 @@ class SyncSession : public BaseSyncSession
 {
 public:
 	SyncSession(PopClient& client, const MojObject& folderId);
-	virtual ~SyncSession();
+	~SyncSession() override;
 
-	virtual void	CommandCompleted(Command* command);
+	void	CommandCompleted(Command* command) override;
 	void 			AttachActivity(ActivityPtr activity);
 	void 			WaitForSessionComplete(MojSignal<>::SlotRef completedSlot);
 	void			SetAccountError(EmailAccount::AccountError accntErr);
 private:
 	static const int GET_CHANGES_BATCH_SIZE;
 
-	virtual void GetNewChanges(MojDbClient::Signal::SlotRef slot, MojObject folderId, MojInt64 rev, MojDbQuery::Page &page);
-	virtual void GetById(MojDbClient::Signal::SlotRef slot, const MojObject& id);
-	virtual void Merge(MojDbClient::Signal::SlotRef slot, const MojObject& obj);
+	void GetNewChanges(MojDbClient::Signal::SlotRef slot, MojObject folderId, MojInt64 rev, MojDbQuery::Page &page) override;
+	void GetById(MojDbClient::Signal::SlotRef slot, const MojObject& id) override;
+	void Merge(MojDbClient::Signal::SlotRef slot, const MojObject& obj) override;
 
 	virtual void SetWatchParams(ActivityBuilder& actBuilder);
 
-	virtual void UpdateActivities();
+	void UpdateActivities() override;
 
 	// Overrides BaseSyncSession
-	virtual void UpdateAndEndActivities();
+	void UpdateAndEndActivities() override;
 	virtual MojErr ScheduleRetryDone();
 	virtual void UpdateScheduledSyncActivity();
 	virtual void UpdateRetryActivity();
-	virtual void SyncSessionComplete();
+	void SyncSessionComplete() override;
 	virtual MojErr UpdateAccountResponse(MojObject& response, MojErr err);
 
 	// Sync state
-	virtual MojString GetCapabilityProvider();
-	virtual MojString GetBusAddress();
-	virtual void	  StartSpinner();
+	MojString GetCapabilityProvider() override;
+	MojString GetBusAddress() override;
+	void	  StartSpinner() override;
 	// Is this an account sync (i.e. are we syncing the inbox?)
-	virtual bool 	  IsAccountSync();
+	bool 	  IsAccountSync() override;
 
 	PopClient& 					m_client;
 	bool						m_needsRetry;

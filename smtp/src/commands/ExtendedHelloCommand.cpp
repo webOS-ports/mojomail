@@ -64,12 +64,12 @@ void ExtendedHelloCommand::RunImpl()
 	m_sawAuthYahoo = false;
 }
 
-MojErr ExtendedHelloCommand::HandleMultilineResponse(const std::string& line, int lineNumber, bool lastLine)
+MojErr ExtendedHelloCommand::HandleMultilineResponse(const std::string& line, int lineNumber, bool  /*lastLine*/)
 {
 	// lineNumber == 0 is greeting
 	
 	if (lineNumber > 0) {
-		size_t pos = line.find(" ");
+		size_t pos = line.find(' ');
 		string keyword, rest;
 		if (pos != string::npos) {
 			keyword = line.substr(0,pos);
@@ -94,7 +94,7 @@ MojErr ExtendedHelloCommand::HandleMultilineResponse(const std::string& line, in
 			
 			while (rest.length() > 0) {
 				string authkeyword;
-				size_t s_pos = rest.find(" ");
+				size_t s_pos = rest.find(' ');
 				
 				if (s_pos != string::npos) {
 					authkeyword = rest.substr(0,s_pos);
@@ -118,7 +118,7 @@ MojErr ExtendedHelloCommand::HandleMultilineResponse(const std::string& line, in
 	return MojErrNone;
 }
 
-MojErr ExtendedHelloCommand::HandleResponse(const std::string& line)
+MojErr ExtendedHelloCommand::HandleResponse(const std::string&  /*line*/)
 {
 	if (m_statusCode == 250) {
 		m_session.HasSizeExtension(m_sawSizeExtension);

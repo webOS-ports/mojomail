@@ -37,7 +37,7 @@ public:
 	};
 
 	LineReader(const InputStreamPtr& inputStream);
-	virtual ~LineReader();
+	~LineReader() override;
 	
 	/**
 	 * Gets one line from the stream. Slot will be called when a line is available,
@@ -124,7 +124,7 @@ public:
 
 protected:
 	// Implements InputStreamSink::HandleData
-	size_t	HandleData(const char* data, size_t length, bool eof);
+	size_t	HandleData(const char* data, size_t length, bool eof) override;
 	static gboolean HandleTimeout(gpointer);
 	
 	inline void SetupBufferPointers(const char* data, size_t length);

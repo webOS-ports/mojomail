@@ -39,7 +39,7 @@ class AsyncEmailParser : public MojSignalHandler, protected ParseEventHandler
 {
 public:
 	AsyncEmailParser();
-	virtual ~AsyncEmailParser();
+	~AsyncEmailParser() override;
 
 	// Used by EAS for saving bodies without any MIME processing.
 	void EnableRawBodyMode(const std::string& mimeType);
@@ -97,21 +97,21 @@ public:
 
 protected:
 	// Handle MimeParser events
-	void HandleBeginEmail();
-	void HandleEndEmail();
+	void HandleBeginEmail() override;
+	void HandleEndEmail() override;
 
-	void HandleBeginPart();
-	void HandleEndPart();
+	void HandleBeginPart() override;
+	void HandleEndPart() override;
 
-	void HandleBeginHeaders();
-	void HandleEndHeaders(bool complete);
+	void HandleBeginHeaders() override;
+	void HandleEndHeaders(bool complete) override;
 
-	void HandleBeginBody();
-	void HandleBodyData(const char* data, size_t length);
-	void HandleEndBody(bool complete);
+	void HandleBeginBody() override;
+	void HandleBodyData(const char* data, size_t length) override;
+	void HandleEndBody(bool complete) override;
 
-	void HandleContentType(const std::string& type, const std::string& subtype, const std::map<std::string, std::string>& headers);
-	void HandleHeader(const std::string& fieldName, const std::string& line);
+	void HandleContentType(const std::string& type, const std::string& subtype, const std::map<std::string, std::string>& headers) override;
+	void HandleHeader(const std::string& fieldName, const std::string& line) override;
 
 	// Other stuff
 	virtual void Pause();

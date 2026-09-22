@@ -30,23 +30,23 @@ class SmtpValidator : public SmtpSession, public Command
 {
 public:
 	SmtpValidator(SmtpBusDispatcher* smtpBusDispatcher, boost::shared_ptr<CommandManager> manager, boost::shared_ptr<SmtpAccount> account, MojService * service, MojServiceMessage* msg, MojObject& protocolSettings);
-	virtual ~SmtpValidator();
+	~SmtpValidator() override;
 	
-	void Run();
-	void Cancel();
-	void Disconnected();
+	void Run() override;
+	void Cancel() override;
+	void Disconnected() override;
 
-	void LoginSuccess();
+	void LoginSuccess() override;
 	void LoginFailure(const std::string& errorText);
 	
 	// Overrides SmtpSession
-	void TlsSuccess();
+	void TlsSuccess() override;
 
 	void Failure(const std::string& errorText);
-	virtual void Failure(SmtpSession::SmtpError error);
+	void Failure(SmtpSession::SmtpError error) override;
 	void Failure(MailError::ErrorCode errorCode, const std::string& errorText);
 	                                        
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 	static gboolean TimeoutCallback(gpointer data);
 
 	MojRefCountedPtr<MojServiceMessage> m_msg;

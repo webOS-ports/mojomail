@@ -43,7 +43,7 @@ public:
 	typedef std::vector<Request::RequestPtr> 	RequestPtrVector;
 
 	Request(RequestType type, const MojObject& emailId, const MojObject& partId = MojObject::Null);
-	~Request();
+	~Request() override;
 
 	void  SetDownloadListener(boost::shared_ptr<DownloadListener>& listener) { m_listener = listener; }
 	void  SetPriority(RequestPriority priority) { m_priority = priority; }

@@ -27,15 +27,15 @@ class CompressCommand : public ImapSessionCommand
 {
 public:
 	CompressCommand(ImapSession& session);
-	virtual ~CompressCommand();
+	~CompressCommand() override;
 
-	void Cleanup();
+	void Cleanup() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 	MojErr CompressResponse();
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	MojRefCountedPtr<ImapResponseParser> m_responseParser;
 

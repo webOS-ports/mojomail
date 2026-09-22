@@ -64,6 +64,13 @@ void NetworkStatusMonitor::WaitForStatus(MojSignal<>::SlotRef slot)
 	}
 }
 
+void NetworkStatusMonitor::StartMonitoring()
+{
+	if(!m_isSubscribed && m_activity.get() == NULL) {
+		CreateActivity();
+	}
+}
+
 void NetworkStatusMonitor::SetFakeStatus(MojObject& fakeStatus, bool persist)
 {
 	m_networkStatus.ParseStatus(fakeStatus);
@@ -110,7 +117,7 @@ void NetworkStatusMonitor::CreateActivity()
 	m_activity->Create(m_busClient);
 }
 
-MojErr NetworkStatusMonitor::ActivityUpdated(Activity* activity, Activity::EventType event)
+MojErr NetworkStatusMonitor::ActivityUpdated(Activity*  /*activity*/, Activity::EventType event)
 {
 	if(event == Activity::StartEvent || event == Activity::UpdateEvent) {
 		//fprintf(stderr, "updating network status from activity");
@@ -127,7 +134,7 @@ MojErr NetworkStatusMonitor::ActivityUpdated(Activity* activity, Activity::Event
 	return MojErrNone;
 }
 
-MojErr NetworkStatusMonitor::ActivityError(Activity* activity, Activity::ErrorType event, const exception& e)
+MojErr NetworkStatusMonitor::ActivityError(Activity*  /*activity*/, Activity::ErrorType  /*event*/, const exception&  /*e*/)
 {
 	m_isSubscribed = false;
 	m_activity.reset();

@@ -33,12 +33,12 @@ class PopClientCommand : public PopCommand
 {
 public:
 	PopClientCommand(PopClient& client, const std::string& reason, Command::Priority priority = NormalPriority);
-	virtual ~PopClientCommand();
+	~PopClientCommand() override;
 
 protected:
-	virtual void RunImpl() = 0;
-	virtual void Complete();
-	virtual void Failure(const std::exception& exc);
+	void RunImpl() override = 0;
+	void Complete() override;
+	void Failure(const std::exception& exc) override;
 
 	void		 PowerUp();
 	void		 PowerDone();
@@ -46,7 +46,7 @@ protected:
 	/**
 	 * Clean up resources that this command allocates.
 	 */
-	virtual void Cleanup();
+	void Cleanup() override;
 
 	PopClient&						m_client;
 	std::string						m_stayAwakeReason;

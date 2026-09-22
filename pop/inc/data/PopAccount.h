@@ -39,7 +39,7 @@ public:
 	static const int 		 DEFAULT_SYNC_FREQUENCY_MINS;
 
 	PopAccount();
-	virtual ~PopAccount();
+	~PopAccount() override;
 	
 	// Setters
 	void SetId(const MojObject& id)		 					{ m_id = id; }

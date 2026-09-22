@@ -221,7 +221,7 @@ void SmtpSession::HelloSuccess()
 	}
 }
 
-void SmtpSession::HelloFailure(SmtpError code)
+void SmtpSession::HelloFailure(SmtpError  /*code*/)
 {
 	if (m_state == State_SendingExtendedHelloCommand) {
 		// ignore code, just try old hello
@@ -355,7 +355,7 @@ void SmtpSession::QuitSuccess()
 	}
 }
 
-void SmtpSession::QuitFailure(SmtpError error)
+void SmtpSession::QuitFailure(SmtpError  /*error*/)
 {
 	//ignore error code
 	

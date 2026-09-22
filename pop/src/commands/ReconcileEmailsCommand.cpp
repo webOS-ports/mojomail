@@ -311,7 +311,7 @@ void ReconcileEmailsCommand::ReconcileEmails()
 				// since there are local emails pending to be deleted, delete
 				// these emails from the server if these emails still exist in
 				// the server.
-				std::string uid = *setItr;
+				const std::string& uid = *setItr;
 				ReconcileInfoPtr infoPtr = m_reconcileUidMap[uid];
 
 				if (infoPtr.get()) {
@@ -326,7 +326,7 @@ void ReconcileEmailsCommand::ReconcileEmails()
 			m_uidCache.GetDeletedEmailsCache().ClearLocalDeletedEmailCache();
 		} else {
 			for (setItr = deleted.begin(); setItr != deleted.end(); setItr++) {
-				std::string uid = *setItr;
+				const std::string& uid = *setItr;
 				ReconcileInfoPtr infoPtr = m_reconcileUidMap[uid];
 
 				if (infoPtr.get()) {
@@ -344,7 +344,7 @@ void ReconcileEmailsCommand::ReconcileEmails()
 			// since there are emails pending to be deleted, delete
 			// these emails from the server if these emails still exist in
 			// the server.
-			std::string uid = *setItr;
+			const std::string& uid = *setItr;
 			ReconcileInfoPtr infoPtr = m_reconcileUidMap[uid];
 
 			if (infoPtr.get()) {

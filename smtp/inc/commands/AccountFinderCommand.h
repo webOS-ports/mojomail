@@ -33,10 +33,10 @@ class AccountFinderCommand : public SmtpCommand
 public:
 	AccountFinderCommand(SmtpSession& session,
 						 MojObject accountId);
-	virtual ~AccountFinderCommand();
+	~AccountFinderCommand() override;
 
-	virtual void RunImpl();
-	void Cancel();
+	void RunImpl() override;
+	void Cancel() override;
 private:
 	SmtpSession&						m_session;
 	boost::shared_ptr<SmtpAccount>	m_account;

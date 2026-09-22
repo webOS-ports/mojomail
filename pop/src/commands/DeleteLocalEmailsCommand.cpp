@@ -65,7 +65,7 @@ void DeleteLocalEmailsCommand::DeleteLocalEmails(const MojObject::ObjectVec& del
 	}
 }
 
-MojErr DeleteLocalEmailsCommand::DeleteLocalEmailsResponse(MojObject& response, MojErr err)
+MojErr DeleteLocalEmailsCommand::DeleteLocalEmailsResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

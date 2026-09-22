@@ -29,15 +29,15 @@ class Base64EncoderOutputStream : public ChainedOutputStream
 	
 public:
 	Base64EncoderOutputStream(const OutputStreamPtr& sink);
-	virtual ~Base64EncoderOutputStream();
+	~Base64EncoderOutputStream() override;
 
 	// Write some data to the stream
 	// Overrides BaseOutputStream
-	virtual void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 	// Flush the stream, including any chained streams
 	// Overrides BaseOutputStream
-	virtual void Flush(FlushType flushType = FullFlush);
+	void Flush(FlushType flushType = FullFlush) override;
 
 protected:
 	guint FixLineEndings(char * buffer, size_t len);

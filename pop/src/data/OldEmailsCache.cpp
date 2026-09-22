@@ -60,7 +60,7 @@ void OldEmailsCache::AddToCache(const std::string& uid, const MojInt64& timestam
  */
 void OldEmailsCache::AddEmailToCache(const PopEmail& email)
 {
-	std::string uid = email.GetServerUID();
+	const std::string& uid = email.GetServerUID();
 	MojInt64 timestamp = email.GetDateReceived();
 	AddToCache(uid, timestamp);
 }
@@ -167,7 +167,7 @@ void OldEmailsCache::MakeRoomForNewItems()
 		// keep popping entries until there are only 100 cache entries left
 		if ((int)queue.size() <= OldEmailsCache::QUEUE_SIZE_LIMIT) {
 			// only remove the oldest 100 email cache entries
-			CacheEntry entry = queue.top();
+			const CacheEntry& entry = queue.top();
 
 			// when UIDs are removed from the cache, RecalculateOldestEmailTimestamp()
 			// function should be only involved once by RemoveEmailFromCache()

@@ -27,10 +27,10 @@ class SyncAccountCommand : public ImapClientCommand
 {
 public:
 	SyncAccountCommand(ImapClient& client, SyncParams syncParams);
-	virtual ~SyncAccountCommand();
+	~SyncAccountCommand() override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	SyncParams		m_syncParams;
 	ActivityPtr		m_activity;

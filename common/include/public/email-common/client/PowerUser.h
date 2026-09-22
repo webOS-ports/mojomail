@@ -56,7 +56,7 @@ class TemporaryPowerUser : public PowerUser
 {
 public:
 	TemporaryPowerUser();
-	virtual ~TemporaryPowerUser();
+	~TemporaryPowerUser() override;
 
 	void Start(const MojRefCountedPtr<PowerManager>& powerManager, unsigned int durationMillis = 0, const std::string& reason = "");
 	void Stop();

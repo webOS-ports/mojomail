@@ -31,13 +31,13 @@ class ConnectCommand : public SmtpProtocolCommand
 {
 public:
 	ConnectCommand(SmtpSession& session);
-	virtual ~ConnectCommand();
+	~ConnectCommand() override;
 
 	MojErr Connected(const std::exception* exc);
-	MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 protected:
-	virtual void RunImpl();
+	void RunImpl() override;
 
 	void WaitForGreeting();
 

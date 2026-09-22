@@ -30,17 +30,17 @@ class SmtpSyncOutboxCommand : public SmtpCommand
 {
 public:
 	SmtpSyncOutboxCommand(SmtpClient& client, const MojObject& folderId, const MojObject& accountId, bool force, bool clear);
-	virtual ~SmtpSyncOutboxCommand();
+	~SmtpSyncOutboxCommand() override;
 	
 	void AttachAdoptedActivity(MojRefCountedPtr<Activity> activity, const MojString& activityId, const MojString& activityName);
 
-	virtual void RunImpl();
-	virtual void Cancel();
+	void RunImpl() override;
+	void Cancel() override;
 	
 	MojObject GetAccountId();
 	bool CanAdopt();
 	
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
 	MojErr	ClearSyncStatusResponse(MojObject& response, MojErr err);

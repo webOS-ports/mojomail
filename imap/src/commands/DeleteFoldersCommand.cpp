@@ -88,7 +88,7 @@ void DeleteFoldersCommand::DeleteFolders()
 	m_client.GetDatabaseInterface().PurgeIds(m_deleteFoldersSlot, m_folderIds);
 }
 
-MojErr DeleteFoldersCommand::DeleteFoldersResponse(MojObject& response, MojErr err)
+MojErr DeleteFoldersCommand::DeleteFoldersResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

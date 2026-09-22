@@ -73,7 +73,7 @@ void MovePopEmailsCommand::RunImpl()
 	}
 }
 
-MojErr MovePopEmailsCommand::ActivityUpdate(Activity* activity, Activity::EventType event)
+MojErr MovePopEmailsCommand::ActivityUpdate(Activity*  /*activity*/, Activity::EventType event)
 {
 	try {
 		switch (event) {
@@ -101,7 +101,7 @@ MojErr MovePopEmailsCommand::ActivityUpdate(Activity* activity, Activity::EventT
 	return MojErrNone;
 }
 
-MojErr MovePopEmailsCommand::ActivityError(Activity* activity, Activity::ErrorType error, const std::exception& exc)
+MojErr MovePopEmailsCommand::ActivityError(Activity*  /*activity*/, Activity::ErrorType  /*error*/, const std::exception& exc)
 {
 	m_msg->replyError(MojErrInternal);
 	Failure(exc);
@@ -182,7 +182,7 @@ MojErr MovePopEmailsCommand::GetEmailsToMoveResponse(MojObject& response, MojErr
 	return MojErrNone;
 }
 
-MojErr MovePopEmailsCommand::EmailsMovedResponse(MojObject& response, MojErr err)
+MojErr MovePopEmailsCommand::EmailsMovedResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		ErrorToException(err);

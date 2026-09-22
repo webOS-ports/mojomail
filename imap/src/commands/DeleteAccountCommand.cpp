@@ -93,7 +93,7 @@ void DeleteAccountCommand::DeleteAccount()
 	m_client.GetDatabaseInterface().DeleteAccount(m_deleteAccountSlot, m_client.GetAccountId());
 }
 
-MojErr DeleteAccountCommand::DeleteAccountResponse(MojObject& response, MojErr err)
+MojErr DeleteAccountCommand::DeleteAccountResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

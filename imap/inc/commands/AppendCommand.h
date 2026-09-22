@@ -34,9 +34,9 @@ class AppendCommand : public ImapSyncSessionCommand
 
 public:
 	AppendCommand(ImapSession& session, const MojObject& folderId, const EmailPtr& emailPtr, const std::string& flags, const std::string& folderName);
-	virtual ~AppendCommand();
+	~AppendCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 
 	UID GetUid() { return m_uid; }
 	UID GetUidValidity() { return m_uidValidity; }

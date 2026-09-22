@@ -48,12 +48,12 @@ class FetchResponseParser : public ImapResponseParser
 public:
 	FetchResponseParser(ImapSession& session);
 	FetchResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~FetchResponseParser();
+	~FetchResponseParser() override;
 	
 	void SetPartOutputStream(const OutputStreamPtr& outputStream);
 
-	bool HandleUntaggedResponse(const std::string& line);
-	bool HandleAdditionalData();
+	bool HandleUntaggedResponse(const std::string& line) override;
+	bool HandleAdditionalData() override;
 	
 	const std::vector<FetchUpdate>&	GetUpdates() const { return m_emails; }
 

@@ -78,7 +78,7 @@ void MoveEmailsCommand::SentEmailsQuery()
 	m_client.GetDatabaseInterface().GetSentEmails(m_sentEmailsQuerySlot, outboxFolderId, 1);
 }
 
-MojErr MoveEmailsCommand::ActivityUpdate(Activity* activity, Activity::EventType event)
+MojErr MoveEmailsCommand::ActivityUpdate(Activity*  /*activity*/, Activity::EventType event)
 {
 	try {
 		switch (event) {
@@ -106,7 +106,7 @@ MojErr MoveEmailsCommand::ActivityUpdate(Activity* activity, Activity::EventType
 	return MojErrNone;
 }
 
-MojErr MoveEmailsCommand::ActivityError(Activity* activity, Activity::ErrorType error, const std::exception& exc)
+MojErr MoveEmailsCommand::ActivityError(Activity*  /*activity*/, Activity::ErrorType  /*error*/, const std::exception& exc)
 {
 	m_msg->replyError(MojErrInternal);
 	Failure(exc);
@@ -162,7 +162,7 @@ MojErr MoveEmailsCommand::SentEmailsQueryResponse(MojObject& response, MojErr er
 	return MojErrNone;
 }
 
-MojErr MoveEmailsCommand::FolderUpdateResponse(MojObject& response, MojErr err)
+MojErr MoveEmailsCommand::FolderUpdateResponse(MojObject&  /*response*/, MojErr err)
 {
 	try {
 		// get outboxFolderId

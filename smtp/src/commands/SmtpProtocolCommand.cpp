@@ -231,14 +231,14 @@ void SmtpProtocolCommand::ParseResponseEachLine()
 
 // Stub virtual base implementation. We don't use a pure virtual as the descendant might override either of
 // these routines.
-MojErr SmtpProtocolCommand::HandleMultilineResponse(const std::string& line, int lineNumber, bool lastLine)
+MojErr SmtpProtocolCommand::HandleMultilineResponse(const std::string&  /*line*/, int  /*lineNumber*/, bool  /*lastLine*/)
 {
     return MojErrNone;
 }
 
 // Stub virtual base implementation. We don't use a pure virtual as the descendant might override either of
 // these routines.
-MojErr SmtpProtocolCommand::HandleResponse(const std::string& line)
+MojErr SmtpProtocolCommand::HandleResponse(const std::string&  /*line*/)
 {
     return MojErrNone;
 }

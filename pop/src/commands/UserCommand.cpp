@@ -47,7 +47,7 @@ void UserCommand::RunImpl()
 	}
 }
 
-MojErr UserCommand::HandleResponse(const std::string& line)
+MojErr UserCommand::HandleResponse(const std::string&  /*line*/)
 {
 	if (m_status == Status_Ok) {
 		MojLogDebug(m_log, "USER command +OK");

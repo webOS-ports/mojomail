@@ -40,7 +40,7 @@ void AuthLoginCommand::RunImpl()
 	SendCommand(COMMAND_STRING);
 }
 
-MojErr AuthLoginCommand::HandleResponse(const std::string& line)
+MojErr AuthLoginCommand::HandleResponse(const std::string&  /*line*/)
 {
 	MojLogInfo(m_log, "AUTH LOGIN command response");
 

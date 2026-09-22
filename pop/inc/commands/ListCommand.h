@@ -28,11 +28,11 @@ public:
 	static const char* const	COMMAND_STRING;
 
 	ListCommand(PopSession& session, boost::shared_ptr<UidMap>& uidMapPtr);
-	virtual ~ListCommand();
+	~ListCommand() override;
 
-	virtual void RunImpl();
+	void RunImpl() override;
 private:
-	virtual MojErr HandleResponse(const std::string& line);
+	MojErr HandleResponse(const std::string& line) override;
 
 	boost::shared_ptr<UidMap>	m_uidMapPtr;
 };

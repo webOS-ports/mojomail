@@ -27,15 +27,15 @@ class CounterOutputStream : public BaseOutputStream
 {
 public:
 	CounterOutputStream();
-	virtual ~CounterOutputStream();
+	~CounterOutputStream() override;
 	
-	void Write(const char* src, size_t length) {
+	void Write(const char*  /*src*/, size_t length) override {
 		m_totalSize += length;
 	}
 		
-	void Flush(FlushType flushType = FullFlush) {}
+	void Flush(FlushType flushType = FullFlush) override {}
 	
-	void Close() {}
+	void Close() override {}
 
 	// Return the total number of bytes written
 	size_t GetBytesWritten() {

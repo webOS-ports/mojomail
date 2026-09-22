@@ -31,12 +31,12 @@ class UpdateFolderActivitiesCommand : public ImapClientCommand
 {
 public:
 	UpdateFolderActivitiesCommand(ImapClient& client, const MojObject::ObjectVec& folderIds);
-	virtual ~UpdateFolderActivitiesCommand();
+	~UpdateFolderActivitiesCommand() override;
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
 protected:
-	void RunImpl();
+	void RunImpl() override;
 
 	void GetSomeFolders();
 	MojErr GetSomeFoldersResponse(MojObject& response, MojErr err);

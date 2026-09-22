@@ -37,7 +37,7 @@ public:
 	
 	ImapResponseParser(ImapSession& session);
 	ImapResponseParser(ImapSession& session, DoneSignal::SlotRef doneSlot);
-	virtual ~ImapResponseParser();
+	~ImapResponseParser() override;
 	
 	virtual void CheckStatus();
 	virtual ImapStatusCode GetStatus() const { return m_status; }

@@ -49,13 +49,13 @@ void AuthPlainCommand::RunImpl()
 	payload.append(1, '\0');
 	payload.append(password);
 	
-	gchar * encodedPayload = g_base64_encode((unsigned guchar*)payload.data(), payload.length());
+	gchar * encodedPayload = g_base64_encode((const guchar*)payload.data(), payload.length());
 
 	std::string userCommand = std::string(COMMAND_STRING) + " " + encodedPayload;
 	SendCommand(userCommand);
 }
 
-MojErr AuthPlainCommand::HandleResponse(const std::string& line)
+MojErr AuthPlainCommand::HandleResponse(const std::string&  /*line*/)
 {
 	MojLogInfo(m_log, "AUTH PLAIN command response");
 

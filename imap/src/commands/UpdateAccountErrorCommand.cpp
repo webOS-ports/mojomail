@@ -68,7 +68,7 @@ void UpdateAccountErrorCommand::UpdateAccountError()
 	m_client.GetDatabaseInterface().UpdateAccountError(m_updateAccountErrorSlot, m_client.GetAccountId(), account);
 }
 
-MojErr UpdateAccountErrorCommand::UpdateAccountErrorResponse(MojObject& response, MojErr err)
+MojErr UpdateAccountErrorCommand::UpdateAccountErrorResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 

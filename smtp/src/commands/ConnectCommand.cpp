@@ -103,7 +103,7 @@ void ConnectCommand::WaitForGreeting()
 	}
 }
 
-MojErr ConnectCommand::HandleResponse(const std::string& line)
+MojErr ConnectCommand::HandleResponse(const std::string&  /*line*/)
 {
 	CommandTraceFunction();
 

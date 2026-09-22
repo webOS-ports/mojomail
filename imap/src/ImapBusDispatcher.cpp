@@ -127,7 +127,7 @@ MojErr ImapBusDispatcher::RegisterMethods()
 	return MojErrNone;
 }
 
-MojErr ImapBusDispatcher::ping(MojServiceMessage* msg, MojObject& payload)
+MojErr ImapBusDispatcher::ping(MojServiceMessage* msg, MojObject&  /*payload*/)
 {
 	MojErr err;
 	
@@ -490,7 +490,7 @@ MojErr ImapBusDispatcher::AccountCreator::PersistAccountResponse(MojObject& resp
 	return MojErrNone;
 }
 
-MojErr ImapBusDispatcher::AccountCreator::SmtpAccountCreatedResponse(MojObject& response, MojErr err)
+MojErr ImapBusDispatcher::AccountCreator::SmtpAccountCreatedResponse(MojObject&  /*response*/, MojErr err)
 {
 	CommandTraceFunction();
 
@@ -1142,7 +1142,7 @@ bool ImapBusDispatcher::HasActiveClients()
 	return false;
 }
 
-void ImapBusDispatcher::UpdateClientActive(ImapClient* client, bool active)
+void ImapBusDispatcher::UpdateClientActive(ImapClient*  /*client*/, bool  /*active*/)
 {
 	CheckActive();
 

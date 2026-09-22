@@ -27,7 +27,7 @@ class ImapBusDispatcherCommand : public ImapCommand
 {
 public:
 	ImapBusDispatcherCommand(ImapBusDispatcher& dispatcher, MojLogger& logger);
-	virtual ~ImapBusDispatcherCommand();
+	~ImapBusDispatcherCommand() override;
 
 protected:
 	ImapBusDispatcher&	m_busDispatcher;

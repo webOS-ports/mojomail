@@ -25,7 +25,7 @@ class Rfc3501ParseException : public MailException
 {
 public:
 	Rfc3501ParseException(const char* msg, const char* filename, int line);
-	virtual ~Rfc3501ParseException() throw() {};
+	~Rfc3501ParseException() throw() override {};
 };
 
 #endif /*RFC3501PARSEEXCEPTION_H_*/

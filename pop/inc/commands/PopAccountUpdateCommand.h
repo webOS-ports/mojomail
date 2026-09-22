@@ -25,8 +25,8 @@ class PopAccountUpdateCommand : public PopClientCommand
 {
 public:
 	PopAccountUpdateCommand(PopClient& client, MojObject& payload, bool credentialsChanged);
-	virtual ~PopAccountUpdateCommand();
-	virtual void RunImpl();
+	~PopAccountUpdateCommand() override;
+	void RunImpl() override;
 
 private:
 	void 	UpdateAccountWatchActivity();

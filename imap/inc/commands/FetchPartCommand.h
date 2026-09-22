@@ -40,10 +40,10 @@ class ProgressOutputStream : public ChainedOutputStream
 {
 public:
 	ProgressOutputStream(const OutputStreamPtr& sink, FetchPartCommand& command);
-	virtual ~ProgressOutputStream();
+	~ProgressOutputStream() override;
 
 	// Overrides BaseOutputStream
-	void Write(const char* src, size_t length);
+	void Write(const char* src, size_t length) override;
 
 protected:
 	FetchPartCommand& m_fetchPartCommand;
@@ -56,24 +56,24 @@ public:
 	FetchPartCommand(ImapSession& session, const MojObject& folderId,
 			const MojObject& emailId, const MojObject& partId,
 			Priority priority = NormalPriority);
-	virtual ~FetchPartCommand();
+	~FetchPartCommand() override;
 
-	void RunImpl();
+	void RunImpl() override;
 	void AddDownloadListener(const MojRefCountedPtr<DownloadListener>& listener);
 	void Progress(size_t totalRead);
 
-	CommandType GetType() const { return CommandType_DownloadPart; }
-	bool Equals(const ImapCommand& other) const;
+	CommandType GetType() const override { return CommandType_DownloadPart; }
+	bool Equals(const ImapCommand& other) const override;
 
-	void Status(MojObject& status) const;
+	void Status(MojObject& status) const override;
 
-	void Cleanup();
+	void Cleanup() override;
 
 	// Overrides ImapCommand::Cancel
-	bool Cancel(CancelType cancel);
+	bool Cancel(CancelType cancel) override;
 
 	// Implements CancelDownloadListener::CancelDownload
-	void CancelDownload();
+	void CancelDownload() override;
 
 protected:
 	void GetEmail();
@@ -95,7 +95,7 @@ protected:
 	void UpdateEmail();
 	MojErr UpdateEmailResponse(MojObject& response, MojErr err);
 
-	virtual void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 
 	void DisableAutoDownload();
 	MojErr DisableAutoDownloadResponse(MojObject& response, MojErr err);

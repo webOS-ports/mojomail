@@ -29,13 +29,13 @@ public:
 	static const int DEFAULT_BUFFER_SIZE;
 	
 	AsyncInputStream(AsyncIOChannel* channel);
-	virtual ~AsyncInputStream();
+	~AsyncInputStream() override;
 	
-	size_t	HandleData(const char* data, size_t length, bool eof);
+	size_t	HandleData(const char* data, size_t length, bool eof) override;
 	
 protected:
-	void	StartReading();
-	void	DoneReading();
+	void	StartReading() override;
+	void	DoneReading() override;
 	
 	void	Watch();
 	void	Unwatch();

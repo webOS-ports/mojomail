@@ -124,7 +124,7 @@ void MojoDatabase::UpdateSendStatus (Signal::SlotRef slot, const MojObject& emai
 	ErrorToException(err);
 }
 
-void MojoDatabase::GetFolder(Signal::SlotRef slot, const MojObject& accountId, const MojObject& folderId)
+void MojoDatabase::GetFolder(Signal::SlotRef slot, const MojObject&  /*accountId*/, const MojObject& folderId)
 {
 	MojErr err;
 	MojDbQuery query;

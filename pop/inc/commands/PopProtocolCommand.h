@@ -34,11 +34,11 @@ public:
 		Status_Err
 	};
 	PopProtocolCommand(PopSession& session, Priority priority = NormalPriority);
-	virtual ~PopProtocolCommand();
+	~PopProtocolCommand() override;
 
 	virtual MojErr	HandleResponse(const std::string& line) = 0;
 protected:
-	virtual void 	RunImpl() = 0;
+	void 	RunImpl() override = 0;
 	void 			SendCommand(const std::string& request);
 	virtual MojErr	ReceiveResponse();
 	virtual void 	ParseResponseFirstLine();

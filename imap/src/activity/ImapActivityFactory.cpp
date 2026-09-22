@@ -105,12 +105,26 @@ void ImapActivityFactory::SetMetadata(MojObject& metadata, const char* name, con
 	ErrorToException(err);
 }
 
-void ImapActivityFactory::SetNetworkRequirements(ActivityBuilder& ab, bool requireFair)
+// Deliberately does NOT set the "internet" requirement.
+//
+// This used to ask for "internetConfidence": "fair", which webOS OSE dropped
+// entirely -- activitymanager/create fails outright if you send it, which is why
+// none of these activities were ever created and mail didn't sync.
+//
+// The obvious repair is "internet": true, but that is worse on LuneOS. The
+// ActivityManager only counts that requirement as met once the connection
+// manager reports isInternetConnectionAvailable, and webos-connman-adapter only
+// reports it once connman reaches its "online" state -- which needs connman's
+// external connectivity probe to succeed. On builds where that probe doesn't
+// (measured on qemux86-64: working network, 7ms to 8.8.8.8, connman still parked
+// at "ready"), the requirement is never satisfied and every activity carrying it
+// is held forever. Gating sync on it would trade "syncs late" for "never syncs".
+//
+// So let these fire unconditionally and let the connect attempt decide. Network
+// status stays advisory -- see ImapSession::QueryNetworkStatus.
+void ImapActivityFactory::SetNetworkRequirements(ActivityBuilder& ab)
 {
 	ab.SetRequiresInternet(false);
-
-	if(requireFair && !ImapConfig::GetConfig().GetIgnoreNetworkStatus()) {
-	}
 }
 
 MojString ImapActivityFactory::GetPreferencesWatchName(const MojObject& accountId)
@@ -162,7 +176,7 @@ void ImapActivityFactory::BuildFolderWatch(ActivityBuilder& ab, const MojObject&
 	ab.SetDescription("Watches for updates to emails");
 	ab.SetExplicit(true);
 	ab.SetPersist(true);
-	SetNetworkRequirements(ab, true);
+	SetNetworkRequirements(ab);
 	ab.SetImmediate(true, "low");
 
 	// Metadata
@@ -197,7 +211,7 @@ MojString ImapActivityFactory::GetOutboxWatchName(const MojObject& accountId, co
 	return FormatName(OUTBOX_WATCH_NAME, accountId, folderId);
 }
 
-void ImapActivityFactory::BuildOutboxWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64 rev)
+void ImapActivityFactory::BuildOutboxWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64  /*rev*/)
 {
 	MojErr err;
 
@@ -240,7 +254,7 @@ MojString ImapActivityFactory::GetDraftsWatchName(const MojObject& accountId, co
 	return FormatName(DRAFTS_WATCH_NAME, accountId, folderId);
 }
 
-void ImapActivityFactory::BuildDraftsWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64 rev)
+void ImapActivityFactory::BuildDraftsWatch(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, MojInt64  /*rev*/)
 {
 	MojErr err;
 
@@ -293,7 +307,7 @@ void ImapActivityFactory::BuildStartIdle(ActivityBuilder& ab, const MojObject& a
 	ab.SetExplicit(false);
 	ab.SetPersist(true);
 	ab.SetImmediate(true, "low");
-	SetNetworkRequirements(ab, false);
+	SetNetworkRequirements(ab);
 
 	// Metadata
 	MojObject metadata;
@@ -333,7 +347,7 @@ MojString ImapActivityFactory::GetScheduledSyncName(const MojObject& accountId, 
 	return FormatName(SCHEDULED_SYNC_NAME, accountId, folderId);
 }
 
-void ImapActivityFactory::BuildScheduledSync(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds, bool requireFair)
+void ImapActivityFactory::BuildScheduledSync(ActivityBuilder& ab, const MojObject& accountId, const MojObject& folderId, int seconds)
 {
 	MojErr err;
 
@@ -347,7 +361,7 @@ void ImapActivityFactory::BuildScheduledSync(ActivityBuilder& ab, const MojObjec
 	ab.SetExplicit(true);
 	ab.SetPersist(true);
 	ab.SetImmediate(true, "low");
-	SetNetworkRequirements(ab, requireFair);
+	SetNetworkRequirements(ab);
 
 	// Metadata
 	MojObject metadata;
@@ -384,7 +398,7 @@ void ImapActivityFactory::BuildSyncRetry(ActivityBuilder& ab, const MojObject& a
 	ab.SetExplicit(true);
 	ab.SetPersist(true);
 	ab.SetImmediate(true, "low");
-	SetNetworkRequirements(ab, seconds <= 5 * 60);
+	SetNetworkRequirements(ab);
 
 	// Metadata
 	MojObject metadata;

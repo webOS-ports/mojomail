@@ -30,10 +30,10 @@ class DbMergeProxy : public MojDbServiceClient
 public:
 	DbMergeProxy(MojService* service, const MojChar* serviceName = MojDbServiceDefs::ServiceName);
 
-	virtual MojErr merge(Signal::SlotRef handler, const MojObject* begin,
-						 const MojObject* end, MojUInt32 flags = MojDbFlagNone);
-	virtual MojErr merge(Signal::SlotRef handler, const MojDbQuery& query,
-						 const MojObject& props, MojUInt32 flags = MojDbFlagNone);
+	MojErr merge(Signal::SlotRef handler, const MojObject* begin,
+						 const MojObject* end, MojUInt32 flags = MojDbFlagNone) override;
+	MojErr merge(Signal::SlotRef handler, const MojDbQuery& query,
+						 const MojObject& props, MojUInt32 flags = MojDbFlagNone) override;
 
 	MojErr realMerge(Signal::SlotRef handler, const MojObject* begin,
 						 const MojObject* end, MojUInt32 flags = MojDbFlagNone);

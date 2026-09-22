@@ -28,15 +28,15 @@ class BufferedEmailParser : public AsyncEmailParser
 {
 public:
 	BufferedEmailParser();
-	virtual ~BufferedEmailParser();
+	~BufferedEmailParser() override;
 
 	bool FeedChar(char c);
 
 	// overrides AsyncEmailParser::End
-	void End();
+	void End() override;
 
 protected:
-	void Unpause();
+	void Unpause() override;
 	void FlushBuffer();
 
 	bool	m_endOfStream;
