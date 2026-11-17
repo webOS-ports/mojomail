@@ -169,7 +169,7 @@ boost::shared_ptr<ImapEmail> ParseOneEmail(string line)
 	session.SendRequest("UID FETCH 1024 (BODYSTRUCTURE)", parser);
 
 	is->FeedLine(line);
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	return GetOneEmail(parser);
@@ -195,7 +195,7 @@ TEST(FetchResponseParserTest, TestBodyStructure)
 	));
 
 	is->FeedLine(line);
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	boost::shared_ptr<ImapEmail> email = GetOneEmail(parser);
@@ -371,7 +371,7 @@ TEST(FetchResponseParserTest, TestGmailBrokenLine)
 	//fprintf(stderr, "line 1: [%s]\n", line1.c_str());
 	//fprintf(stderr, "line 2: [%s]\n", line2.c_str());
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	const Email& email = *GetOneEmail(parser);
@@ -400,7 +400,7 @@ TEST(FetchResponseParserTest, TestYahooExtraSpace)
 
 	is->FeedLine(line);
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	const Email& email = *GetOneEmail(parser);
@@ -429,7 +429,7 @@ TEST(FetchResponseParserTest, TestGmxGmail)
 
 	is->FeedLine(line);
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	const Email& email = *GetOneEmail(parser);
@@ -458,7 +458,7 @@ TEST(FetchResponseParserTest, TestPriority)
 
 	is->Feed(data.str());
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	const Email& email = *GetOneEmail(parser);
@@ -490,7 +490,7 @@ TEST(FetchResponseParserTest, TestNewsletter)
 	is->Feed("X-Priority: 3\r\n\r\n");
 	is->FeedLine(")");
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 #endif
 }
@@ -516,7 +516,7 @@ TEST(FetchResponseParserTest, TestFromFile)
 		is->FeedLine(line);
 	}
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 
 	parser->CheckStatus();
@@ -543,7 +543,7 @@ TEST(FetchResponseParserTest, TestDelivery)
 	));
 
 	is->FeedLine(line);
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 #endif
 }
@@ -566,7 +566,7 @@ TEST(FetchResponseParserTest, TestDelivery2)
 	));
 
 	is->FeedLine(line);
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 #endif
 }
@@ -589,7 +589,7 @@ TEST(FetchResponseParserTest, TestNoAlternatives)
 	));
 
 	is->FeedLine(line);
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	is->FlushBuffer();
 #endif
 }
