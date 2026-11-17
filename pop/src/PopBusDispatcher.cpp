@@ -24,7 +24,7 @@
 #include "data/MojoDatabase.h"
 #include "data/PopAccount.h"
 #include "data/PopAccountAdapter.h"
-#include "luna/MojLunaMessage.h"
+#include "luna/MojLunaService.h"
 #include "network/SocketConnection.h"
 #include "PopValidator.h"
 #include "ParseEmlHandler.h"

@@ -23,7 +23,7 @@
 
 TEST(Base64OutputStreamTest, TestBase64Encoder)
 {
-	int BUF_SIZE = 1024;
+	const int BUF_SIZE = 1024;
 	char buf[BUF_SIZE];
 	int nread;
 
@@ -34,7 +34,7 @@ TEST(Base64OutputStreamTest, TestBase64Encoder)
 	strncpy(buf, "XXX@1", BUF_SIZE);
 	b64eos->Write("Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure.", 269);
 	b64eos->Flush();
-	nread = bbos->ReadFromBuffer(buf, 1024);
+	nread = bbos->ReadFromBuffer(buf, BUF_SIZE);
 
 	ASSERT_EQ( 370, (int) nread );
 

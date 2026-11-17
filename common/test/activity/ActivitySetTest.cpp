@@ -55,6 +55,10 @@ TEST(ActivitySetTest, TestStart)
 
 	Start(busClient, actSet);
 	ASSERT_TRUE( activity->IsActive() );
+
+	// A started activity holds a subscription that holds the activity;
+	// ending it is what lets both go.
+	End(busClient, actSet);
 }
 
 TEST(ActivitySetTest, TestAlreadyStarted)
@@ -73,6 +77,8 @@ TEST(ActivitySetTest, TestAlreadyStarted)
 
 	// Try to start it again
 	Start(busClient, actSet);
+
+	End(busClient, actSet);
 }
 
 TEST(ActivitySetTest, TestEnd)

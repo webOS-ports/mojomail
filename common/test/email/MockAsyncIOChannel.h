@@ -66,7 +66,11 @@ public:
 	MockAsyncIOChannelFactory() {}
 	virtual ~MockAsyncIOChannelFactory() {}
 	
-	virtual MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode);
+	MojRefCountedPtr<AsyncIOChannel> OpenFile(const char* filename, const char* mode) override;
+
+	// Reads the whole file at once and serves it like a fake one, so a
+	// writer that opens its files itself still runs synchronously.
+	MojRefCountedPtr<AsyncIOChannel> OpenFileDescriptor(int fd) override;
 	
 	// Set fake file
 	void SetFileData(const std::string& fileName, const std::string& data);

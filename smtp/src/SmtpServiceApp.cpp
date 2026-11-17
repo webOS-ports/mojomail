@@ -22,13 +22,6 @@
 #include "db/MojDbServiceDefs.h"
 #include "SmtpConfig.h"
 
-int main(int argc, char** argv)
-{
-	SmtpServiceApp app;
-	int mainResult = app.main(argc, argv);
-	return mainResult;
-}
-
 const char* const SmtpServiceApp::ServiceName = "com.palm.smtp";
 
 SmtpServiceApp::SmtpServiceApp()

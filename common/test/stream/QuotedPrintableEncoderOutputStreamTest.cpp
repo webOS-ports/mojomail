@@ -30,7 +30,7 @@
  */
 void MATCH(const char * in, const char * expect)
 {
-	int BUF_SIZE = 4096;
+	const int BUF_SIZE = 4096;
 	char inbuf[BUF_SIZE];
 	char xform[BUF_SIZE];
 	char decoded[BUF_SIZE];

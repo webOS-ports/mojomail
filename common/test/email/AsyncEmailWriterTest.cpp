@@ -24,6 +24,11 @@
 #include "stream/CounterOutputStream.h"
 #include "email/MockAsyncIOChannel.h"
 #include <sstream>
+#include <fstream>
+#include <vector>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
 #include <gtest/gtest.h>
 
 // Helper to watch signal responses
@@ -54,7 +59,7 @@ public:
 	Signal::SlotRef			GetSlot() { return m_slot; }
 	
 protected:
-	bool									m_count;
+	int										m_count;
 	bool									m_hasException;
 	std::exception							m_exception;
 	
@@ -127,8 +132,78 @@ void WriteEmail(MojRefCountedPtr<AsyncEmailWriter> writer, std::string& output)
 	ASSERT_EQ(counter->GetBytesWritten(), output.size());
 }
 
+// Part files on disk. AsyncEmailWriter opens a part itself (O_NOFOLLOW, then
+// checks what it got against the sandbox) and only hands the descriptor to
+// the channel factory, so the parts have to be real files. /tmp, because
+// that is where the writer's sandbox check lets them be.
+class PartFiles
+{
+public:
+	PartFiles()
+	{
+		char tmpl[] = "/tmp/mojomail-test-XXXXXX";
+		const char* dir = mkdtemp(tmpl);
+		if(dir)
+			m_dir = dir;
+	}
+
+	~PartFiles()
+	{
+		for(size_t i = 0; i < m_files.size(); i++)
+			unlink(m_files[i].c_str());
+		if(!m_dir.empty())
+			rmdir(m_dir.c_str());
+	}
+
+	// Writes the file and returns its full path
+	std::string Add(const std::string& name, const std::string& data)
+	{
+		std::string path = m_dir + "/" + name;
+		std::ofstream(path.c_str(), std::ios::binary) << data;
+		m_files.push_back(path);
+		return path;
+	}
+
+	// A symlink called name, pointing at target
+	std::string AddSymlink(const std::string& name, const std::string& target)
+	{
+		std::string path = m_dir + "/" + name;
+		if(symlink(target.c_str(), path.c_str()) != 0)
+			return "";
+		m_files.push_back(path);
+		return path;
+	}
+
+	// A FIFO with nobody writing to it
+	std::string AddFifo(const std::string& name)
+	{
+		std::string path = m_dir + "/" + name;
+		if(mkfifo(path.c_str(), 0600) != 0)
+			return "";
+		m_files.push_back(path);
+		return path;
+	}
+
+	bool Ok() const { return !m_dir.empty(); }
+
+private:
+	std::string					m_dir;
+	std::vector<std::string>	m_files;
+};
+
+int CountOccurrences(const std::string& s, const std::string& what)
+{
+	int n = 0;
+	for(size_t pos = s.find(what); pos != std::string::npos; pos = s.find(what, pos + what.size()))
+		n++;
+	return n;
+}
+
 void TestWriteEmail(int numAttachments)
 {
+	PartFiles files;
+	ASSERT_TRUE( files.Ok() );
+
 	Email email;
 	InitEmail(email);
 	
@@ -136,36 +211,37 @@ void TestWriteEmail(int numAttachments)
 	
 	// Create a body part
 	EmailPartList partList;
-	partList.push_back( CreateBodyPart("test1") );
+	partList.push_back( CreateBodyPart(files.Add("test1", "Email body").c_str()) );
 	
 	// Create some attachments
-	for(int i = 0; i < numAttachments; i++) {
-		std::stringstream name;
-		name << "attach" << i;
-		
-		EmailPartPtr attachmentPart( new EmailPart(EmailPart::ATTACHMENT) );
-		attachmentPart->SetLocalFilePath(name.str());
-		partList.push_back(attachmentPart);
-	}
-	writer->SetPartList(partList);
-	
-	// Set up a fake file "test1" in our mock factory
-	boost::shared_ptr<MockAsyncIOChannelFactory> ioFactory( new MockAsyncIOChannelFactory() );
-	writer->SetAsyncIOChannelFactory(ioFactory);
-	ioFactory->SetFileData("test1", "Email body");
-	
-	// Make some fake attachments
 	for(int i = 0; i < numAttachments; i++) {
 		std::stringstream name, data;
 		name << "attach" << i;
 		data << "Attachment data " << i;
-		ioFactory->SetFileData(name.str().c_str(), data.str());
+		
+		EmailPartPtr attachmentPart( new EmailPart(EmailPart::ATTACHMENT) );
+		attachmentPart->SetLocalFilePath(files.Add(name.str(), data.str()));
+		partList.push_back(attachmentPart);
 	}
+	writer->SetPartList(partList);
+	
+	// The mock factory reads the parts synchronously
+	boost::shared_ptr<MockAsyncIOChannelFactory> ioFactory( new MockAsyncIOChannelFactory() );
+	writer->SetAsyncIOChannelFactory(ioFactory);
 	
 	std::string output;
 	WriteEmail(writer, output);
 	
-	//fprintf(stderr, "Email:\n%s\n", output.c_str());
+	// Every part made it into the email
+	EXPECT_NE( std::string::npos, output.find("Email body") );
+	for(int i = 0; i < numAttachments; i++) {
+		std::stringstream data;
+		data << "Attachment data " << i;
+		// Attachments are base64 encoded; the plain text must not leak through
+		// unencoded, and the email grows with each one.
+		EXPECT_EQ( std::string::npos, output.find(data.str()) );
+	}
+	EXPECT_EQ( numAttachments, CountOccurrences(output, "Content-Disposition: attachment") );
 }
 
 TEST(AsyncEmailWriterTest, TestWriteEmail)
@@ -211,4 +287,53 @@ TEST(AsyncEmailWriterTest, TestMissingFile)
 
 	// Should have reported an exception
 	ASSERT_TRUE( writeResult->GetException() );
+}
+
+// Writes an email whose body is the file at path and expects the writer to
+// refuse the part: done, with an exception, and nothing hanging.
+void ExpectPartRefused(const std::string& path)
+{
+	Email email;
+	InitEmail(email);
+
+	MojRefCountedPtr<AsyncEmailWriter> writer( new AsyncEmailWriter(email) );
+	EmailPartList partList;
+	partList.push_back( CreateBodyPart(path.c_str()) );
+	writer->SetPartList(partList);
+
+	MojRefCountedPtr<ByteBufferOutputStream> bbos( new ByteBufferOutputStream() );
+	writer->SetOutputStream(bbos);
+	boost::shared_ptr<MockAsyncIOChannelFactory> ioFactory( new MockAsyncIOChannelFactory() );
+	writer->SetAsyncIOChannelFactory(ioFactory);
+
+	MojRefCountedPtr<AsyncEmailWriterResult> writeResult(new AsyncEmailWriterResult());
+	writer->WriteEmail(writeResult->GetSlot());
+
+	ASSERT_TRUE( writeResult->Done() );
+	ASSERT_TRUE( writeResult->GetException() );
+}
+
+// A symlink as the part path is refused, even one to a readable file: the
+// target is chosen by whoever made the link, not by the email.
+TEST(AsyncEmailWriterTest, TestSymlinkPartRefused)
+{
+	PartFiles files;
+	ASSERT_TRUE( files.Ok() );
+	std::string target = files.Add("target", "not to be sent");
+	std::string link = files.AddSymlink("link", target);
+	ASSERT_FALSE( link.empty() );
+
+	ExpectPartRefused(link);
+}
+
+// Anything but a regular file is refused, and a FIFO nobody writes to must
+// not block the writer (and with it the service) on open().
+TEST(AsyncEmailWriterTest, TestFifoPartRefused)
+{
+	PartFiles files;
+	ASSERT_TRUE( files.Ok() );
+	std::string fifo = files.AddFifo("fifo");
+	ASSERT_FALSE( fifo.empty() );
+
+	ExpectPartRefused(fifo);
 }

@@ -35,3 +35,19 @@ TEST(UIDMapTest, TestLimit)
 	EXPECT_EQ( UID(610), uidMap.GetUID(12) );
 	EXPECT_EQ( UID(0), uidMap.GetUID(10) ); // not in map
 }
+
+// A UID listed twice by the server is kept once, and does not count as a
+// message of its own.
+TEST(UIDMapTest, TestDuplicatesRemoved)
+{
+	UID arr[] = {1, 2, 2, 3};
+	vector<UID> uids(arr, arr + 4);
+
+	UIDMap uidMap(uids, 3);
+
+	ASSERT_EQ( 3u, uidMap.GetUIDs().size() );
+	EXPECT_EQ( UID(1), uidMap.GetUID(1) );
+	EXPECT_EQ( UID(2), uidMap.GetUID(2) );
+	EXPECT_EQ( UID(3), uidMap.GetUID(3) );
+	EXPECT_EQ( UID(0), uidMap.GetUID(4) );
+}

@@ -22,11 +22,11 @@
 
 TEST(UTF8DecoderOutputStreamTest, TestUTF8Decoder)
 {
-	int BUF_SIZE = 1024;
+	const int BUF_SIZE = 1024;
 	char buf[BUF_SIZE];
 	int nread;
 
-	const char source[] = { 0xE0, 0xE8, 0xEC, 0xF2, 0xF9, 0x0000 };  //"à, è, ì, ò, ù," in ISO-8859-1;
+	const char source[] = "\xE0\xE8\xEC\xF2\xF9";  //"à, è, ì, ò, ù," in ISO-8859-1;
 
 	int32_t srcCount=sizeof(source);
 
@@ -38,7 +38,7 @@ TEST(UTF8DecoderOutputStreamTest, TestUTF8Decoder)
 	nread = bbos->ReadFromBuffer(buf, BUF_SIZE);
 	ASSERT_EQ(11, (int) nread);
 
-	const char control[] = {0xC3, 0xA0, 0xC3, 0xA8, 0xC3, 0xAC, 0xC3, 0xB2, 0xC3, 0xB9, 0x0000};  //"à, è, ì, ò, ù," in UTF8
+	const char control[] = "\xC3\xA0\xC3\xA8\xC3\xAC\xC3\xB2\xC3\xB9";  //"à, è, ì, ò, ù," in UTF8
 
 	ASSERT_STREQ(control, std::string(buf, 11).c_str());
 }

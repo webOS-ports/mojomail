@@ -16,6 +16,7 @@
 //
 // LICENSE@@@
 
+#include <unistd.h>
 #include "email/MockAsyncIOChannel.h"
 #include "exceptions/MailException.h"
 #include "async/AsyncInputStream.h"
@@ -117,6 +118,26 @@ void MockAsyncIOChannelFactory::SetFileData(const std::string& fileName, const s
 string MockAsyncIOChannelFactory::GetWrittenData(const std::string& fileName)
 {
 	return m_fileData[fileName];
+}
+
+MojRefCountedPtr<AsyncIOChannel> MockAsyncIOChannelFactory::OpenFileDescriptor(int fd)
+{
+	// The channel adopts the descriptor, as the real one does: closed here
+	// whether or not the read works.
+	std::string data;
+	char buf[4096];
+	ssize_t n;
+	while((n = ::read(fd, buf, sizeof(buf))) > 0) {
+		data.append(buf, static_cast<size_t>(n));
+	}
+	::close(fd);
+	if(n < 0) {
+		throw MailException("error reading file descriptor", __FILE__, __LINE__);
+	}
+
+	MojRefCountedPtr<MockAsyncIOChannel> channel( new MockAsyncIOChannel(this, "<fd>", "r") );
+	channel->SetReadData(data);
+	return channel;
 }
 
 MojRefCountedPtr<AsyncIOChannel> MockAsyncIOChannelFactory::OpenFile(const char* fileName, const char* mode)

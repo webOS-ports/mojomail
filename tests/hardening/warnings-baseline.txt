@@ -1,0 +1,113 @@
+# Warnings in mojomail's own files that were looked at and are not fixed,
+# with why. build-all.py fails on any other; gcc and clang word the same
+# warning differently, so both forms are listed. Line numbers are left out,
+# so an entry survives code moving around it.
+# Format: <file>: <message>
+#
+# All of these predate the harness (the Palm tree was never built with
+# -Wextra). Fixed instead of listed: every %d given a size_t (now %zu),
+# the SMTP reply-code check, std::unique without erase in UIDMap, a 32-bit
+# string position in the RFC 2047 decoder, and a misleading indent.
+
+# const on a by-value return type: no effect, part of the public email-common API; left alone
+common/include/public/email-common/data/EmailAccount.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+common/include/public/email-common/data/EmailAccount.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+common/include/public/email-common/email/DateUtils.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+common/include/public/email-common/email/DateUtils.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+common/src/email/DateUtils.cpp: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+common/src/email/DateUtils.cpp: type qualifiers ignored on function return type [-Wignored-qualifiers]
+pop/inc/data/OldEmailsCache.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+pop/inc/data/OldEmailsCache.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+pop/inc/data/PopAccount.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+pop/inc/data/PopAccount.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+pop/inc/data/PopEmail.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+pop/inc/data/PopEmail.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+pop/inc/request/Request.h: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+pop/inc/request/Request.h: type qualifiers ignored on function return type [-Wignored-qualifiers]
+pop/src/data/OldEmailsCache.cpp: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+pop/src/data/OldEmailsCache.cpp: type qualifiers ignored on function return type [-Wignored-qualifiers]
+
+# interface implementations and stubs that do not need every argument
+common/include/public/email-common/network/CurlConnection.h: unused parameter 'header' [-Wunused-parameter]
+common/include/public/email-common/stream/CounterOutputStream.h: unused parameter 'flushType' [-Wunused-parameter]
+common/src/async/AsyncIOChannel.cpp: unused parameter 'watch' [-Wunused-parameter]
+common/src/async/FileCacheResizerOutputStream.cpp: unused parameter 'flushType' [-Wunused-parameter]
+common/src/client/BaseSyncSession.cpp: unused parameter 'command' [-Wunused-parameter]
+imap/src/client/ImapSession.cpp: unused parameter 'command' [-Wunused-parameter]
+imap/src/client/ImapSession.cpp: unused parameter 'e' [-Wunused-parameter]
+imap/src/protocol/ImapResponseParser.cpp: unused parameter 'line' [-Wunused-parameter]
+imap/src/protocol/ImapResponseParser.cpp: unused parameter 'status' [-Wunused-parameter]
+imap/src/protocol/UidSearchResponseParser.cpp: unused parameter 'response' [-Wunused-parameter]
+imap/src/protocol/UidSearchResponseParser.cpp: unused parameter 'status' [-Wunused-parameter]
+pop/src/client/PopSession.cpp: unused parameter 'msg' [-Wunused-parameter]
+pop/src/client/SyncSession.cpp: unused parameter 'actBuilder' [-Wunused-parameter]
+
+# Flush() overloads that hide BaseOutputStream::Flush(FlushType) (and handleCancel in ImapBusDispatcher): every caller goes through the base class or passes the type; left as designed
+common/include/public/email-common/stream/Base64DecoderOutputStream.h: 'Base64DecoderOutputStream::Flush' hides overloaded virtual function [-Woverloaded-virtual]
+common/include/public/email-common/stream/BaseOutputStream.h: 'virtual void ChainedOutputStream::Flush(BaseOutputStream::FlushType)' was hidden [-Woverloaded-virtual=]
+common/include/public/email-common/stream/DebugOutputStream.h: 'DebugOutputStream::Flush' hides overloaded virtual function [-Woverloaded-virtual]
+imap/inc/ImapBusDispatcher.h: 'ImapBusDispatcher::StatusSubscription::handleCancel' hides overloaded virtual function [-Woverloaded-virtual]
+smtp/inc/stream/CRLFTerminatedOutputStream.h: 'CRLFTerminatedOutputStream::Flush' hides overloaded virtual function [-Woverloaded-virtual]
+
+# glibcurl hands its void(*)(void*) callback to GSource as a GSourceFunc and ignores the return value at the call; bus dispatchers cast member pointers taking MojObject& to db8's const MojObject& callback type, the db8 idiom; both work on every ABI LuneOS targets
+common/src/glibcurl/glibcurl.cpp: cast between incompatible function types from 'GlibcurlCallback' {aka 'void (*)(void*)'} to 'GSourceFunc' {aka 'int (*)(void*)'} [-Wcast-function-type]
+common/src/glibcurl/glibcurl.cpp: cast from 'GlibcurlCallback' (aka 'void (*)(void *)') to 'GSourceFunc' (aka 'int (*)(void *)') converts to incompatible function type [-Wcast-function-type-mismatch]
+imap/src/ImapBusDispatcher.cpp: cast between incompatible pointer to member types from 'MojErr (ImapBusDispatcher::*)(MojServiceMessage*, MojObject&)' to 'MojService::CategoryHandler::Callback' {aka 'MojErr (MojService::CategoryHandler::*)(MojServiceMessage*, const MojObject&)'} [-Wcast-function-type]
+imap/src/ImapBusDispatcher.cpp: cast from 'MojErr (ImapBusDispatcher::*)(MojServiceMessage *, MojObject &)' to 'Callback' (aka 'MojErr (CategoryHandler::*)(MojServiceMessage *, const MojObject &)') converts to incompatible function type [-Wcast-function-type-mismatch]
+pop/src/PopBusDispatcher.cpp: cast between incompatible pointer to member types from 'MojErr (PopBusDispatcher::*)(MojServiceMessage*, MojObject&)' to 'MojService::CategoryHandler::Callback' {aka 'MojErr (MojService::CategoryHandler::*)(MojServiceMessage*, const MojObject&)'} [-Wcast-function-type]
+pop/src/PopBusDispatcher.cpp: cast from 'MojErr (PopBusDispatcher::*)(MojServiceMessage *, MojObject &)' to 'Callback' (aka 'MojErr (CategoryHandler::*)(MojServiceMessage *, const MojObject &)') converts to incompatible function type [-Wcast-function-type-mismatch]
+smtp/src/SmtpBusDispatcher.cpp: cast between incompatible pointer to member types from 'MojErr (SmtpBusDispatcher::*)(MojServiceMessage*, MojObject&)' to 'MojService::CategoryHandler::Callback' {aka 'MojErr (MojService::CategoryHandler::*)(MojServiceMessage*, const MojObject&)'} [-Wcast-function-type]
+smtp/src/SmtpBusDispatcher.cpp: cast from 'MojErr (SmtpBusDispatcher::*)(MojServiceMessage *, MojObject &)' to 'Callback' (aka 'MojErr (CategoryHandler::*)(MojServiceMessage *, const MojObject &)') converts to incompatible function type [-Wcast-function-type-mismatch]
+
+# fields kept for the class layout or logging that is compiled out
+imap/inc/commands/ImapAccountFinder.h: private field 'm_sync' is not used [-Wunused-private-field]
+pop/inc/commands/ReconcileEmailsCommand.h: private field 'm_failed' is not used [-Wunused-private-field]
+smtp/inc/SmtpBusDispatcher.h: private field 'm_log' is not used [-Wunused-private-field]
+
+# MojErr kept from calls whose failure is logged elsewhere or ignored on purpose
+common/src/activity/Activity.cpp: variable 'err' set but not used [-Wunused-but-set-variable]
+pop/src/commands/DownloadEmailPartsCommand.cpp: variable 'err' set but not used [-Wunused-but-set-variable]
+pop/src/commands/FetchEmailCommand.cpp: variable 'err' set but not used [-Wunused-but-set-variable]
+
+# MojLogDebug compiles to nothing in release builds; the if/else around it is empty there
+imap/src/client/ImapRequestManager.cpp: suggest braces around empty body in an 'else' statement [-Wempty-body]
+imap/src/client/ImapRequestManager.cpp: suggest braces around empty body in an 'if' statement [-Wempty-body]
+pop/src/PopBusDispatcher.cpp: suggest braces around empty body in an 'else' statement [-Wempty-body]
+
+# loop iterators left from earlier code; no effect
+imap/src/commands/SyncFolderListCommand.cpp: unused variable 'it' [-Wunused-variable]
+imap/src/sync/UIDMap.cpp: unused variable 'it' [-Wunused-variable]
+
+# an error string kept for reference
+imap/src/commands/AuthYahooCommand.cpp: unused variable 'YAHOO_SERVICE_CREDENTIALS_ERROR' [-Wunused-const-variable]
+
+# EmailFlags declared class and defined struct: only matters to the Microsoft ABI
+imap/inc/data/ImapEmail.h: 'EmailFlags' defined as a struct here but previously declared as a class; this is valid, but may result in linker errors under the Microsoft C++ ABI [-Wmismatched-tags]
+imap/inc/data/ImapEmailAdapter.h: class 'EmailFlags' was previously declared as a struct; this is valid, but may result in linker errors under the Microsoft C++ ABI [-Wmismatched-tags]
+
+# std::auto_ptr in SmtpBusDispatcher; works in C++17 with libstdc++, replacing it is a separate change
+smtp/inc/SmtpBusDispatcher.h: 'auto_ptr<SmtpAccount>' is deprecated: use 'std::unique_ptr' instead [-Wdeprecated-declarations]
+smtp/inc/SmtpBusDispatcher.h: 'template<class> class std::auto_ptr' is deprecated: use 'std::unique_ptr' instead [-Wdeprecated-declarations]
+
+# implicit copy assignment next to a user-declared copy constructor in UidMap::MessageInfo; behaves as the members' copy
+pop/inc/commands/ReconcileEmailsCommand.h: implicitly-declared 'UidMap::MessageInfo& UidMap::MessageInfo::operator=(const UidMap::MessageInfo&)' is deprecated [-Wdeprecated-copy]
+
+# std::exception caught by value in pop's SyncEmailsCommand: slices, but only what() is used
+pop/src/commands/SyncEmailsCommand.cpp: catching polymorphic type 'const class std::exception' by value [-Wcatch-value=]
+
+# CRLFTerminatedOutputStream writes "\r\n" + skip on purpose: the part of CRLF still missing
+smtp/src/stream/CRLFTerminatedOutputStream.cpp: adding 'int' to a string does not append to the string [-Wstring-plus-int]
+
+# MojInt64 sizes against size_t: a negative (unknown) size converts to huge, so auto-download skips such parts and progress is reported as unknown; behaviour left as it is
+imap/src/commands/AutoDownloadCommand.cpp: comparison of integer expressions of different signedness: 'MojInt64' {aka 'long long int'} and 'const size_t' {aka 'const long unsigned int'} [-Wsign-compare]
+imap/src/commands/AutoDownloadCommand.cpp: comparison of integers of different signs: 'MojInt64' (aka 'long long') and 'const size_t' (aka 'const unsigned long') [-Wsign-compare]
+imap/src/commands/FetchPartCommand.cpp: comparison of integer expressions of different signedness: 'size_t' {aka 'long unsigned int'} and 'MojInt64' {aka 'long long int'} [-Wsign-compare]
+imap/src/commands/FetchPartCommand.cpp: comparison of integers of different signs: 'size_t' (aka 'unsigned long') and 'MojInt64' (aka 'long long') [-Wsign-compare]
+
+# ARM only (char and wchar_t are unsigned there). Util::encodeModifiedUtf7()
+# is dead code - nothing calls it or encodeFolderName(); folders are selected
+# by the names the server sent - and broken on every target: it treats every
+# character as printable ASCII, so it never encodes. Left alone rather than
+# fixed for nobody; it should be removed or fixed together with a caller.
+imap/src/parser/Util.cpp: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+imap/src/parser/Util.cpp: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]

@@ -122,10 +122,12 @@ TEST(CommandManagerTest, TestPriorities)
 // It used to be the command after it in the active list that was kept.
 TEST(CommandManagerTest, TestCompletedCommandKeptUntilCleanup)
 {
+	// Before the manager: c2 is still in it when the test returns, and its
+	// destructor counts into destroyed2.
+	int destroyed1 = 0, destroyed2 = 0;
 	MockListener listener;
 	MojRefCountedPtr<CommandManager> managerRef(new CommandManager(4, true));
 	CommandManager& manager = *managerRef;
-	int destroyed1 = 0, destroyed2 = 0;
 
 	Command* c1 = new CountingCommand(listener, Command::NormalPriority, destroyed1);
 	Command* c2 = new CountingCommand(listener, Command::NormalPriority, destroyed2);
