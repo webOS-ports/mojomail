@@ -42,7 +42,7 @@ void Rfc2047Decoder::Decode(const std::string& text, std::string& out)
 		throw MailException("invalid RFC 2047", __FILE__, __LINE__);
 	}
 
-	unsigned int encodingPos = text.find('?', 2);
+	string::size_type encodingPos = text.find('?', 2);
 	if(encodingPos == string::npos) {
 		// '?' not found
 		throw MailException("invalid RFC 2047", __FILE__, __LINE__);

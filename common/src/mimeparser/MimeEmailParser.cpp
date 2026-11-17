@@ -358,7 +358,7 @@ void MimeEmailParser::ProcessBoundaryMatch(BoundaryMatchResult& result)
 // End parts corresponding to boundaries starting from (and including) startIndex
 void MimeEmailParser::PopBoundaries(int startIndex)
 {
-	for (int i = m_boundaryStack.size() - 1; i >= startIndex; --i) {
+	for (int i = static_cast<int>(m_boundaryStack.size()) - 1; i >= startIndex; --i) {
 		bool partStarted = m_boundaryStack.at(i).partStarted;
 		m_boundaryStack.erase(m_boundaryStack.begin() + i);
 

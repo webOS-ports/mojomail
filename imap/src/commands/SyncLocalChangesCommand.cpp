@@ -210,7 +210,7 @@ void SyncLocalChangesCommand::SendRequests()
 	}
 
 	if(requests) {
-		MojLogInfo(m_log, "sent %d flag update commands for %d emails", requests, m_pendingMerge.size());
+		MojLogInfo(m_log, "sent %d flag update commands for %zu emails", requests, m_pendingMerge.size());
 	} else {
 		MojLogInfo(m_log, "no local flag changes");
 
@@ -342,7 +342,7 @@ MojErr SyncLocalChangesCommand::GetMovedEmailsResponse(MojObject& response, MojE
 			GetMovedEmails();
 		} else {
 			if(!m_folderIdUidMap.empty()) {
-				MojLogInfo(m_log, "moving %d emails on server", m_folderIdUidMap.size());
+				MojLogInfo(m_log, "moving %zu emails on server", m_folderIdUidMap.size());
 				MoveEmails();
 			} else {
 				MoveComplete();
@@ -454,7 +454,7 @@ MojErr SyncLocalChangesCommand::GetDeletedEmailsResponse(MojObject& response, Mo
 			GetDeletedEmails();
 		} else {
 			if(!m_uidsToDelete.empty()) {
-				MojLogInfo(m_log, "deleting %d emails from server", m_uidsToDelete.size());
+				MojLogInfo(m_log, "deleting %zu emails from server", m_uidsToDelete.size());
 				DeleteEmails();
 			} else {
 				DeleteComplete();

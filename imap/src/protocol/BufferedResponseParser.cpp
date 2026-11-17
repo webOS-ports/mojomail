@@ -88,7 +88,7 @@ bool BufferedResponseParser::HandleAdditionalData()
 		char buf[MAX_LITERAL_SIZE + 10];
 
 		if ( (size_t) m_bytesNeeded > bytesAvailable || m_bytesNeeded > MAX_LITERAL_SIZE) {
-			MojLogError(m_log, "need %d but only %d available", (size_t) m_bytesNeeded, bytesAvailable);
+			MojLogError(m_log, "need %zu but only %zu available", (size_t) m_bytesNeeded, bytesAvailable);
 			throw MailException("refusing to parse literal", __FILE__, __LINE__);
 		}
 

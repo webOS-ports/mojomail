@@ -292,7 +292,7 @@ void SyncEmailsCommand::SyncUpdatesFromServer()
 {
 	CommandTraceFunction();
 
-	MojLogInfo(m_log, "%d new emails, %d deleted emails, %d changed emails on server",
+	MojLogInfo(m_log, "%zu new emails, %zu deleted emails, %zu changed emails on server",
 			m_syncEngine->GetNewUIDs().size(), m_syncEngine->GetDeletedIds().size(), m_syncEngine->GetModifiedFlags().size());
 
 	// Order is important here!

@@ -212,7 +212,7 @@ MojErr ReconcileEmailsCommand::GetDeletedEmailsResponse(MojObject& response, Moj
 		ErrorToException(err);
 
 		if(results.size() > 0) {
-			MojLogInfo(m_log, "Got %d local deleted emails", results.size());
+			MojLogInfo(m_log, "Got %zu local deleted emails", results.size());
 		}
 
 		MojObject::ArrayIterator it;

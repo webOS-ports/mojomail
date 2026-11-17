@@ -148,7 +148,7 @@ MojErr ImapBusDispatcher::ValidateAccount(MojServiceMessage* msg, MojObject& pay
 
 		validator->Validate();
 
-		MojLogInfo(m_log, "starting validator %p; %d validators running", validator.get(), m_validators.size());
+		MojLogInfo(m_log, "starting validator %p; %zu validators running", validator.get(), m_validators.size());
 
 		CheckActive();
 	} catch(const std::exception& e) {
@@ -173,7 +173,7 @@ void ImapBusDispatcher::ValidationDone(ImapValidator* validator)
 		m_cleanupValidatorsCallbackId = g_idle_add(&ImapBusDispatcher::CleanupValidatorsCallback, this);
 	}
 
-	MojLogInfo(m_log, "validator %p done; remaining: %d", validator, m_validators.size());
+	MojLogInfo(m_log, "validator %p done; remaining: %zu", validator, m_validators.size());
 
 	CheckActive();
 }

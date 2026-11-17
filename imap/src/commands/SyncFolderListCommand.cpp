@@ -164,7 +164,7 @@ MojErr SyncFolderListCommand::ListResponse()
 	try {
 		m_listResponseParser->CheckStatus();
 
-		MojLogInfo(m_log, "folders on server: %d", m_listResponseParser->GetFolders().size());
+		MojLogInfo(m_log, "folders on server: %zu", m_listResponseParser->GetFolders().size());
 
 		ReconcileFolderList();
 		
@@ -301,7 +301,7 @@ void SyncFolderListCommand::DeleteFolders()
 	MojErr err;
 	MojObject::ObjectVec deletedIds;
 
-	MojLogInfo(m_log, "deleting %d folders", m_folderListDiff.GetDeletedFolders().size());
+	MojLogInfo(m_log, "deleting %zu folders", m_folderListDiff.GetDeletedFolders().size());
 	// Get list of folder ids to delete
 	BOOST_FOREACH(const ImapFolderPtr& folder, m_folderListDiff.GetDeletedFolders()) {
 		if(boost::iequals(folder->GetFolderName(), ImapFolder::INBOX_FOLDER_NAME)) {
@@ -435,7 +435,7 @@ void SyncFolderListCommand::CreateNewFolders()
 	CommandTraceFunction();
 	
 	const vector<ImapFolderPtr>& newFolders = m_folderListDiff.GetNewFolders();
-	MojLogInfo(m_log, "creating %d new folders", newFolders.size());
+	MojLogInfo(m_log, "creating %zu new folders", newFolders.size());
 	
 	MojObject::ObjectVec newFolderObjs;
 	

@@ -195,7 +195,7 @@ wstring Util::encodeModifiedUtf7(const wstring& s)  {
     		int pos2 = pos;
     		while (pos2<len && s[pos2]<0)
     			pos2++;
-			result.push_back('&');
+    		result.push_back('&');
     		encodeBase64(result, s, pos, pos2-pos);
     		result.push_back('-');
     		pos = pos2+1;

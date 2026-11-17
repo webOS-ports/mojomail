@@ -29,7 +29,7 @@
 class SmtpSyncOutboxCommand : public SmtpCommand
 {
 public:
-	SmtpSyncOutboxCommand(SmtpClient& client, const MojObject& folderId, const MojObject& accountId, bool force, bool clear);
+	SmtpSyncOutboxCommand(SmtpClient& client, const MojObject& accountId, const MojObject& folderId, bool force, bool clear);
 	~SmtpSyncOutboxCommand() override;
 	
 	void AttachAdoptedActivity(MojRefCountedPtr<Activity> activity, const MojString& activityId, const MojString& activityName);

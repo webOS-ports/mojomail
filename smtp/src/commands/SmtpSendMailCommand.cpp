@@ -257,7 +257,7 @@ void SmtpSendMailCommand::WriteEmail()
 			if (m_session.GetSizeMax()) {
 				char buf[64];
 				memset(buf, '\0', sizeof(buf));
-				snprintf(buf, sizeof(buf)-1, " SIZE=%d", m_bytesLeft);
+				snprintf(buf, sizeof(buf)-1, " SIZE=%zu", m_bytesLeft);
 				userCommand += buf;
 
 				MojLogInfo(m_log, "...with SIZE");
@@ -391,7 +391,7 @@ MojErr SmtpSendMailCommand::HandleResponse(const std::string&  /*line*/)
 			} else {
 				MojLogInfo(m_log, "RCPT TO command -ERR");
 				m_error =  GetStandardError();
-				if (m_status == 550) { // general failure means bad recipient
+				if (m_statusCode == 550) { // general failure means bad recipient
 					m_error.errorCode = MailError::BAD_RECIPIENTS;
 					m_error.errorOnEmail = true;
 					m_error.errorOnAccount = false;
@@ -401,7 +401,7 @@ MojErr SmtpSendMailCommand::HandleResponse(const std::string&  /*line*/)
 				// copy to the next batch of recipients. Instead, we'll treat this as a 
 				// permanent error, and not send it to anyone (by sending RSET, and not DATA).
 				// 552 is (as the spec says) an old and occasionally seen typo of 452.
-				if (m_status == 452 || m_status == 552) {
+				if (m_statusCode == 452 || m_statusCode == 552) {
 					m_error.errorCode = MailError::BAD_RECIPIENTS; // too many, actually
 					m_error.errorOnEmail = true;
 					m_error.errorOnAccount = false;

@@ -44,7 +44,7 @@ protected:
 	void CreateOutboxWatch();
 	MojErr CreateOutboxWatchResponse(MojObject& response, MojErr err);
 
-	void Failure(const std::exception& e);
+	void Failure(const std::exception& e) override;
 	void Done();
 
 	SmtpClient&		m_client;

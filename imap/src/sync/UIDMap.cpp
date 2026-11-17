@@ -29,7 +29,7 @@ UIDMap::UIDMap(const vector<UID>& initialUidList, unsigned int msgCount, unsigne
 	m_uids.insert(m_uids.begin(), initialUidList.end() - listSize, initialUidList.end());
 
 	// Make sure there's no duplicates
-	std::unique(m_uids.begin(), m_uids.end());
+	m_uids.erase(std::unique(m_uids.begin(), m_uids.end()), m_uids.end());
 
 	// If we get back more results than expected, increase the message count
 	// It might just indicate that we haven't gotten an EXISTS response yet

@@ -135,7 +135,7 @@ MojErr UpSyncDraftsCommand::GetDraftsResponse(MojObject& response, MojErr err)
 			GetDrafts();
 		} else {
 			if(!m_drafts.empty()) {
-				MojLogInfo(m_log, "uploading %d draft emails to the server", m_drafts.size());
+				MojLogInfo(m_log, "uploading %zu draft emails to the server", m_drafts.size());
 				m_emailP = m_drafts.back();
 				CreateAndRunAppendCommand();
 			} else {

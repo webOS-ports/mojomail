@@ -27,7 +27,9 @@ class DeflaterOutputStream : public ChainedOutputStream
 public:
 	// Note: memory usage is defined in the zlib manual as:
 	// deflate memory usage (bytes) = (1 << (windowBits+2)) + (1 << (memLevel+9))
-	DeflaterOutputStream(const OutputStreamPtr& sink, int windowBits = -8, int compressLevel = 8);
+	// windowBits is negative for raw deflate. zlib 1.2.9 and later refuse -8
+	// (a 256-byte window) there, so -9 is the smallest that works.
+	DeflaterOutputStream(const OutputStreamPtr& sink, int windowBits = -9, int compressLevel = 8);
 	~DeflaterOutputStream() override;
 
 	void Write(const char* src, size_t length) override;
