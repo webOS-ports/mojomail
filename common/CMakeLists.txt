@@ -16,7 +16,7 @@
 #
 # LICENSE@@@
 
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 3.10)
 
 project(email-common CXX)
 
@@ -26,6 +26,22 @@ webos_component(2 0 0)
 
 webos_add_compiler_flags(ALL "-DMOJ_LINUX")
 webos_add_compiler_flags(ALL "-O2 -ggdb -Wuninitialized -Winit-self -Wno-error=strict-aliasing")
+
+# Sanitizers for the test and hardening harness (tests/hardening/ at the top
+# of the repository). Never on for an image build:
+#   cmake -DMOJ_SANITIZE=address,undefined ...
+set(MOJ_SANITIZE "" CACHE STRING
+    "Sanitizers, as -fsanitize= takes them (address,undefined or thread)")
+set(MOJ_NO_SANITIZE "" CACHE STRING
+    "Checks to leave out of MOJ_SANITIZE, as -fno-sanitize= takes them")
+if(MOJ_SANITIZE)
+    set(MOJ_SANITIZE_FLAGS -fsanitize=${MOJ_SANITIZE})
+    if(MOJ_NO_SANITIZE)
+        list(APPEND MOJ_SANITIZE_FLAGS -fno-sanitize=${MOJ_NO_SANITIZE})
+    endif()
+    add_compile_options(${MOJ_SANITIZE_FLAGS} -fno-omit-frame-pointer -fno-sanitize-recover=all)
+    link_libraries(${MOJ_SANITIZE_FLAGS})
+endif()
 
 # These variables can change the default behaviour and need to be set before calling find_package
 set(Boost_USE_STATIC_LIBS OFF)
@@ -104,6 +120,14 @@ aux_source_directory(src/util util_files)
 add_library(email-common SHARED src/CommonErrors.cpp ${activity_files} ${client_files} ${data_files} ${exceptions_files} ${mimeparser_files} ${stream_files} ${async_files} ${email_files} ${glibcurl_files} ${network_files} ${util_files})
 
 target_link_libraries(email-common ${GLIB2_LDFLAGS} ${JSON_LDFLAGS} ${PALMSOCKET_LDFLAGS} ${SANDBOX_LDFLAGS} ${PMLOG_LDFLAGS} ${LUNASERVICE_LDFLAGS} ${JEMALLOC_MT_LDFLAGS} ${ICU} ${ICUI18N} ${LIBZ} ${Boost_LIBRARIES} ${DB8_LDFLAGS} pthread curl)
+
+# Unit tests in test/, off unless asked for. See tests/README.md at the top
+# of the repository.
+option(BUILD_TESTING "Build the unit tests in test/" OFF)
+if(BUILD_TESTING)
+    enable_testing()
+    add_subdirectory(test)
+endif()
 
 webos_build_pkgconfig()
 webos_build_library(NAME email-common)

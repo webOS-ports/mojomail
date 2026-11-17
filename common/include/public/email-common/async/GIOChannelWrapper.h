@@ -66,14 +66,12 @@ protected:
 	void SetWatchReadable(bool watch) override;
 	void SetWatchWriteable(bool watch) override;
 
+	// m_readers, m_writers, m_closed and m_exception are AsyncIOChannel's;
+	// copies here hid them, so IsClosed() stayed false after Close() and
+	// the status always showed no readers or writers.
 	GIOChannel*		m_channel;
-	int				m_readers;
-	int				m_writers;
 	guint			m_watchReadId;
 	guint			m_watchWriteId;
-	bool			m_closed;
-
-	boost::exception_ptr	m_exception;
 };
 
 class GIOChannelWrapperFactory : public AsyncIOChannelFactory

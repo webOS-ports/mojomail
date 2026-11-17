@@ -25,7 +25,7 @@ using namespace std;
 
 TEST(Base64DecoderOutputStreamTest, TestBase64Decoder)
 {
-	int BUF_SIZE = 1024;
+	const int BUF_SIZE = 1024;
 	char buf[BUF_SIZE];
 	int nread;
 
@@ -35,7 +35,7 @@ TEST(Base64DecoderOutputStreamTest, TestBase64Decoder)
 	// Write and read
 	strncpy(buf, "XXX@1", BUF_SIZE);
 	b64dos.Write("TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlzIHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2YgdGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGludWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRoZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=", 360);
-	nread = bbos->ReadFromBuffer(buf, 1024);
+	nread = bbos->ReadFromBuffer(buf, BUF_SIZE);
 
 	ASSERT_EQ( 269, (int) nread );
 

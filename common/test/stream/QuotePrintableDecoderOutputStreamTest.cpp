@@ -22,7 +22,7 @@
 
 TEST(QuotePrintableDecoderOutputStreamTest, TestQuotePrintableDecoder)
 {
-	int BUF_SIZE = 100;
+	const int BUF_SIZE = 1024;
 	char buf[BUF_SIZE];
 	int nread;
 
@@ -30,7 +30,7 @@ TEST(QuotePrintableDecoderOutputStreamTest, TestQuotePrintableDecoder)
 	QuotePrintableDecoderOutputStream qpdos(bbos);
 
 	qpdos.Write("If you believe that truth=3Dbeauty, then surely=20=\r\nmathematics is the most beautiful branch of philosophy.", 108);
-	nread = bbos->ReadFromBuffer(buf, 1024);
+	nread = bbos->ReadFromBuffer(buf, BUF_SIZE);
 	ASSERT_EQ(101, (int) nread);
 	ASSERT_EQ("If you believe that truth=beauty, then surely mathematics is the most beautiful branch of philosophy.", std::string(buf, 101));
 }

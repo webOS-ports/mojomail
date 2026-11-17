@@ -22,6 +22,7 @@
 #include "client/Command.h"
 #include "core/MojRefCount.h"
 #include <glib.h>
+#include <algorithm>
 #include <memory>
 #include <queue>
 #include <vector>
@@ -150,7 +151,9 @@ protected:
 		container_type::iterator end() { return c.end(); };
 		container_type::const_iterator begin() const { return c.begin(); };
 		container_type::const_iterator end() const { return c.end(); };
-		container_type::iterator erase(container_type::iterator it) { return c.erase(it); };
+		// c is kept as a heap by std::priority_queue; removing an element from
+		// the middle breaks that, so rebuild it. Iterators are invalid afterwards.
+		void erase(container_type::iterator it) { c.erase(it); std::make_heap(c.begin(), c.end(), comp); };
 	};
 
 	CommandQueue	m_pendingCommands;

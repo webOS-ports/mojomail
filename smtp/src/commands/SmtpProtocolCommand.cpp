@@ -30,6 +30,10 @@ SmtpProtocolCommand::SmtpProtocolCommand(SmtpSession& session, Priority priority
   m_handleResponseSlot(this, &SmtpProtocolCommand::ReceiveResponse),
   m_serverMessage(""),
   m_inResponse(false),
+  m_firstResponse(false),
+  m_lastResponse(false),
+  m_responseLineNumber(0),
+  m_statusCode(0),
   m_status(Status_Err)
 {
 

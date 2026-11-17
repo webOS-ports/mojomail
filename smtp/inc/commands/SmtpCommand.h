@@ -41,7 +41,9 @@ public:
 		const char* m_lastFunction;
 	};
 	
-	void Failure(const exception& exc);
+	// virtual: Run() calls it when RunImpl() throws, and a subclass may
+	// owe a reply (SmtpAccountEnableCommand answers its bus message)
+	virtual void Failure(const exception& exc);
 	void Cancel() override;
 
 	SmtpCommand(Listener& client, Priority priority = NormalPriority);

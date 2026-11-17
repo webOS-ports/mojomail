@@ -24,13 +24,6 @@
 #include "core/MojErr.h"
 #include "core/MojRefCount.h"
 
-// Functions that are used very infrequently
-#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 3) // GCC 4.3 or higher only
-#define __cold__ __attribute__ ((cold))
-#else
-#define __cold__
-#endif
-
 #if defined(__GNUC__)
 #ifndef unlikely
 #define unlikely(x) __builtin_expect((x),0)

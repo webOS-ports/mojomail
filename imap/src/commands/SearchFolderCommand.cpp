@@ -100,7 +100,7 @@ MojErr SearchFolderCommand::HandleSearchResponse()
 
 			m_matchingUIDs.erase(m_matchingUIDs.begin(), m_matchingUIDs.end() - limit);
 		} else {
-			MojLogInfo(m_log, "search results: %d emails found", m_matchingUIDs.size());
+			MojLogInfo(m_log, "search results: %zu emails found", m_matchingUIDs.size());
 		}
 
 		RequestHeaders();

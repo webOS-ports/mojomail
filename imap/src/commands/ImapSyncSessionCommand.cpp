@@ -106,5 +106,5 @@ void ImapSyncSessionCommand::Cleanup()
 {
 	m_syncSessionReadySlot.cancel();
 
-	ImapCommand::Cleanup();
+	ImapSessionCommand::Cleanup();
 }

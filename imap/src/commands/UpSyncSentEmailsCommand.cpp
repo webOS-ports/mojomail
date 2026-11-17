@@ -112,7 +112,7 @@ MojErr UpSyncSentEmailsCommand::GetSentEmailsResponse(MojObject& response, MojEr
 			GetSentEmails();
 		} else {
 			if(!m_sentEmails.empty()) {
-				MojLogInfo(m_log, "up sync %d sent emails to the server", m_sentEmails.size());
+				MojLogInfo(m_log, "up sync %zu sent emails to the server", m_sentEmails.size());
 				m_emailP = m_sentEmails.back();
 				CreateAndRunAppendCommand();
 			} else {

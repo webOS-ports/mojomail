@@ -29,11 +29,8 @@ using namespace std;
 
 GIOChannelWrapper::GIOChannelWrapper(GIOChannel* channel)
 : m_channel(channel),
-  m_readers(0),
-  m_writers(0),
   m_watchReadId(0),
-  m_watchWriteId(0),
-  m_closed(false)
+  m_watchWriteId(0)
 {
 }
 

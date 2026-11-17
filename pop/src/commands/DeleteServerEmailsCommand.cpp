@@ -39,7 +39,7 @@ DeleteServerEmailsCommand::~DeleteServerEmailsCommand()
 
 void DeleteServerEmailsCommand::RunImpl()
 {
-	MojLogInfo(m_log, "Number of locally deleted emails to handle: %d", m_localDeletedEmailUids.size());
+	MojLogInfo(m_log, "Number of locally deleted emails to handle: %zu", m_localDeletedEmailUids.size());
 	DeleteNextEmail();
 }
 

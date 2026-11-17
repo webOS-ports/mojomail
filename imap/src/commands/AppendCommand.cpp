@@ -77,7 +77,7 @@ MojErr AppendCommand::FinishCalculateEmailSize(const std::exception* exc)
 
 	try {
 		m_bytesLeft = m_counter->GetBytesWritten();
-		MojLogInfo(m_log, "done calculating email size: %d bytes", m_bytesLeft);
+		MojLogInfo(m_log, "done calculating email size: %zu bytes", m_bytesLeft);
 
 		SendAppendRequest();
 

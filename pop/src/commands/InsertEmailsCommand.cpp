@@ -81,7 +81,7 @@ MojErr InsertEmailsCommand::SaveEmails()
 			ErrorToException(err);
 		}
 
-		MojLogInfo(m_log, "Adding %d email(s) to database", m_emails->size());
+		MojLogInfo(m_log, "Adding %zu email(s) to database", m_emails->size());
 		m_session.GetDatabaseInterface().AddItems(m_saveEmailsSlot, m_persistEmails);
 	}
 	catch (const std::exception& e) {

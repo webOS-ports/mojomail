@@ -20,18 +20,6 @@
 #include "ImapBusDispatcher.h"
 #include "exceptions/ExceptionUtils.h"
 
-int main(int argc, char** argv)
-{
-	ImapServiceApp app;
-
-	// Set terminate handler
-	std::set_terminate(&ExceptionUtils::TerminateHandler);
-
-	int mainResult = app.main(argc, argv);
-
-	return mainResult;
-}
-
 const char* const ImapServiceApp::ServiceName = "com.palm.imap";
 
 ImapServiceApp::ImapServiceApp()

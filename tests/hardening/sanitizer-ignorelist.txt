@@ -1,0 +1,8 @@
+# Clang sanitizer ignorelist (-fsanitize-ignorelist=) for run-sanitizers.sh.
+# Only third-party code from the sysroot is listed; every check stays on for
+# mojomail's own sources.
+#
+# boost::regex's traits convert unsigned char to char on every character it
+# classifies (cpp_regex_traits.hpp), which clang's implicit-conversion check
+# reports: defined behaviour, and boost's to change.
+src:*/usr/include/boost/*

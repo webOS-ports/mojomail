@@ -61,7 +61,8 @@ void QuotePrintableDecoderOutputStream::Write(const char* buf, size_t len)
 				break;
 			m_hi = (m_hi>='A' ? m_hi-'A'+10 : m_hi-'0');
 			lo = (lo>='A' ? lo-'A'+10 : lo-'0');
-			outbuf[cnt++] = ((m_hi<<4)+lo);
+			// A byte value 0-255, stored as the char it is
+			outbuf[cnt++] = static_cast<char>((m_hi<<4)+lo);
 			break;
 		}
 		}

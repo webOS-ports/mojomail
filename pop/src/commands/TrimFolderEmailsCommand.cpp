@@ -129,7 +129,7 @@ void TrimFolderEmailsCommand::DeleteLocalEmails()
 {
 	if (m_idsToTrim.size() > 0)
 	{
-		MojLogInfo(m_log, "Deleting %d email(s) from database", m_idsToTrim.size());
+		MojLogInfo(m_log, "Deleting %zu email(s) from database", m_idsToTrim.size());
 		m_session.GetDatabaseInterface().DeleteItems(m_deleteLocalEmailsResponseSlot, m_idsToTrim);
 	} else {
 		Complete();

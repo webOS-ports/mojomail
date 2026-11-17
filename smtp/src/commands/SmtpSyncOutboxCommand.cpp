@@ -663,7 +663,7 @@ MojErr SmtpSyncOutboxCommand::GetOutboxEmailsResponse(MojObject &response, MojEr
 				// Get more emails
 				GetSomeOutboxEmails();
 			} else {
-				MojLogInfo(m_log, "Found %d emails in outbox", m_emailsToSend.size());
+				MojLogInfo(m_log, "Found %zu emails in outbox", m_emailsToSend.size());
 
 				m_emailIt = m_emailsToSend.begin();
 
@@ -814,7 +814,7 @@ void SmtpSyncOutboxCommand::CompleteAndUpdateActivities()
 
 		MojLogInfo(m_log, "SmtpSyncOutboxCommand::CompleteAndUpdateActivities");
 	
-		MojLogInfo(m_log, " manual activities size=%d", m_manualActivities.size());
+		MojLogInfo(m_log, " manual activities size=%zu", m_manualActivities.size());
 	
 		// Clear any network activity
 		if (m_networkActivity.get()) {

@@ -17,6 +17,7 @@
 // LICENSE@@@
 
 #include "email/Rfc2047Decoder.h"
+#include "exceptions/MailException.h"
 #include <gtest/gtest.h>
 
 using namespace std;
@@ -108,6 +109,14 @@ TEST(Rfc2047DecoderTest, TestDecodeIllegalText)
 
 		// just make sure no exceptions are thrown
 	}
+}
+
+// "=?=" passes the =?...?= framing check, the '?' doing for both, and has
+// no '?' after the charset at all.
+TEST(Rfc2047DecoderTest, TestNoEncodingSeparator)
+{
+	string output;
+	EXPECT_THROW( Rfc2047Decoder::Decode("=?=", output), MailException );
 }
 
 TEST(Rfc2047DecoderTest, TestDecodeBadCharset)

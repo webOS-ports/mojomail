@@ -24,7 +24,7 @@ using namespace std;
 
 TEST(ByteBufferOutputStreamTest, TestBasic)
 {
-	int BUF_SIZE = 100;
+	const int BUF_SIZE = 100;
 	char buf[BUF_SIZE];
 	int nread;
 	

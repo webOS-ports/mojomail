@@ -39,6 +39,16 @@ public:
 	virtual void Cancel() { };
 };
 
+class CountingCommand : public MockCommand
+{
+public:
+	CountingCommand(Command::Listener& listener, Priority priority, int& destroyed)
+	: MockCommand(listener, priority), m_destroyed(destroyed) { };
+	virtual ~CountingCommand() { m_destroyed++; };
+private:
+	int& m_destroyed;
+};
+
 TEST(CommandManagerTest, TestFifo)
 {
 	MockListener listener;
@@ -104,5 +114,58 @@ TEST(CommandManagerTest, TestPriorities)
 
 	dequeued = manager.Top();
 	ASSERT_EQ( c3.get(), dequeued.get() );
+	manager.Pop();
+}
+
+// A completed command is kept until Cleanup(), even when the manager holds the
+// only reference, so that it is not freed while its own Complete() is running.
+// It used to be the command after it in the active list that was kept.
+TEST(CommandManagerTest, TestCompletedCommandKeptUntilCleanup)
+{
+	// Before the manager: c2 is still in it when the test returns, and its
+	// destructor counts into destroyed2.
+	int destroyed1 = 0, destroyed2 = 0;
+	MockListener listener;
+	MojRefCountedPtr<CommandManager> managerRef(new CommandManager(4, true));
+	CommandManager& manager = *managerRef;
+
+	Command* c1 = new CountingCommand(listener, Command::NormalPriority, destroyed1);
+	Command* c2 = new CountingCommand(listener, Command::NormalPriority, destroyed2);
+	manager.RunCommand(CommandManager::CommandPtr(c1));
+	manager.RunCommand(CommandManager::CommandPtr(c2));
+	ASSERT_EQ(2, manager.GetActiveCommandCount());
+
+	manager.CommandComplete(c1);
+	ASSERT_EQ(0, destroyed1);
+	ASSERT_EQ(1, manager.GetActiveCommandCount());
+	ASSERT_EQ(c2, manager.GetActiveCommandIterators().first->get());
+
+	manager.Cleanup();
+	ASSERT_EQ(1, destroyed1);
+	ASSERT_EQ(0, destroyed2);
+	ASSERT_EQ(1, manager.GetActiveCommandCount());
+}
+
+// Removing a pending command must leave the others in order. The queue is a
+// heap: erasing from its vector without rebuilding it put c2 ahead of c1 here.
+TEST(CommandManagerTest, TestAbortPendingKeepsOrder)
+{
+	MockListener listener;
+	MojRefCountedPtr<CommandManager> managerRef(new CommandManager(1, true));
+	CommandManager& manager = *managerRef;
+
+	CommandManager::CommandPtr c1(new MockCommand(listener, Command::LowPriority));
+	CommandManager::CommandPtr c2(new MockCommand(listener, Command::LowPriority));
+	CommandManager::CommandPtr c3(new MockCommand(listener, Command::NormalPriority));
+	manager.QueueCommand(c1, false);
+	manager.QueueCommand(c2, false);
+	manager.QueueCommand(c3, false);
+
+	manager.CommandComplete(c3.get());
+	ASSERT_EQ(2, manager.GetPendingCommandCount());
+
+	ASSERT_EQ(c1.get(), manager.Top().get());
+	manager.Pop();
+	ASSERT_EQ(c2.get(), manager.Top().get());
 	manager.Pop();
 }

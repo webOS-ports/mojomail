@@ -91,7 +91,8 @@ protected:
 class MockRequestHandler
 {
 public:
-	virtual void HandleRequest(MockRequestPtr req);
+	virtual ~MockRequestHandler() {}
+	virtual void HandleRequest(MockRequestPtr req) = 0;
 };
 
 class MockRemoteService

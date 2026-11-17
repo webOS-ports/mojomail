@@ -168,9 +168,19 @@ void SmtpValidator::Failure(SmtpSession::SmtpError error)
 	MojLogInfo(m_log, "SmtpValidator %p LoginFailure", this);
 	//MojLogInfo(m_log, "SmtpValidator %p LoginFailure, was trying to connect to %s:%d", this, m_account->GetHostname().c_str(), m_account->GetPort());
 	
-	RunState(State_SendQuitCommand);
+	// Reply before QUIT, as LoginSuccess() does. A server that rejected the
+	// login may already have closed the connection (Gmail does): QUIT then
+	// ends the session at once, which completes this command and may free
+	// it, and the reply went out through a freed validator - a crash, or
+	// the caller only ever seeing "Message status unknown".
+	try {
+		Failure(error.errorCode, error.errorText);
+	} catch (const std::exception& e) {
+		MojLogError(m_log, "SmtpValidator %p could not reply: %s", this, e.what());
+	}
 
-	Failure(error.errorCode, error.errorText);
+	// Nothing may touch this object after RunState() returns.
+	RunState(State_SendQuitCommand);
 }
 
 void SmtpValidator::Failure(MailError::ErrorCode errorCode, const std::string& errorText)

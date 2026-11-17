@@ -301,8 +301,10 @@ void FilePartWriter::OpenFile(const std::string& filename)
 	// re-opening it afterwards is a TOCTOU: between the check and the open the
 	// path can be pointed somewhere else. O_NOFOLLOW additionally refuses a
 	// symlink as the final component, which is what the old comment here
-	// admitted it could not handle.
-	int fd = ::open(filePath.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC);
+	// admitted it could not handle. O_NONBLOCK keeps a FIFO nobody writes to
+	// from blocking open() (and the whole service) before the S_ISREG check
+	// below gets to refuse it; the channel reads non-blocking anyway.
+	int fd = ::open(filePath.c_str(), O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK);
 	if(fd < 0) {
 		MojLogError(s_log, "error opening file %s: %s", filePath.c_str(), strerror(errno));
 		throw MailException("error opening part file", __FILE__, __LINE__);

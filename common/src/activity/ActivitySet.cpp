@@ -187,7 +187,9 @@ void ActivitySet::EndSomeActivities(set<ActivityPtr>& activities)
 	// Note, this could be called recursively
 	while(!activities.empty()) {
 		set<ActivityPtr>::iterator it = activities.begin();
-		const ActivityPtr& activity = *it;
+		// Take a copy: erase() frees the set node a reference would point into,
+		// and may drop the last reference to the activity.
+		const ActivityPtr activity = *it;
 		activities.erase(it);
 
 		m_ending.insert(activity);

@@ -55,6 +55,10 @@ TEST(ActivitySetTest, TestStart)
 
 	Start(busClient, actSet);
 	ASSERT_TRUE( activity->IsActive() );
+
+	// A started activity holds a subscription that holds the activity;
+	// ending it is what lets both go.
+	End(busClient, actSet);
 }
 
 TEST(ActivitySetTest, TestAlreadyStarted)
@@ -73,6 +77,8 @@ TEST(ActivitySetTest, TestAlreadyStarted)
 
 	// Try to start it again
 	Start(busClient, actSet);
+
+	End(busClient, actSet);
 }
 
 TEST(ActivitySetTest, TestEnd)
@@ -114,4 +120,23 @@ TEST(ActivitySetTest, TestEndOrder)
 	// TODO check order ended
 	ASSERT_TRUE(activity1->IsEnded());
 	ASSERT_TRUE(activity2->IsEnded());
+}
+
+// The set may hold the only reference to an activity. Ending it used to keep a
+// reference into the set node it had just erased (caught by AddressSanitizer as
+// a heap-use-after-free; on a device it crashed with Activity::IsEnding(this=0x0)).
+TEST(ActivitySetTest, TestEndActivityHeldOnlyBySet)
+{
+	MockActivityService		service;
+	MockBusClient			busClient;
+	busClient.AddMockService(service);
+
+	MojRefCountedPtr<ActivitySet> actSet(new ActivitySet(busClient));
+	{
+		ActivityPtr activity = Activity::PrepareAdoptedActivity(1);
+		actSet->AddActivity(activity);
+	}
+
+	Start(busClient, actSet);
+	End(busClient, actSet);
 }
