@@ -27,7 +27,6 @@
 #include "data/ImapAccount.h"
 #include "activity/ImapActivityFactory.h"
 
-const int IdleCommand::IDLE_WAKEUP_SECONDS = 29 * 60; // 29 minute wakeup
 const int IdleCommand::IDLE_TIMEOUT_SECONDS = 30 * 60; // 30 minute timeout waiting for response
 
 IdleCommand::IdleCommand(ImapSession& session, const MojObject& folderId)
@@ -93,7 +92,7 @@ void IdleCommand::ScheduleWakeup()
 	ImapActivityFactory factory;
 	ActivityBuilder ab;
 
-	factory.BuildIdleWakeup(ab, accountId, m_folderId, IDLE_WAKEUP_SECONDS);
+	factory.BuildIdleWakeup(ab, accountId, m_folderId, m_session.GetIdleRefreshSeconds());
 
 	m_wakeupActivity = Activity::PrepareNewActivity(ab);
 	m_wakeupActivity->SetSlots(m_wakeupActivityUpdateSlot, m_wakeupActivityErrorSlot);

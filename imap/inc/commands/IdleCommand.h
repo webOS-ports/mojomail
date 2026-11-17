@@ -54,7 +54,6 @@ protected:
 
 	void Failure(const std::exception& e) override;
 
-	static const int IDLE_WAKEUP_SECONDS;
 	static const int IDLE_TIMEOUT_SECONDS;
 
 	MojObject	m_folderId;

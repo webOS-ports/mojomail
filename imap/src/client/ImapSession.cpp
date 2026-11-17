@@ -1226,6 +1226,16 @@ void ImapSession::IdleDone()
 		if(m_state == State_Disconnecting || m_state == State_Cleanup) {
 			MojLogWarning(m_log, "push connection died after %d seconds (%.1f minutes total this session)", lastPushDuration, float(m_sessionPushDuration)/60);
 
+			// Some servers drop a quiet connection long before the 29-minute IDLE refresh
+			if(previousIdleMode == IdleMode_IDLE && m_idleLimit.IdleDropped(lastPushDuration)) {
+				MojLogNotice(m_log, "server drops IDLE after about %d seconds; refreshing IDLE every %d seconds",
+						m_idleLimit.GetLimit(), m_idleLimit.GetRefreshSeconds());
+
+				// Reconnect now rather than after a retry interval: the service
+				// would exit in between and forget what it just learned.
+				m_reconnectRequested = true;
+			}
+
 			// For NOOP idle, it's OK if the NOOP fails since it just means we need to reconnect.
 			if(previousIdleMode == IdleMode_NOOP) {
 				m_reconnectRequested = true;

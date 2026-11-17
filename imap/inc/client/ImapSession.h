@@ -19,6 +19,7 @@
 #ifndef IMAPSESSION_H_
 #define IMAPSESSION_H_
 
+#include "client/IdleLimitTracker.h"
 #include "core/MojSignal.h"
 #include "core/MojObject.h"
 #include "network/SocketConnection.h"
@@ -212,6 +213,9 @@ public:
 	// Called from IdleCommand to indicate that we're done idling
 	virtual void IdleError(const std::exception& e, bool fatal);
 	virtual void IdleDone();
+
+	// How long IdleCommand may stay in IDLE before it ends and re-issues it
+	virtual int GetIdleRefreshSeconds() const { return m_idleLimit.GetRefreshSeconds(); }
 
 	virtual void DisconnectSession();
 
@@ -473,6 +477,9 @@ protected:
 
 	// Total time we've been able to idle/push since connecting
 	int										m_sessionPushDuration;
+
+	// What the server allows for an IDLE connection; kept across reconnects
+	IdleLimitTracker						m_idleLimit;
 
 	// Useful stats
 	Stats									m_stats;
