@@ -89,12 +89,12 @@ TEST(SyncLocalChangesCommandTest, TestSyncChanges)
 	command->Run();
 
 	// UID 20 should be marked read
-	ASSERT_EQ( "~A1 UID STORE 20 +FLAGS.SILENT (\\Seen)", os->GetLine() );
+	ASSERT_EQ( "A1 UID STORE 20 +FLAGS.SILENT (\\Seen)", os->GetLine() );
 
 	// UID 30 should be marked unread
-	ASSERT_EQ( "~A2 UID STORE 30 -FLAGS.SILENT (\\Seen)", os->GetLine() );
+	ASSERT_EQ( "A2 UID STORE 30 -FLAGS.SILENT (\\Seen)", os->GetLine() );
 
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 
 	response = QUOTE_JSON_OBJ((
 		{"results":[{"id": "id2", "rev": 200}, {"id": "id3", "rev": 300}]}
@@ -107,17 +107,17 @@ TEST(SyncLocalChangesCommandTest, TestSyncChanges)
 			));
 		db.SetResponse("GetDeletedEmails", response);
 
-	is->FeedLine("~A2 OK");
+	is->FeedLine("A2 OK");
 
 	// UID 30 should be marked unread
-	ASSERT_EQ( "~A3 UID COPY 10 \"Saved\"", os->GetLine() );
-	is->FeedLine("~A3 OK");
+	ASSERT_EQ( "A3 UID COPY 10 \"Saved\"", os->GetLine() );
+	is->FeedLine("A3 OK");
 
-	ASSERT_EQ("~A4 UID STORE 10 +FLAGS.SILENT (\\Deleted)", os->GetLine());
-	is->FeedLine("~A4 OK");
+	ASSERT_EQ("A4 UID STORE 10 +FLAGS.SILENT (\\Deleted)", os->GetLine());
+	is->FeedLine("A4 OK");
 
-	ASSERT_EQ("~A5 EXPUNGE", os->GetLine());
-	is->FeedLine("~A5 OK");
+	ASSERT_EQ("A5 EXPUNGE", os->GetLine());
+	is->FeedLine("A5 OK");
 
 
 	// TODO check merged

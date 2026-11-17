@@ -91,23 +91,23 @@ TEST(ImapRequestManagerTest, TestSplitResponse)
 	ImapStatusCode status;
 	string rest;
 	
-	ImapResponseParser::SplitResponse("~A1 OK", tag, status, rest);
-	EXPECT_EQ( "~A1", tag );
+	ImapResponseParser::SplitResponse("A1 OK", tag, status, rest);
+	EXPECT_EQ( "A1", tag );
 	EXPECT_TRUE( status == OK );
 	EXPECT_EQ( "", rest );
 	
-	ImapResponseParser::SplitResponse("~A2 OK success", tag, status, rest);
-	EXPECT_EQ( "~A2", tag );
+	ImapResponseParser::SplitResponse("A2 OK success", tag, status, rest);
+	EXPECT_EQ( "A2", tag );
 	EXPECT_TRUE( status == OK );
 	EXPECT_EQ( "success", rest );
 	
-	ImapResponseParser::SplitResponse("~A3 NO oh no", tag, status, rest);
-	EXPECT_EQ( "~A3", tag );
+	ImapResponseParser::SplitResponse("A3 NO oh no", tag, status, rest);
+	EXPECT_EQ( "A3", tag );
 	EXPECT_TRUE( status == NO );
 	EXPECT_EQ( "oh no", rest );
 	
-	ImapResponseParser::SplitResponse("~A4 BAD invalid", tag, status, rest);
-	EXPECT_EQ( "~A4", tag );
+	ImapResponseParser::SplitResponse("A4 BAD invalid", tag, status, rest);
+	EXPECT_EQ( "A4", tag );
 	EXPECT_TRUE( status == BAD );
 	EXPECT_EQ( "invalid", rest );
 }
@@ -129,13 +129,13 @@ TEST(ImapRequestManagerTest, TestHandleResponseLine)
 	is->FeedLine("* untagged");
 	EXPECT_EQ( "untagged", parser->m_lastUntaggedResponseLine );
 	
-	is->FeedLine("~A1 OK");
+	is->FeedLine("A1 OK");
 	EXPECT_TRUE( parser->m_lastStatus == OK);
 	EXPECT_EQ( "", parser->m_lastResponseLine );
 	
 	parser->ResetTest();
 	requestManager->SendRequest("NOOP", parser, 0, true);
-	is->FeedLine("~A2 NO oh no");
+	is->FeedLine("A2 NO oh no");
 	EXPECT_TRUE( parser->m_lastStatus == NO);
 	EXPECT_EQ( "oh no", parser->m_lastResponseLine );
 }

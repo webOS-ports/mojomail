@@ -48,11 +48,17 @@ std::string ImapRequestManager::SendRequest(const std::string& request, bool can
 	
 	stringstream ss;
 	
-	// Create tag prefixed by "~A" from the current request id counter
-	ss << "~A" << id;
+	// Create tag prefixed by "A" from the current request id counter.
+	//
+	// Keep the tag alphanumeric. RFC 3501 allows "~" in a tag, but some
+	// servers do not: Fastmail answers "~A1 CAPABILITY" with an untagged
+	// "* BAD invalid command" and never with a tagged reply, so the command
+	// waited out its timeout and account validation failed with
+	// CONNECTION_FAILED.
+	ss << "A" << id;
 	std::string tag = ss.str();
 	
-	// Combine tag and request, e.g. ~A15 CAPABILITY
+	// Combine tag and request, e.g. A15 CAPABILITY
 	ss << " " << request << "\r\n";
 	std::string line = ss.str();
 	
