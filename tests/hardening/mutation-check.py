@@ -88,6 +88,16 @@ MUTANTS = [
     ("pop-cache-keeps-older-than-oldest", "pop/src/data/OldEmailsCache.cpp",
      "if (timestamp < m_oldestEmailTimestamp) {", "if (false) {",
      "OldEmailsCache"),
+    # Wi-Fi whose online check failed must not carry the push connection
+    ("wifi-onInternet-no-ignored", "common/src/network/NetworkStatus.cpp",
+     'return value == "no";', "return false;",
+     "NetworkStatusTest.WifiWithoutInternetIsNotUsedForPush"),
+    ("onInternet-false-ignored", "common/src/network/NetworkStatus.cpp",
+     "return !onInternet.boolValue();", "return false;",
+     "NetworkStatusTest.BooleanOnInternet"),
+    ("onInternet-unknown-taken-as-offline", "common/src/network/NetworkStatus.cpp",
+     'return value == "no";', 'return value != "yes";',
+     "NetworkStatusTest.UnrecognisedOnInternetIsIgnored"),
 ]
 
 TREE = os.path.join(opts.work, "src")

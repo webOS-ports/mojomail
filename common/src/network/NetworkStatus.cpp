@@ -88,6 +88,36 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 		// everywhere we compare against FAIR or better.
 		m_networkConfidence = EXCELLENT;
 	}
+
+	// The webOS OSE connection manager also says whether its online check got
+	// through on this interface. Wi-Fi can be associated, with an address,
+	// while the access point has no way out; connman then routes through
+	// cellular instead. Taking such an interface as good enough bound the push
+	// connection to an address that leads nowhere, and every connect timed out
+	// until the Wi-Fi came back online.
+	MojObject onInternet;
+	if(status.get("onInternet", onInternet) && IsKnownOffline(onInternet)) {
+		m_networkConfidence = POOR;
+	}
+}
+
+// "onInternet" is "yes"/"no" on wifi and wired and a boolean on cellular.
+// Anything else says nothing either way.
+bool InterfaceStatus::IsKnownOffline(const MojObject& onInternet)
+{
+	if(onInternet.type() == MojObject::TypeBool) {
+		return !onInternet.boolValue();
+	}
+
+	if(onInternet.type() == MojObject::TypeString) {
+		MojString value;
+		MojErr err = onInternet.stringValue(value);
+		ErrorToException(err);
+
+		return value == "no";
+	}
+
+	return false;
 }
 
 bool InterfaceStatus::operator==(const InterfaceStatus& other) const

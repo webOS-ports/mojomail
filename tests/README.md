@@ -24,7 +24,7 @@ directory:
 
 | Binary | What it covers |
 |---|---|
-| `email-common-tests` | activities and activity sets, the command manager and its priority queue, email/MIME parsing and writing, RFC 2047, preview text, the stream filters (base64, quoted-printable, UTF-8, deflate/inflate, line reader), string utilities, the folder adapter, curl |
+| `email-common-tests` | activities and activity sets, network status, the command manager and its priority queue, email/MIME parsing and writing, RFC 2047, preview text, the stream filters (base64, quoted-printable, UTF-8, deflate/inflate, line reader), string utilities, the folder adapter, curl |
 | `mojomail-imap-tests` | the IMAP response parsers, the request manager, UID maps, folder list diffs, special-folder picking, the sync engine, local-change sync, the IDLE refresh limit |
 | `mojomail-pop-tests` | the old-emails cache |
 | `mojomail-smtp-tests` | CRLF termination, account validation |
@@ -59,6 +59,9 @@ Tests that pin a fixed bug:
 - `SmtpValidatorTest.TestLoginFailureRepliesBeforeQuit`: a rejected login
   is answered before QUIT, which can end the validator when the server has
   already closed the connection (the crash on a wrong Gmail app password)
+- `NetworkStatusTest.*`: Wi-Fi whose online check failed ("onInternet":
+  "no") is not picked to carry push, so IMAP is no longer bound to an
+  address that leads nowhere while cellular is online
 
 Fixed without a test, as nothing here can drive them yet (there is no SMTP
 or IMAP session mock): SMTP's RCPT TO reply codes, the SMTP reply fields
