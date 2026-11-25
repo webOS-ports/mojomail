@@ -54,6 +54,9 @@ public:
 protected:
 	void ParseStatus(const MojObject& status);
 
+	// Whether an "onInternet" value says the interface's online check failed
+	static bool IsKnownOffline(const MojObject& onInternet);
+
 	bool				m_connected;
 	bool				m_wakeOnWifiEnabled;
 	std::string			m_ipAddress;
