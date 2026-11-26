@@ -23,11 +23,18 @@
 
 using namespace std;
 
+MojLogger NetworkStatusMonitor::s_log("com.palm.mail.network");
+
+const char* const NetworkStatusMonitor::CONNECTION_MANAGER_SERVICE = "com.webos.service.connectionmanager";
+
 NetworkStatusMonitor::NetworkStatusMonitor(BusClient& busClient)
 : m_busClient(busClient),
   m_isSubscribed(false),
   m_lastUpdateTime(0),
   m_updateSignal(this),
+  m_statusRequested(false),
+  m_hasDirectStatus(false),
+  m_statusSlot(this, &NetworkStatusMonitor::StatusReply),
   m_activityUpdateSlot(this, &NetworkStatusMonitor::ActivityUpdated),
   m_activityErrorSlot(this, &NetworkStatusMonitor::ActivityError)
 {
@@ -58,6 +65,8 @@ void NetworkStatusMonitor::WaitForStatus(MojSignal<>::SlotRef slot)
 	} else {
 		m_updateSignal.connect(slot);
 
+		Subscribe();
+
 		if(!m_isSubscribed && m_activity.get() == NULL) {
 			CreateActivity();
 		}
@@ -66,9 +75,84 @@ void NetworkStatusMonitor::WaitForStatus(MojSignal<>::SlotRef slot)
 
 void NetworkStatusMonitor::StartMonitoring()
 {
+	Subscribe();
+
 	if(!m_isSubscribed && m_activity.get() == NULL) {
 		CreateActivity();
 	}
+}
+
+// The subscription and the activity each hold a reference to the monitor
+// (through its slots), and the monitor holds the activity: without this the
+// monitor is never freed. The services keep theirs for their lifetime.
+void NetworkStatusMonitor::StopMonitoring()
+{
+	m_statusSlot.cancel();
+	m_statusRequested = false;
+	m_hasDirectStatus = false;
+
+	m_activityUpdateSlot.cancel();
+	m_activityErrorSlot.cancel();
+	if(m_activity.get()) {
+		m_activity->Unsubscribe();
+		m_activity.reset();
+	}
+	m_isSubscribed = false;
+}
+
+/* The status as it changes, from the connection manager itself. The activity
+ * alone is not enough on webOS OSE: its ActivityManager sends a started
+ * activity no "update" event when a requirement's value changes, only when
+ * it is met or unmet (ActivityStateSatisfied::onRequirementUpdate), so the
+ * status stayed as it was when the activity started. On a Zinwa Q25 it still
+ * said Wi-Fi, with Wi-Fi's address, 20 minutes after Wi-Fi had gone; every
+ * IMAP connect was bound to that address and failed with EADDRNOTAVAIL.
+ * The activity stays, for a connection manager that cannot be asked. */
+void NetworkStatusMonitor::Subscribe()
+{
+	if(m_statusRequested) {
+		return;
+	}
+
+	MojObject payload;
+	MojErr err = payload.put("subscribe", true);
+	ErrorToException(err);
+
+	m_statusRequested = true;
+
+	try {
+		m_busClient.SendRequest(m_statusSlot, CONNECTION_MANAGER_SERVICE, "getStatus", payload, MojServiceRequest::Unlimited);
+	} catch(const std::exception& e) {
+		m_statusRequested = false;
+		MojLogWarning(s_log, "unable to subscribe to the connection manager: %s", e.what());
+	}
+}
+
+MojErr NetworkStatusMonitor::StatusReply(MojObject& response, MojErr err)
+{
+	bool returnValue = true;
+	response.get("returnValue", returnValue);
+
+	if(err || !returnValue) {
+		// Not allowed, or not there: leave it to the activity. The
+		// subscription is over, so a later StartMonitoring() asks again.
+		MojLogWarning(s_log, "connection manager status unavailable: %s", AsJsonString(response).c_str());
+		m_statusSlot.cancel();
+		m_statusRequested = false;
+		return MojErrNone;
+	}
+
+	try {
+		m_networkStatus.ParseStatus(response);
+		m_lastUpdateTime = time(NULL);
+		m_hasDirectStatus = true;
+
+		m_updateSignal.fire();
+	} catch(const std::exception& e) {
+		MojLogError(s_log, "error parsing connection manager status: %s", e.what());
+	}
+
+	return MojErrNone;
 }
 
 void NetworkStatusMonitor::SetFakeStatus(MojObject& fakeStatus, bool persist)
@@ -120,11 +204,16 @@ void NetworkStatusMonitor::CreateActivity()
 MojErr NetworkStatusMonitor::ActivityUpdated(Activity*  /*activity*/, Activity::EventType event)
 {
 	if(event == Activity::StartEvent || event == Activity::UpdateEvent) {
+		m_isSubscribed = true;
+
+		// The connection manager's own status is newer
+		if(m_hasDirectStatus) {
+			return MojErrNone;
+		}
+
 		//fprintf(stderr, "updating network status from activity");
 		m_networkStatus.ParseActivity(m_activity);
 		m_lastUpdateTime = time(NULL);
-
-		m_isSubscribed = true;
 
 		if(m_networkStatus.IsKnown()) {
 			m_updateSignal.fire();

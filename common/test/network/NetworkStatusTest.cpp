@@ -50,15 +50,74 @@ static std::string Wan(bool onInternet)
 
 // Wi-Fi that associated but has no way out, with cellular online: what the
 // Q25 reported for an hour while every IMAP connect, bound to the Wi-Fi
-// address, timed out.
-TEST(NetworkStatusTest, WifiWithoutInternetIsNotUsedForPush)
+// address, timed out. Push goes over cellular instead.
+TEST(NetworkStatusTest, WifiWithoutInternetLeavesPushToCellular)
 {
 	NetworkStatus status = ParseInternet("{\"isInternetConnectionAvailable\":true," + Wifi("\"no\"") + "," + Wan(true) + "}");
 
 	EXPECT_TRUE(status.IsConnected());
 	EXPECT_TRUE(status.GetWifiStatus()->IsConnected());
 	EXPECT_EQ(InterfaceStatus::POOR, status.GetWifiStatus()->GetNetworkConfidence());
+	ASSERT_TRUE(status.GetPersistentInterface().get() != NULL);
+	EXPECT_EQ(status.GetWanStatus(), status.GetPersistentInterface());
+	EXPECT_EQ("10.43.95.188", status.GetPersistentInterface()->GetIpAddress());
+}
+
+// Cellular as the Q25 reports it with Wi-Fi gone: connected, with its data
+// context's address, and carrying push.
+TEST(NetworkStatusTest, CellularAloneCarriesPush)
+{
+	NetworkStatus status = ParseInternet("{\"isInternetConnectionAvailable\":true,"
+		"\"wifi\":{\"tetheringEnabled\":true,\"state\":\"disconnected\"}," + Wan(true) + "}");
+
+	EXPECT_FALSE(status.GetWifiStatus()->IsConnected());
+	EXPECT_TRUE(status.GetWanStatus()->IsConnected());
+	EXPECT_EQ("10.43.95.188", status.GetWanStatus()->GetIpAddress());
+	ASSERT_TRUE(status.GetPersistentInterface().get() != NULL);
+	EXPECT_EQ("10.43.95.188", status.GetPersistentInterface()->GetIpAddress());
+}
+
+// Its online check failed: no push over it.
+TEST(NetworkStatusTest, CellularWithoutInternetIsNotUsedForPush)
+{
+	NetworkStatus status = ParseInternet("{" + Wan(false) + "}");
+
+	EXPECT_TRUE(status.GetWanStatus()->IsConnected());
+	EXPECT_EQ(InterfaceStatus::POOR, status.GetWanStatus()->GetNetworkConfidence());
 	EXPECT_TRUE(status.GetPersistentInterface().get() == NULL);
+}
+
+TEST(NetworkStatusTest, CellularNotConnected)
+{
+	NetworkStatus status = ParseInternet("{\"wan\":{\"connected\":false,\"connectedContexts\":[]}}");
+
+	EXPECT_FALSE(status.GetWanStatus()->IsConnected());
+	EXPECT_EQ("", status.GetWanStatus()->GetIpAddress());
+	EXPECT_TRUE(status.GetPersistentInterface().get() == NULL);
+}
+
+// The address is the first connected context's
+TEST(NetworkStatusTest, CellularAddressFromConnectedContext)
+{
+	NetworkStatus status = ParseInternet("{\"wan\":{\"connected\":true,\"connectedContexts\":["
+		"{\"connected\":false,\"ipv4\":{\"address\":\"10.0.0.1\"}},"
+		"{\"name\":\"ims\"},"
+		"{\"connected\":true,\"ipv4\":{\"address\":\"10.0.0.2\"}}]}}");
+
+	EXPECT_EQ("10.0.0.2", status.GetWanStatus()->GetIpAddress());
+}
+
+// Legacy webOS's "wan", with "state" and "ipAddress", reads as before; its
+// "state" wins over a "connected" flag.
+TEST(NetworkStatusTest, LegacyWan)
+{
+	NetworkStatus status = ParseInternet("{\"wan\":{\"state\":\"connected\",\"ipAddress\":\"10.1.2.3\","
+		"\"networkConfidenceLevel\":\"fair\"}}");
+	EXPECT_TRUE(status.GetWanStatus()->IsConnected());
+	EXPECT_EQ("10.1.2.3", status.GetWanStatus()->GetIpAddress());
+
+	NetworkStatus down = ParseInternet("{\"wan\":{\"state\":\"disconnected\",\"connected\":true}}");
+	EXPECT_FALSE(down.GetWanStatus()->IsConnected());
 }
 
 TEST(NetworkStatusTest, WifiOnInternetIsUsedForPush)

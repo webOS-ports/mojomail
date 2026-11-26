@@ -57,6 +57,9 @@ protected:
 	// Whether an "onInternet" value says the interface's online check failed
 	static bool IsKnownOffline(const MojObject& onInternet);
 
+	// The address of an OSE "wan" status, which keeps it in its data contexts
+	static std::string ContextIpAddress(const MojObject& status);
+
 	bool				m_connected;
 	bool				m_wakeOnWifiEnabled;
 	std::string			m_ipAddress;
