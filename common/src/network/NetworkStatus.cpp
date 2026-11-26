@@ -50,6 +50,16 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 		m_connected = true;
 	}
 
+	// The webOS OSE connection manager reports cellular as "wan" with no
+	// "state": a "connected" boolean instead, and the address in the data
+	// context that carries it. Read as legacy webOS's, cellular never counted
+	// as connected and had no address, so once Wi-Fi went there was no
+	// interface for push to switch to.
+	bool connectedFlag = false;
+	if(!hasState && status.get("connected", connectedFlag) && connectedFlag) {
+		m_connected = true;
+	}
+
 	bool wakeOnWifiEnabled = false;
 	if(status.get("isWakeOnWifiEnabled", wakeOnWifiEnabled)) {
 		m_wakeOnWifiEnabled = wakeOnWifiEnabled;
@@ -65,6 +75,8 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 
 	if(hasIpAddress) {
 		m_ipAddress.assign(ipAddress.data());
+	} else {
+		m_ipAddress = ContextIpAddress(status);
 	}
 
 	bool hasNetworkConfidence = false;
@@ -99,6 +111,34 @@ void InterfaceStatus::ParseStatus(const MojObject& status)
 	if(status.get("onInternet", onInternet) && IsKnownOffline(onInternet)) {
 		m_networkConfidence = POOR;
 	}
+}
+
+// The IPv4 address of the first connected data context of an OSE "wan"
+// status, or "" if there is none. A context without "connected" counts as
+// connected: the list is of connected contexts.
+std::string InterfaceStatus::ContextIpAddress(const MojObject& status)
+{
+	MojObject contexts;
+	if(!status.get("connectedContexts", contexts) || contexts.type() != MojObject::TypeArray) {
+		return "";
+	}
+
+	for(MojObject::ConstArrayIterator it = contexts.arrayBegin(); it != contexts.arrayEnd(); ++it) {
+		bool connected = true;
+		if(it->get("connected", connected) && !connected) {
+			continue;
+		}
+
+		MojObject ipv4;
+		MojString address;
+		bool hasAddress = false;
+		if(it->get("ipv4", ipv4) && ipv4.get("address", address, hasAddress) == MojErrNone
+				&& hasAddress && !address.empty()) {
+			return address.data();
+		}
+	}
+
+	return "";
 }
 
 // "onInternet" is "yes"/"no" on wifi and wired and a boolean on cellular.

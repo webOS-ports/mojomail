@@ -9,6 +9,7 @@
         "mojomail-imap.operation",
         "mojomail-pop.operation",
         "mojomail-smtp.operation",
+        "networkconnection.query",
         "tempdatabase.operation"
     ]
 }

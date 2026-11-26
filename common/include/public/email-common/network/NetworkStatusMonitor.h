@@ -22,6 +22,7 @@
 #include "core/MojSignal.h"
 #include "activity/NetworkStatus.h"
 #include "activity/Activity.h"
+#include "core/MojServiceRequest.h"
 
 class NetworkStatusMonitor : public MojSignalHandler
 {
@@ -57,6 +58,12 @@ public:
 	void StartMonitoring();
 
 	/**
+	 * Stop following the status, and let go of the activity. The status
+	 * known so far stays. StartMonitoring() starts again.
+	 */
+	void StopMonitoring();
+
+	/**
 	 * Status.
 	 */
 	void Status(MojObject& status) const;
@@ -68,10 +75,17 @@ public:
 	 */
 	void SetFakeStatus(MojObject& status, bool persist);
 
+	// The connection manager whose status is subscribed to
+	static const char* const CONNECTION_MANAGER_SERVICE;
+
 protected:
+	void Subscribe();
+	MojErr StatusReply(MojObject& response, MojErr err);
 	void CreateActivity();
 	MojErr ActivityUpdated(Activity* activity, Activity::EventType event);
 	MojErr ActivityError(Activity* activity, Activity::ErrorType errorType, const std::exception& e);
+
+	static MojLogger	s_log;
 
 	BusClient&		m_busClient;
 	std::string		m_serviceName;
@@ -83,6 +97,14 @@ protected:
 	time_t			m_lastUpdateTime;
 
 	MojSignal<>		m_updateSignal;
+
+	// Subscribed to the connection manager's getStatus, and whether it has
+	// answered. Once it has, the activity's status no longer counts: the
+	// ActivityManager on webOS OSE sends a started activity no update events,
+	// so the activity's status is the one from when it started.
+	bool			m_statusRequested;
+	bool			m_hasDirectStatus;
+	MojServiceRequest::ReplySignal::Slot<NetworkStatusMonitor>	m_statusSlot;
 
 	Activity::UpdateSignal::Slot<NetworkStatusMonitor>		m_activityUpdateSlot;
 	Activity::ErrorSignal::Slot<NetworkStatusMonitor>		m_activityErrorSlot;

@@ -91,13 +91,35 @@ MUTANTS = [
     # Wi-Fi whose online check failed must not carry the push connection
     ("wifi-onInternet-no-ignored", "common/src/network/NetworkStatus.cpp",
      'return value == "no";', "return false;",
-     "NetworkStatusTest.WifiWithoutInternetIsNotUsedForPush"),
+     "NetworkStatusTest.WifiWithoutInternetLeavesPushToCellular"),
     ("onInternet-false-ignored", "common/src/network/NetworkStatus.cpp",
      "return !onInternet.boolValue();", "return false;",
      "NetworkStatusTest.BooleanOnInternet"),
     ("onInternet-unknown-taken-as-offline", "common/src/network/NetworkStatus.cpp",
      'return value == "no";', 'return value != "yes";',
      "NetworkStatusTest.UnrecognisedOnInternetIsIgnored"),
+    # webOS OSE's cellular: "connected" and its data context's address
+    ("wan-connected-flag-ignored", "common/src/network/NetworkStatus.cpp",
+     'if(!hasState && status.get("connected", connectedFlag) && connectedFlag) {', "if(false) {",
+     "NetworkStatusTest.CellularAloneCarriesPush"),
+    ("wan-context-address-ignored", "common/src/network/NetworkStatus.cpp",
+     "\t\tm_ipAddress = ContextIpAddress(status);", "",
+     "NetworkStatusTest.CellularAddressFromConnectedContext"),
+    ("wan-disconnected-context-taken", "common/src/network/NetworkStatus.cpp",
+     'if(it->get("connected", connected) && !connected) {', "if(false) {",
+     "NetworkStatusTest.CellularAddressFromConnectedContext"),
+    # The status followed from the connection manager, not frozen at the
+    # activity's start
+    ("status-not-subscribed", "common/src/network/NetworkStatusMonitor.cpp",
+     "void NetworkStatusMonitor::StartMonitoring()\n{\n\tSubscribe();",
+     "void NetworkStatusMonitor::StartMonitoring()\n{",
+     "NetworkStatusMonitorTest.FollowsWifiGoing"),
+    ("activity-overrides-newer-status", "common/src/network/NetworkStatusMonitor.cpp",
+     "if(m_hasDirectStatus) {", "if(false) {",
+     "NetworkStatusMonitorTest.ActivityDoesNotOverrideNewerStatus"),
+    ("status-not-asked-again", "common/src/network/NetworkStatusMonitor.cpp",
+     "\t\tm_statusSlot.cancel();\n\t\tm_statusRequested = false;", "\t\tm_statusSlot.cancel();",
+     "NetworkStatusMonitorTest.FallsBackToTheActivity"),
 ]
 
 TREE = os.path.join(opts.work, "src")

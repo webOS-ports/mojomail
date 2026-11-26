@@ -61,7 +61,15 @@ Tests that pin a fixed bug:
   already closed the connection (the crash on a wrong Gmail app password)
 - `NetworkStatusTest.*`: Wi-Fi whose online check failed ("onInternet":
   "no") is not picked to carry push, so IMAP is no longer bound to an
-  address that leads nowhere while cellular is online
+  address that leads nowhere while cellular is online; webOS OSE's cellular
+  ("wan" with "connected" and its data context's address) counts as
+  connected and carries push once Wi-Fi is gone
+- `NetworkStatusMonitorTest.*`: the status follows the connection manager's
+  getStatus subscription, so Wi-Fi going is seen (through the activity alone
+  the status stayed as it was when the activity started, and IMAP kept
+  binding to the gone Wi-Fi address: EADDRNOTAVAIL); an activity's older
+  status does not override it; without the subscription the activity's
+  status is used
 
 Fixed without a test, as nothing here can drive them yet (there is no SMTP
 or IMAP session mock): SMTP's RCPT TO reply codes, the SMTP reply fields
